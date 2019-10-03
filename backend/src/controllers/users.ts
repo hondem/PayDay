@@ -17,7 +17,7 @@ const getAll = async(ctx: Koa.Context) => {
  */
 const getById = async(ctx: Koa.Context) => {
   const data = {
-    id: ctx.params.id
+    id: parseInt(ctx.params.id)
   }
 
   validate(data, schemas.getById)
