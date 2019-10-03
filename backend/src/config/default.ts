@@ -23,11 +23,11 @@ const getConfig = (env: string): Config => {
       prettyPrint: true,
     },
     db: {
-      uri: process.env.DATABASE_URL || 'postgres://postgres@localhost/mcpneu-db'
+      uri: process.env.DATABASE_URL || 'postgres://postgres@localhost/payday-db'
     },
     security: {
       saltRounds: 10,
-      secretHash: process.env.SECURITY_SECRET_HASH || "FEBE2B28F5BB3256A258412F992E8D70F0DC2726B6D6CB16C2C04C01D337FFFF",
+      secretHash: process.env.SECURITY_SECRET_HASH || "50DFCED2E5691BDD1EF572EBD04EC9FFDA906AC9AFE4BFFBA452385851C499ED",
       jwtInputSettings: {
         algorithm: 'HS256',
         expiresIn: 60 * 60

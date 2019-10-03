@@ -6,6 +6,9 @@ import Config from './config'
 // Routing
 import Routes from './routes'
 
+// Database
+import Database from './database'
+
 // Utils
 import logger from './utils/logger'
 
@@ -29,7 +32,8 @@ app.use(Routes)
 app.start = async() => {
   logger.info("Starting app...")
   // Start database connection
-  // await database.start()
+  logger.info("Connecting to DB...")
+  await Database.start()
 }
 
 app.stop = () => {
