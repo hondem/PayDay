@@ -2,13 +2,16 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/app.js",
+  "main": "./src/app.ts",
   "scripts": {
     "test": "echo \"Error: PISS ON U!\" && exit 1",
     "compiler": "tsc -w",
     "build": "tsc",
-    "start": "node ./dist/app.js",
-    "lint": "eslint --ext ts --report-unused-disable-directives ./src"
+    "start": "ts-node ./src/app.ts",
+    "dev": "nodemon --watch './src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' ./src/app.ts",
+    "lint": "eslint --ext ts --report-unused-disable-directives ./src",
+    "migrate:latest": "knex migrate:latest --cwd ./src/database --knexfile ../config/knexfile.ts",
+    "migrate:make": "knex migrate:make --cwd ./src/database --knexfile ../config/knexfile.ts"
   },
   "author": "",
   "license": "ISC",
@@ -16,14 +19,17 @@
     "@types/lodash": "^4.14.141",
     "dotenv": "^8.1.0",
     "kcors": "^2.2.2",
+    "knex": "^0.19.4",
     "koa": "^2.8.2",
     "koa-bodyparser": "^4.2.1",
     "koa-compress": "^3.0.0",
     "koa-router": "^7.4.0",
     "lodash": "^4.17.15",
-    "nodemon": "^1.19.3",
+    "objection": "^1.6.11",
+    "pg": "^7.12.1",
     "pino": "^5.13.4",
     "pino-pretty": "^3.2.1",
+    "ts-node": "^8.4.1",
     "typescript": "^3.6.3"
   },
   "devDependencies": {
@@ -35,6 +41,7 @@
     "@types/koa-router": "^7.0.42",
     "@types/node": "^12.7.9",
     "@types/pino": "^5.8.10",
-    "eslint": "^6.5.1"
+    "eslint": "^6.5.1",
+    "nodemon": "^1.19.3"
   }
 }

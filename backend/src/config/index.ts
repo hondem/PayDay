@@ -16,4 +16,4 @@ const defaultConfig = DefaultConfig(env)
 
 const resConf: Config = _.merge(defaultConfig, envConf)
 
-export default resConf
+export = resConf

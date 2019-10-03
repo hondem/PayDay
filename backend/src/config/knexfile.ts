@@ -1,8 +1,7 @@
 import path from 'path'
-import config from './index'
-import { KnexConfig } from '../types/config'
+import config from '../config'
 
-const knexConfig: KnexConfig = {
+export = {
   client: 'pg',
   connection: config.db.uri,
   pool: {
@@ -17,5 +16,3 @@ const knexConfig: KnexConfig = {
     directory: path.resolve(__dirname, './../database/seeds'),
   }
 }
-
-export default knexConfig

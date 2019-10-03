@@ -15,7 +15,6 @@ import koaCompress from 'koa-compress'
 import koaCors from 'kcors'
 import loggerMiddleware from './middleware/logger'
 
-
 const app: any = new Koa()
 
 app.use(koaCompress())
