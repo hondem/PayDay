@@ -19,6 +19,7 @@ const Heading: React.FunctionComponent<HeadingProps> = ({ children, ...props }) 
 ============================================================================= */
 Heading.defaultProps = {
   as: 'h1',
+  mb: 3
 };
 
 export default Heading;
