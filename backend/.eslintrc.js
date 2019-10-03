@@ -10,4 +10,8 @@ module.exports = {
   parserOptions: {
     project: './tsconfig.json',
   },
+
+  rules: {
+    "import/no-unused-modules": "off"
+  }
 }

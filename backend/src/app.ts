@@ -1,18 +1,54 @@
-import * as Koa from 'koa'
-import * as Router from 'koa-router'
+import Koa from 'koa'
 
-const app = new Koa()
-const router = new Router()
+// Importing config
+import Config from './config'
 
-router.get("/", async (ctx, next) => {
-  ctx.body = { msg: "Hello more" }
-  return await next()
+// Routing
+import Routes from './routes'
+
+// Utils
+import logger from './utils/logger'
+
+// Middlewares
+import koaBodyparser from 'koa-bodyparser'
+import koaCompress from 'koa-compress'
+import koaCors from 'kcors'
+import loggerMiddleware from './middleware/logger'
+
+
+const app: any = new Koa()
+
+app.use(koaCompress())
+app.use(koaCors(Config.server.cors))
+app.use(koaBodyparser())
+app.use(loggerMiddleware)
+app.use(Routes)
+
+/**
+ * Server start
+ */
+app.start = async() => {
+  logger.info("Starting app...")
+  // Start database connection
+  // await database.start()
+}
+
+app.stop = () => {
+  logger.info("Stopping app...")
+}
+
+app.listen(Config.server.port, () => {
+  logger.info(`App has started on port: ${Config.server.port} :)`)
 })
 
-app.use(router.routes())
+if (require.main === module){
+  app.start()
+}
 
-app.listen(3000, () => {
-  console.log("Koa started")
-})
+/**
+ * If application is closing
+ */
+process.once('SIGINT', () => { app.stop() })
+process.once('SIGTERM', () => { app.stop() })
 
 export default app
