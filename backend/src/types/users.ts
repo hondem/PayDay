@@ -1,6 +1,6 @@
 export type User = {
   id?: number,
-  email: string,
+  email?: string,
   password?: string,
   accessToken?: string
 }

@@ -40,8 +40,24 @@ const create = async(ctx: Koa.Context) => {
   ctx.body = await Operations.create(data)
 }
 
+/**
+ * Updates user
+ * @param ctx 
+ */
+const update = async(ctx: Koa.Context) => {
+  const data = {
+    id: parseInt(ctx.params.id),
+    email: ctx.request.body.email
+  }
+
+  validate(data, schemas.update)
+
+  ctx.body = await Operations.update(data)
+}
+
 export default {
   getAll,
   getById,
-  create
+  create,
+  update
 }

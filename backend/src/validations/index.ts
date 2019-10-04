@@ -1,10 +1,14 @@
 import JSONSchema from 'jsonschema'
+import errors from '../utils/errors'
 
 const validate = (data, schema) => {
   const validationErrors = JSONSchema.validate(data, schema).errors
   if(validationErrors.length > 0){
-    //TODO: Importovat tady errors util!
-    throw new Error('VALIDATION ERROR')
+    let message: string = ""
+    validationErrors.map(error => {
+      message += `${error.property} ${error.message} \n`
+    })
+    throw new errors.ValidationError(message)
   }
 }
 
