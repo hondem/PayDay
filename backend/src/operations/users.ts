@@ -61,9 +61,29 @@ const update = async(user: User) : Promise<User> => {
   return updatedUser
 }
 
+/**
+ * Changes user passwor
+ * @param user 
+ */
+const changePassword = async(user: User) : Promise<User> => {
+  const userId: IdOrIds = user.id
+  const existingUser: User = await UsersRepository.getById(userId)
+
+  if(!existingUser) throw new errors.NotFound('Hey! You are trying to update something that does not exist... Does it make any sence for you? 🤔')
+
+  user.password = await crypto.hash(user.password)
+  delete user.id
+
+  const patchedUser: User = await UsersRepository.update(userId, user)
+  delete patchedUser.password
+  
+  return patchedUser
+}
+
 export = {
   getAll,
   getById,
   create,
-  update
+  update,
+  changePassword
 }

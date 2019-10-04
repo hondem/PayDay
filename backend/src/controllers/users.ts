@@ -55,9 +55,25 @@ const update = async(ctx: Koa.Context) => {
   ctx.body = await Operations.update(data)
 }
 
+/**
+ * Change users password
+ * @param ctx 
+ */
+const changePassword = async(ctx: Koa.Context) => {
+  const data = {
+    id: parseInt(ctx.params.id),
+    password: ctx.request.body.password
+  }
+
+  validate(data, schemas.changePassword)
+
+  ctx.body = await Operations.changePassword(data)
+}
+
 export default {
   getAll,
   getById,
   create,
-  update
+  update,
+  changePassword
 }

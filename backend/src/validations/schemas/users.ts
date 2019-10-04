@@ -40,8 +40,24 @@ const update : Object = {
   }
 }
 
+const changePassword: Object = {
+  type: 'object',
+  required: true,
+  properties: {
+    id: {
+      type: 'number',
+      required: true
+    },
+    password: {
+      type: 'string',
+      required: true
+    }
+  }
+}
+
 export = {
   getById,
   create,
-  update
+  update,
+  changePassword
 }
