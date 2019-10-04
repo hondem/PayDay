@@ -1,5 +1,6 @@
 import UserModel from '../database/models/user'
-import { IdOrIds } from 'objection'
+import { IdOrIds, QueryBuilder } from 'objection'
+import { User } from '../types/users'
 
 /**
  * Return all users
@@ -20,8 +21,8 @@ const getById = (id: IdOrIds) : Promise<any> => {
  * Creates user
  * @param user 
  */
-const create = (user) : Promise<any> => {
-  return UserModel.query().insertAndFetch(user)
+const create = (user: User) : Promise<any> => {
+  return UserModel.query().insertAndFetch(<any>user)
 }
 
 export = {

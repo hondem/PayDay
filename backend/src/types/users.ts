@@ -1,7 +1,8 @@
 export type User = {
-  id: number,
+  id?: number,
   email: string,
-  password: string
+  password?: string,
+  accessToken?: string
 }
 
 export type Users = User[]

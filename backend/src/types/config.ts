@@ -20,8 +20,10 @@ export type KnexConfig = {
   }
 }
 
+export type EnvType = 'local' | 'production' | 'test'
+
 export type Config = {
-  env: string,
+  env: EnvType,
   server: {
     port: number,
     cors: CorsConfig
