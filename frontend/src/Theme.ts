@@ -1,29 +1,10 @@
-import { createGlobalStyle } from "styled-components";
-
-export const GlobalStyles = createGlobalStyle`
-  body {
-    font-family: 'Open Sans', sans-serif;
-  }
-`;
-
 export const THEME = {
   colors: {
-    brand: '#455DEF',
-    blues: ['#1C2B6F', '#182354'],
-    accents: ['#62D4CD', '#FCD661'],
-    grays: ['#DCDDE1', '#718093'],
-
-    active: {
-      brand: '#273FDB',
-      blues: ['#000D51'],
-      accents: ['#44B6AF', '#E8C24D'],
-    },
-
-    disabled: {
-      brand: '#A5AFF0',
-      blues: ['#7B85AF'],
-      accents: ['#B6D4D2', '#FCEFC5'],
-    },
+    reds: ['#FFB4C2', '#FE4769'],
+    yellows: ['#FFE9BD', '#FFCE65'],
+    blues: ['#ACDDF7', '#34ABEA'],
+    greens: ['#B4F1BF', '#45DB60'],
+    grays: ['#D5DCE6', '#8B91A2', '#525665', '#353945'],
   },
 
   breakpoints: {
@@ -32,7 +13,8 @@ export const THEME = {
     md: 768,
     lg: 992,
     xl: 1200,
+    xxl: 1600,
   },
 
-  space: [0, 5, 10, 20, 30, 50, 100],
+  space: [0, 5, 10, 15, 20, 30, 50, 100],
 };

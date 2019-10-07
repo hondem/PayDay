@@ -1,4 +1,4 @@
-import { THEME } from './src/Theme';
+import { THEME } from './src/theme';
 
 type ThemeInterface = typeof THEME;
 

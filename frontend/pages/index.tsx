@@ -1,5 +1,7 @@
-function Home() {
-  return <div>Welcome to Next.js!</div>;
-}
+import { Heading } from "../src/components/shared/typography";
 
-export default Home;
+export default () => {
+  return (
+    <Heading>Test</Heading>
+  )
+}
