@@ -4,11 +4,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Mail, Lock } from 'react-feather';
 import * as Yup from 'yup';
 
-import { Flex, Box } from '../../shared/layout';
-import { Heading, Paragraph, Link } from '../../shared/typography';
-import * as S from './SignIn.styles';
-import { Input, Label } from '../../shared/forms';
-import { Button } from '../../shared/misc';
+import { Flex, Box } from '../../../shared/layout';
+import { Heading, Paragraph, Link } from '../../../shared/typography';
+import * as S from '../auth.styles';
+import { Input, Label } from '../../../shared/forms';
+import { Button } from '../../../shared/misc';
 
 /* Constants
 ============================================================================= */
