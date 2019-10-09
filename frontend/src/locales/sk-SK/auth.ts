@@ -7,4 +7,9 @@ export default {
     noAccountQuestion: 'Nemáte ešte účet?',
     signUpCTA: 'Vytvorte si ho teraz!',
   },
+  signUp: {
+    title: 'Registrácia',
+    subtitle: 'Pre registráciu kontaktujte svojho administrátora.',
+    signInCTA: 'Prejsť na prihlasovanie.',
+  },
 };
