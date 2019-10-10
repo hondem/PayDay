@@ -62,7 +62,8 @@ const login = async(ctx: Koa.Context) => {
 const update = async(ctx: Koa.Context) => {
   const data = {
     id: parseInt(ctx.params.id),
-    email: ctx.request.body.email
+    email: ctx.request.body.email,
+    authLevel: ctx.request.body.authLevel
   }
 
   validate(data, schemas.update)

@@ -12,7 +12,8 @@
     "lint": "eslint --ext ts --report-unused-disable-directives ./src",
     "migrate:latest": "ts-node ./node_modules/.bin/knex migrate:latest --cwd ./src/database --knexfile ../config/knexfile.ts",
     "migrate:make": "ts-node ./node_modules/.bin/knex migrate:make --cwd ./src/database --knexfile ../config/knexfile.ts",
-    "seed:make": "ts-node ./node_modules/.bin/knex seed:make --cwd ./src/database --knexfile ../config/knexfile.ts"
+    "seed:make": "ts-node ./node_modules/.bin/knex seed:make --cwd ./src/database --knexfile ../config/knexfile.ts",
+    "seed:run": "ts-node ./node_modules/.bin/knex seed:run --cwd ./src/database --knexfile ../config/knexfile.ts"
   },
   "author": "",
   "license": "ISC",

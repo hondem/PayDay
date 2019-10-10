@@ -52,6 +52,10 @@ const update : Object = {
     email: {
       type: 'string',
       format: 'email'
+    },
+    authLevel: {
+      type: 'string',
+      enum: ['admin', 'accountant', 'user']
     }
   }
 }

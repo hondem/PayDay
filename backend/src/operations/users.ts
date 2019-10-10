@@ -35,6 +35,7 @@ const create = async(user: User) : Promise<User> => {
   if(!_.isEmpty(existingUser)) throw new errors.DuplicationError('User with this email already exists!')
 
   user.password = await crypto.hash(user.password)
+  user.authLevel = 'user'
 
   const createdUser: User = await UsersRepository.create(user)
   const accessToken: string = await crypto.generateToken(createdUser)
