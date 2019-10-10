@@ -41,6 +41,21 @@ const create = async(ctx: Koa.Context) => {
 }
 
 /**
+ * Logs user in
+ * @param ctx 
+ */
+const login = async(ctx: Koa.Context) => {
+  const data = {
+    email: ctx.request.body.email,
+    password: ctx.request.body.password
+  }
+
+  validate(data, schemas.login)
+
+  ctx.body = await Operations.login(data)
+}
+
+/**
  * Updates user
  * @param ctx 
  */
@@ -75,5 +90,6 @@ export default {
   getById,
   create,
   update,
-  changePassword
+  changePassword,
+  login
 }

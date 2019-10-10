@@ -25,6 +25,22 @@ const create : Object = {
   }
 }
 
+const login : Object = {
+  type: 'object',
+  required: true,
+  properties: {
+    email: {
+      type: 'string',
+      required: true,
+      format: 'email'
+    },
+    password: {
+      type: 'string',
+      required: true
+    }
+  }
+}
+
 const update : Object = {
   type: 'object',
   required: true,
@@ -59,5 +75,6 @@ export = {
   getById,
   create,
   update,
-  changePassword
+  changePassword,
+  login
 }

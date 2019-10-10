@@ -14,7 +14,7 @@ const getAll = () : Promise<any> => {
  * @param id 
  */
 const getById = (id: IdOrIds) : Promise<any> => {
-  return UserModel.query().findById(id)
+  return UserModel.query().findById(id).first()
 }
 
 /**
@@ -22,7 +22,7 @@ const getById = (id: IdOrIds) : Promise<any> => {
  * @param email 
  */
 const getByEmail = (email: string) : Promise<any> => {
-  return UserModel.query().where('email', email)
+  return UserModel.query().where('email', email).first()
 }
 
 /**

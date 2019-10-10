@@ -8,7 +8,9 @@ const errorMiddleware = async(ctx: Context, next) => {
     return await next()
   } catch(err){
     if(!(err instanceof ErrorsUtil.AppError)){
-      err = new ErrorsUtil.InternalError()
+      const parsedError = new ErrorsUtil.InternalError(err.message)
+      parsedError.stack = err.stack
+      err = parsedError
     }
 
     ctx.status = err.code

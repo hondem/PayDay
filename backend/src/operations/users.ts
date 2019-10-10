@@ -45,6 +45,21 @@ const create = async(user: User) : Promise<User> => {
 }
 
 /**
+ * Logs user in
+ * @param user 
+ */
+const login = async(user: User) : Promise<User> => {
+  const foundUser: User = await UsersRepository.getByEmail(user.email)
+  if(!foundUser) throw new errors.NotFound('User not found')
+  
+  if(!(await crypto.compare(foundUser.password, user.password))) throw new errors.AuthorizationError('Wrong password..')
+
+  foundUser.accessToken = await crypto.generateToken(foundUser)
+  delete foundUser.password
+  return foundUser
+}
+
+/**
  * Updates user in database
  * @param user 
  */
@@ -91,7 +106,7 @@ const verifyTokenPayload = async(token: string) => {
   if(!payload || !payload.exp || now > payload.exp * 1000){
     throw new errors.AuthorizationError()
   }
-  
+
   const user = await UsersRepository.getById(payload.user.id)
 
   if(!user) throw new errors.AuthorizationError()
@@ -109,5 +124,6 @@ export = {
   create,
   update,
   changePassword,
-  verifyTokenPayload
+  verifyTokenPayload,
+  login
 }
