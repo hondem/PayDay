@@ -1,6 +1,7 @@
 import ErrorsUtil from '../utils/errors'
 import { Context } from 'koa'
 import Config from '../config'
+import logger from '../utils/logger'
 
 const errorMiddleware = async(ctx: Context, next) => {
   try{
@@ -17,6 +18,13 @@ const errorMiddleware = async(ctx: Context, next) => {
     }
 
     if(Config.env == 'local') ctx.body.stack = err.stack
+
+    logger.error({
+      code: err.code,
+      type: err.type,
+      message: err.message,
+      stack: err.stack
+    })
   }
 }
 
@@ -30,6 +38,13 @@ const notFound = async(ctx: Context, next) => {
   }
 
   if(Config.env == 'local') ctx.body.stack = err.stack
+
+  logger.error({
+    code: err.code,
+    type: err.type,
+    message: err.message,
+    stack: err.stack
+  })
 }
 
 export = {

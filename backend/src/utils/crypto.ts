@@ -2,7 +2,8 @@ import Crypto from 'crypto'
 import Config from '../config'
 import bcrypt from 'bcryptjs'
 import jwt, { SignOptions, VerifyOptions } from 'jsonwebtoken'
-import { User } from '../types/users'
+import { User, UserTokenPayload } from '../types/users'
+import errors from '../utils/errors'
 
 /**
  * Pepperifies password
@@ -46,16 +47,16 @@ const generateToken = (user: User) : Promise<string> => {
  * Verify user's token
  * @param token 
  */
-const verifyToken = async(token) : Promise<User> => {
+const verifyToken = async(token) : Promise<UserTokenPayload> => {
   try{
     return await new Promise((resolve, reject) => {
-      jwt.verify(token, Config.security.secretHash, <VerifyOptions>Config.security.jwtOutputSettings, (err, res : User) => {
+      jwt.verify(token, Config.security.secretHash, <VerifyOptions>Config.security.jwtOutputSettings, (err, res : UserTokenPayload) => {
         if(err) reject(err)
         else resolve(res)
       })
     })
   } catch(err){
-    throw new Error('You are not permited to do this operation')
+    throw new errors.AuthorizationError('You are not permited to do this!')
   }
 }
 

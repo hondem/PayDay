@@ -5,4 +5,10 @@ export type User = {
   accessToken?: string
 }
 
+export type UserTokenPayload = {
+  user: User,
+  iat?: number,
+  exp?: number
+}
+
 export type Users = User[]

@@ -4,7 +4,7 @@ import errors from '../utils/errors'
 import _ from 'lodash'
 
 import crypto from '../utils/crypto'
-import { User, Users } from '../types/users'
+import { User, Users, UserTokenPayload } from '../types/users'
 
 /**
  * Returns all users
@@ -76,8 +76,31 @@ const changePassword = async(user: User) : Promise<User> => {
 
   const patchedUser: User = await UsersRepository.update(userId, user)
   delete patchedUser.password
-  
+
   return patchedUser
+}
+
+/**
+ * Verifies whether token is valid
+ * @param token 
+ */
+const verifyTokenPayload = async(token: string) => {
+  const payload : UserTokenPayload = await crypto.verifyToken(token)
+  const now = Date.now()
+
+  if(!payload || !payload.exp || now > payload.exp * 1000){
+    throw new errors.AuthorizationError()
+  }
+  
+  const user = await UsersRepository.getById(payload.user.id)
+
+  if(!user) throw new errors.AuthorizationError()
+  
+  return {
+    user,
+    loginTimeout: payload.exp * 1000
+  }
+
 }
 
 export = {
@@ -85,5 +108,6 @@ export = {
   getById,
   create,
   update,
-  changePassword
+  changePassword,
+  verifyTokenPayload
 }
