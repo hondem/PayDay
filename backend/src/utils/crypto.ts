@@ -2,12 +2,14 @@ import Crypto from 'crypto'
 import Config from '../config'
 import bcrypt from 'bcryptjs'
 import jwt, { SignOptions, VerifyOptions } from 'jsonwebtoken'
+import { User, UserTokenPayload } from '../types/users'
+import errors from '../utils/errors'
 
 /**
  * Pepperifies password
  * @param password 
  */
-const pepperify = (password: string) => {
+const pepperify = (password: string) : string => {
   return Crypto.createHmac('sha256', Config.security.secretHash).update(password).digest('hex')
 }
 
@@ -24,7 +26,7 @@ const hash = (password: string) : Promise<string> => {
  * @param hashedPassword 
  * @param password 
  */
-const compare = (hashedPassword: string, password: string) => {
+const compare = (hashedPassword: string, password: string) : Promise<boolean> => {
   return bcrypt.compare(pepperify(password), hashedPassword)
 }
 
@@ -32,7 +34,7 @@ const compare = (hashedPassword: string, password: string) => {
  * Generates new user's JWT
  * @param userEmail 
  */
-const generateToken = (user) => {
+const generateToken = (user: User) : Promise<string> => {
   return new Promise((resolve, reject) => {
     jwt.sign({ user }, Config.security.secretHash, <SignOptions>Config.security.jwtInputSettings, (err, res) => {
       if(err) reject(err)
@@ -45,16 +47,16 @@ const generateToken = (user) => {
  * Verify user's token
  * @param token 
  */
-const verifyToken = async(token) => {
+const verifyToken = async(token) : Promise<UserTokenPayload> => {
   try{
     return await new Promise((resolve, reject) => {
-      jwt.verify(token, Config.security.secretHash, <VerifyOptions>Config.security.jwtOutputSettings, (err, res) => {
+      jwt.verify(token, Config.security.secretHash, <VerifyOptions>Config.security.jwtOutputSettings, (err, res : UserTokenPayload) => {
         if(err) reject(err)
         else resolve(res)
       })
     })
   } catch(err){
-    throw new Error('You are not permited to do this operation')
+    throw new errors.AuthorizationError('You are not permited to do this!')
   }
 }
 

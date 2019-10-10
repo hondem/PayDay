@@ -17,6 +17,7 @@ import koaBodyparser from 'koa-bodyparser'
 import koaCompress from 'koa-compress'
 import koaCors from 'kcors'
 import loggerMiddleware from './middleware/logger'
+import errorMiddleware from './middleware/errors'
 
 const app: any = new Koa()
 
@@ -24,7 +25,9 @@ app.use(koaCompress())
 app.use(koaCors(Config.server.cors))
 app.use(koaBodyparser())
 app.use(loggerMiddleware)
+app.use(errorMiddleware.errorMiddleware)
 app.use(Routes)
+app.use(errorMiddleware.notFound)
 
 /**
  * Server start

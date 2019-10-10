@@ -15,6 +15,53 @@ const create : Object = {
   properties: {
     email: {
       type: 'string',
+      required: true,
+      format: 'email'
+    },
+    password: {
+      type: 'string',
+      required: true
+    }
+  }
+}
+
+const login : Object = {
+  type: 'object',
+  required: true,
+  properties: {
+    email: {
+      type: 'string',
+      required: true,
+      format: 'email'
+    },
+    password: {
+      type: 'string',
+      required: true
+    }
+  }
+}
+
+const update : Object = {
+  type: 'object',
+  required: true,
+  properties: {
+    id: {
+      type: 'number',
+      required: true
+    },
+    email: {
+      type: 'string',
+      format: 'email'
+    }
+  }
+}
+
+const changePassword: Object = {
+  type: 'object',
+  required: true,
+  properties: {
+    id: {
+      type: 'number',
       required: true
     },
     password: {
@@ -26,5 +73,8 @@ const create : Object = {
 
 export = {
   getById,
-  create
+  create,
+  update,
+  changePassword,
+  login
 }

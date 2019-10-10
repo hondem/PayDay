@@ -1,6 +1,6 @@
-import { Config } from "../types/config"
+import { Config, EnvType } from "../types/config"
 
-const getConfig = (env: string): Config => {
+const getConfig = (env: EnvType): Config => {
   return {
     env,
     server: {

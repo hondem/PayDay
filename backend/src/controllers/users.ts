@@ -40,8 +40,56 @@ const create = async(ctx: Koa.Context) => {
   ctx.body = await Operations.create(data)
 }
 
+/**
+ * Logs user in
+ * @param ctx 
+ */
+const login = async(ctx: Koa.Context) => {
+  const data = {
+    email: ctx.request.body.email,
+    password: ctx.request.body.password
+  }
+
+  validate(data, schemas.login)
+
+  ctx.body = await Operations.login(data)
+}
+
+/**
+ * Updates user
+ * @param ctx 
+ */
+const update = async(ctx: Koa.Context) => {
+  const data = {
+    id: parseInt(ctx.params.id),
+    email: ctx.request.body.email
+  }
+
+  validate(data, schemas.update)
+
+  ctx.body = await Operations.update(data)
+}
+
+/**
+ * Change users password
+ * @param ctx 
+ */
+const changePassword = async(ctx: Koa.Context) => {
+  const data = {
+    id: parseInt(ctx.params.id),
+    password: ctx.request.body.password
+  }
+
+  validate(data, schemas.changePassword)
+
+  ctx.body = await Operations.changePassword(data)
+}
+
 export default {
   getAll,
   getById,
-  create
+  create,
+  update,
+  changePassword,
+  login
 }
