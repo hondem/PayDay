@@ -1,0 +1,16 @@
+DB naming conventions
+
+sp_ - socialna poistovna
+
+zp - zdravotne poistenie
+sp_dp - poistenie dochodkove starobne a invalidne
+sp_dp_s - poistenie dochodkove starobne
+sp_dp_i - poistenie dochodkove invalidne
+sp_np - nemocenske poistenie
+sp_pvn - poistenie v nezamestnanosti
+sp_up - urazove poistenie
+
+zc_ -  zamestnanec
+zl_ -  zamestnavatel
+
+_mes - mesacna / za mesiac

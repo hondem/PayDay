@@ -1,0 +1,245 @@
+  1 priemer dov.                  Text         v. mval      0.00
+  2 priemer nem.                  Text         v. mval      0.00
+  3 Narok na dov zakon            Text         v. mval      0.00
+  4 Narok na dov dodatk	    	  Text         v. mval      0.00
+  5 Zostatok dov z min. roku      Text         v. mval      0.00
+  6 Cerpanie                      Text         v. mval      0.00
+  7 Kratenie                      Text         v. mval      0.00
+  8                               Text         v. mval      0.00
+  9                               Text         v. mval      0.00
+ 10 FPD dni                       Text         v. mval      0.00
+ 11 Dni odpracovane               Text         v. mval     21.00
+ 12 -                             Text         v. mval     19.00
+ 13 Dni sviatok                   Text         v. mval      2.00
+ 14 Dni dovolenka                 Text         v. mval      3.00
+ 15 Dni a                         Text         v. mval      0.00
+ 16 Dni b                         Text         v. mval      0.00
+ 17 Dni c                         Text         v. mval      0.00
+ 18 Dni d                         Text         v. mval      0.00
+ 19 Dni e                         Text         v. mval      0.00
+ 20 Dni f                         Text         v. mval      0.00
+ 21 Dni Rekvalifikacia            Text         v. mval      0.00
+ 22 Dni Studijne volno            Text         v. mval      0.00
+ 23 Dni Odborne skolenie          Text         v. mval      0.00
+ 24 Dni Refundácia dni            Text         v. mval      0.00
+ 25 Dni Zákonné pl.volno          Text         v. mval      0.00
+ 26 Dni Náhrada 60 perc.          Text         v. mval      0.00
+ 27 Dni Prekážky v práci          Text         v. mval      0.00
+ 29 Dni                           Text         v. mval      0.00
+ 30 Dni Ukoncenie a mimoevid.stav Text         v. mval      0.00
+ 31 Dni Neplatené volno           Text         v. mval      0.00
+ 32 Dni Štrajk                    Text         v. mval      0.00
+ 33 Dni Klzavé volno              Text         v. mval      0.00
+ 34 Dni Absencia                  Text         v. mval      0.00
+ 35 Dni NePlatená PN              Text         v. mval      0.00
+ 36 Dni 		                  Text         v. mval      0.00
+ 37 Dni Materská dovolenka        Text         v. mval      0.00
+ 38 Dni                           Text         v. mval      0.00
+ 39 Dni                           Text         v. mval      0.00
+ 40 Dni PN,nemoc, úraz            Text         v. mval      0.00
+ 41 Dni OCR                       Text         v. mval      0.00
+ 42 Dni                           Text         v. mval      0.00
+ 43 Dni                           Text         v. mval      0.00
+ 44 Dni                           Text         v. mval      0.00
+ 45 Dni                           Text         v. mval      0.00
+ 46 Dni                           Text         v. mval      0.00
+ 47 Dni                           Text         v. mval      0.00
+ 48 Dni                           Text         v. mval      0.00
+ 49 Dni                           Text         v. mval      0.00
+ 50 FPD hod                       Text         v. mval      0.00
+ 51 Odpr.hod.                     Text         v. mval    168.00
+ 52 -                             Text         v. mval    152.00
+ 53 Sviatok hod                   Text         v. mval     16.00
+ 54 Dovolenka hod.                Text         v. mval     24.00
+ 55                               Text         v. mval      0.00
+ 56                               Text         v. mval      0.00
+ 57                               Text         v. mval      0.00
+ 58                               Text         v. mval      0.00
+ 59                               Text         v. mval      0.00
+ 60                               Text         v. mval      0.00
+ 61 Rekvalifikacia od-do          Text         v. mval      0.00
+ 62 Štúdijné volno                Text         v. mval      0.00
+ 63 Odborné školenie              Text         v. mval      0.00
+ 64 MPD hod.                      Text         v. mval      0.00
+ 65 Zákonné platené volno         Text         v. mval      0.00
+ 66 Náhrada 60 perc.              Text         v. mval      0.00
+ 67 Prekážky v práci z os.záuj.   Text         v. mval      0.00
+ 68 Ostatné prekážky v práci      Text         v. mval      0.00
+ 69                               Text         v. mval      0.00
+ 70 Ukoncenie, mimoev.stav        Text         v. mval      0.00
+ 71 Neplatené volno               Text         v. mval      0.00
+ 72 Štrajk                        Text         v. mval      0.00
+ 73 Klzavé volno                  Text         v. mval      0.00
+ 74 Absencia                      Text         v. mval      0.00
+ 75 Neplatená PN, OCR, úraz       Text         v. mval      0.00
+ 76                               Text         v. mval      0.00
+ 77 Materská dovolenka            Text         v. mval      0.00
+ 78                               Text         v. mval      0.00
+ 79                               Text         v. mval      0.00
+ 80 PN, úraz                      Text         v. mval      0.00
+ 81 OCR                           Text         v. mval      0.00
+ 82                               Text         v. mval      0.00
+ 83                               Text         v. mval      0.00
+ 84                               Text         v. mval      0.00
+ 85                               Text         v. mval      0.00
+ 86                               Text         v. mval      0.00
+ 87                               Text         v. mval      0.00
+ 88                               Text         v. mval      0.00
+ 89                               Text         v. mval      0.00
+ 90                               Text         v. mval      0.00
+ 91                               Text         v. mval      0.00
+ 92                               Text         v. mval      0.00
+ 93                               Text         v. mval      0.00
+ 94                               Text         v. mval      0.00
+ 95                               Text         v. mval      0.00
+ 96                               Text         v. mval      0.00
+ 97                               Text         v. mval      0.00
+ 98                               Text         v. mval      0.00
+ 99                               Text         v. mval      0.00
+100 FPD suma (tarif/mes)          Text         v. mval      0.00
+101 Odpr.suma (tarif za odp.h.)   Text         v. mval    405.00
+102 -                             Text         v. mval      0.00
+103 Dohody a brigády              Text         v. mval      0.00
+104 Nadcasy a príplatky           Text         v. mval      0.00
+105 -                             Text         v. mval      0.00
+106 Príplatky za nadcas           Text         v. mval      0.00
+107 Prípl.za So 50%               Text         v. mval      0.00
+108 Pripl.za Ne 100%              Text         v. mval      0.00
+109 Pripla.za sviatok             Text         v. mval      0.00
+110 Priplatok nocny               Text         v. mval      0.00
+111 Pripl. za pohot., inst....    Text         v. mval      0.00
+112 Pripatky za stazene prost.    Text         v. mval      0.00
+113 priplatok za kvalitu          Text         v. mval      0.00
+114 priplatok za produktivitu     Text         v. mval      0.00
+115 priplatok za D-diely          Text         v. mval     57.60
+116 Priplatok VZV                 Text         v. mval      0.00
+117 Priplatok ZV 1,2,3            Text         v. mval      0.00
+118 Priplatok za cestovne         Text         v. mval      0.00
+119 -                             Text         v. mval      0.00
+120 Osobne ohodnotenie            Text         v. mval      0.00
+121 -                             Text         v. mval      0.00
+122 Platene volno                 Text         v. mval      0.00
+123 Nahrada za sviatok            Text         v. mval      0.00
+124 Nahrada za dovolenku          Text         v. mval      0.00
+125 -                             Text         v. mval      0.00
+126 60% nahrada                   Text         v. mval      0.00
+127 rekvalifikacia                Text         v. mval      0.00
+128 stud.volno                    Text         v. mval      0.00
+129 Odborne skolenie              Text         v. mval      0.00
+130 Prekazky v praci z os. zaujmu Text         v. mval      0.00
+131 Odmeny                        Text         v. mval      0.00
+132 Odmena polrocna               Text         v. mval      0.00
+133 Odmena rocna                  Text         v. mval      0.00
+134 Odmeny zo SF                  Text         v. mval      0.00
+135 Odmena pritomnostna           Text         v. mval      0.00
+136 Odmena mimoriadna             Text         v. mval      0.00
+137 -                             Text         v. mval      0.00
+138 -                             Text         v. mval      0.00
+139 -                             Text         v. mval      0.00
+140 Pracenescopnost               Text         v. mval      0.00
+141 Osetrenie cl.rodiny           Text         v. mval      0.00
+142 -                             Text         v. mval      0.00
+143 Ostatne prekazky v praci      Text         v. mval      0.00
+144 -                             Text         v. mval      0.00
+145 -                             Text         v. mval      0.00
+146 -                             Text         v. mval      0.00
+147 vyuct.prac.cesty do cistej.m. Text         v. mval      0.00
+148 Vozidlo - nep.prijem          Text         v. mval      0.00
+149 -                             Text         v. mval      0.00
+150 Xxxx                          Text         v. mval      0.00
+151 ZP zam                        Text         v. mval      0.00
+152 NP zam                        Text         v. mval      0.00
+153 DP zam                        Text         v. mval      0.00
+154 IP zam                        Text         v. mval      0.00
+155 PvN zam                       Text         v. mval      0.00
+156 -                             Text         v. mval      0.00
+157 ZP pod                        Text         v. mval      0.00
+158 NP pod                        Text         v. mval      0.00
+159 DP pod                        Text         v. mval      0.00
+160 IP pod                        Text         v. mval      0.00
+161 PvN pod                       Text         v. mval      0.00
+162 GP pod                        Text         v. mval      0.00
+163 RF pod                        Text         v. mval      0.00
+164 UP pod                        Text         v. mval      0.00
+169 -                             Text         v. mval      0.00
+170 VZ ZP zam                     Text         v. mval      0.00
+171 VZ NP zam                     Text         v. mval      0.00
+172 VZ SP zam                     Text         v. mval      0.00
+173 VZ IP zam                     Text         v. mval      0.00
+174 VZ PvN zam                    Text         v. mval      0.00
+175
+176
+177
+178                               Text         v. mval      0.00
+179                               Text         v. mval      0.00
+180
+181 Základ dane                   Text         v. mval      0.00
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191 Dan mesacná                   Text         v. mval      0.00
+192 Dan rocná                     Text         v. mval      0.00
+193 Oprava dane z predch.roku     Text         v. mval      0.00
+194 Rozdiel z roc.zúct.           Text         v. mval      0.00
+195 Danový bonus                  Text         v. mval      0.00
+196
+197
+198
+199 
+200 Prenos z min. mes             Text         v. mval      0.00
+201 Zaporna vyplata
+202 Mince +-
+203 Zaloha
+204 Zrazka do banky
+205 Zrazka z apokuty a skody
+206 Exekucie
+207 Pozicky
+208 Poistky
+209 Zrazka z mot.voz.
+210 Na ucet
+211 Hotovost
+212 Postou
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
