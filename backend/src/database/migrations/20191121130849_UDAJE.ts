@@ -3,13 +3,13 @@ import * as Knex from "knex";
 
 export async function up(knex: Knex): Promise<any> {
     return knex.schema.withSchema('m')
-    .createTable('osoba', (table => {
-      table.integer('id').references('m.osoba.id')
+    .createTable('udaje', (table => {
+      table.integer('id').notNullable().references('m.osoba.id')
       table.date("platnost_od").notNullable(),
       table.string("druh", 1).notNullable(),
       table.string("trieda", 2).notNullable(),
       table.string("pracovna_doba_typ", 3).notNullable(),
-      table.integer("kalendar_typ").notNullable().references(m.kalendar_typ.id),
+      table.integer("kalendar_typ").notNullable().references('m.kalendar_typ.id'),
       table.integer("uvazok").notNullable(),
       table.string("vypocet_sviatkov", 1).notNullable(),
       table.string("pracovny_pomer_nad_5dni", 1).notNullable(),
