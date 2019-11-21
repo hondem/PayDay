@@ -1,11 +1,11 @@
 CREATE TABLE m.kalendar (
-  "typ" integer NOT NULL REFERENCES m.kalendar_typ(id),
-  "datum" date NOT NULL,
-  "pracovny_den" boolean NOT NULL,
-  "pracovne_hod" float NOT NULL,
-  "sviatok" boolean NOT NULL,
-  "sviatky_hod" float NOT NULL,
-  PRIMARY KEY (typ, datum)
+typ integer NOT NULL REFERENCES m.kalendar_typ(id),
+datum date NOT NULL,
+pracovne_dni float NOT NULL,
+pracovne_hod float NOT NULL,
+sviatky_dni  float NOT NULL,
+sviatky_hod float NOT NULL,
+PRIMARY KEY (typ, datum)
 );
 COMMENT ON table m.kalendar_typ IS 'Riadky kalendara osahujuce jednotlive dni v roku s vyznacenim poctu pracovnych hodin a dni a poctu dni a hodin sviatkov';
 COMMENT ON COLUMN m.kalendar.pracovne_dni IS ' je pracovny den (1 alebo 0)';

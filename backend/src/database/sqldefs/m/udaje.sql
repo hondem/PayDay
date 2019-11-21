@@ -5,7 +5,7 @@ CREATE TABLE m.udaje (
   "trieda" char(2) NOT NULL,
   "pracovna_doba_typ" char(3) NOT NULL,
   "kalendar_typ" int not null REFERENCES m.kalendar_typ(id),
-  "uvazok" real NOT NULL,
+  "uvazok" int NOT NULL,
   "vypocet_sviatkov" char(1) NOT NULL,
   "pracovny_pomer_nad_5dni" char(1) NOT NULL,
   "pracovna_schopnost_znizena1" char(1) NOT NULL,

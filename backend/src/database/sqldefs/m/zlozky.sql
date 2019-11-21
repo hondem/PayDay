@@ -1,7 +1,7 @@
 CREATE TABLE m.zlozky (
   "id" integer not null PRIMARY KEY,
   "os_id" integer not null REFERENCES m.osoba(id),
-  "kod" integer not null,
+  "kod" integer not null REFERENCES m.kody(id),
   "kod_ext" char(10) not null,
   "datum_od" date not null,
   "datum_do" date not null,

@@ -1,9 +1,10 @@
 CREATE TABLE m.vypocet (
-  "id" integer NOT NULL PRIMARY KEY,
+  "id" integer NOT NULL REFERENCES m.osoba(id),
   "obdobie" date NOT NULL,
   "vektor" varchar(2000) NOT NULL,
   "dovolenkovy_priemer" float NOT NULL,
-  "nemocensky_priemer" float NOT NULL
+  "nemocensky_priemer" float NOT NULL,
+  PRIMARY KEY(id, obdobie)
 );
 COMMENT ON TABLE m.vypocet IS 'vypocitane udaje za kazdy mesiac za kazde osobne cislo (osobu s platnym prac. pomerom)';
 COMMENT ON COLUMN m.vypocet.id IS ' - id osoby ';
