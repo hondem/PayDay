@@ -33,10 +33,14 @@ app.use(errorMiddleware.notFound)
  * Server start
  */
 app.start = async() => {
-  logger.info("Starting app...")
   // Start database connection
-  logger.info("Connecting to DB...")
-  await Database.start()
+  logger.info("Estabilishing DB connection...")
+
+  try{
+    await Database.start()
+  } catch(err){
+    setTimeout(app.start.bind(this), 5000)
+  }
 }
 
 app.stop = () => {
@@ -48,6 +52,7 @@ app.listen(Config.server.port, () => {
 })
 
 if (require.main === module){
+  logger.info("Starting app...")
   app.start()
 }
 

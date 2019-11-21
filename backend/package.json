@@ -13,7 +13,8 @@
     "migrate:latest": "ts-node ./node_modules/.bin/knex migrate:latest --cwd ./src/database --knexfile ../config/knexfile.ts",
     "migrate:make": "ts-node ./node_modules/.bin/knex migrate:make --cwd ./src/database --knexfile ../config/knexfile.ts",
     "seed:make": "ts-node ./node_modules/.bin/knex seed:make --cwd ./src/database --knexfile ../config/knexfile.ts",
-    "seed:run": "ts-node ./node_modules/.bin/knex seed:run --cwd ./src/database --knexfile ../config/knexfile.ts"
+    "seed:run": "ts-node ./node_modules/.bin/knex seed:run --cwd ./src/database --knexfile ../config/knexfile.ts",
+    "docker:build": "docker build -t payday_api ."
   },
   "author": "",
   "license": "ISC",
@@ -53,6 +54,7 @@
     "@types/node": "^12.7.9",
     "@types/pino": "^5.8.10",
     "eslint": "^6.5.1",
-    "nodemon": "^1.19.3"
+    "nodemon": "^1.19.3",
+    "ts-node-dev": "^1.0.0-pre.44"
   }
 }
