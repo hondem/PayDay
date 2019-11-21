@@ -9,7 +9,7 @@ CREATE TABLE m.zlozky (
   "hod" float not null,
   "sadzba" float not null,
   "suma" float not null,
-  "pozn" char(30) not null
+  "pozn" char(30)
 );
 COMMENT ON TABLE m.zlozky IS 'Mzdove odchylky, v tabulke su zaznamenane datumove, hodinove a hodnotove udaje potrebne pre vypocet mzdy pomocou kodov.';
 COMMENT ON COLUMN m.zlozky.id IS 'poradove cislo zaznamu';
