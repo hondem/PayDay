@@ -26,7 +26,7 @@ const Heading = styled.h1<SpaceProps & TypographyProps & ColorProps>(
 ============================================================================= */
 Heading.defaultProps = {
   mt: 0,
-  mb: 4,
+  mb: 's6',
 };
 
 export default Heading;

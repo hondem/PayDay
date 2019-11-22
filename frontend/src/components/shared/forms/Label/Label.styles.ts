@@ -1,7 +1,11 @@
 import styled from 'styled-components';
+import { margin } from 'styled-system';
 
-export const Label = styled.label`
+import { LabelProps } from './Label';
+
+export const Label = styled.label<LabelProps>`
   display: block;
   color: ${({ theme }) => theme.colors.grays[2]};
-  margin-bottom: ${({ theme }) => theme.space[2]}px;
+
+  ${margin}
 `;

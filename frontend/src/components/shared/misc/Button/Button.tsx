@@ -81,7 +81,8 @@ const getButtonColor = ({ color }: ButtonProps) => {
 const Button = styled.button<ButtonProps>`
   transition: all 0.2s ease-out;
   position: relative;
-  padding: ${({ theme }) => theme.space[3]}px ${({ theme }) => theme.space[6]}px;
+  min-height: 50px;
+  padding: 0 ${({ theme }) => theme.space.s10};
   -webkit-appearance: none;
   border: 1px solid;
   border-radius: 4px;
