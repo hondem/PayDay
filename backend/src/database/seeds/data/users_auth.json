@@ -2,19 +2,19 @@
   {
     "id": 1,
     "email": "admin@test.com",
-    "password": "$2a$10$JPw/Z7LO1lFjQBVRK6ik/OjNMS3TOq2SawAVqQzqBrx34M.IpvCGW",
+    "password": "$2a$10$yKAlh4SR.cDIufxxVrXSKuNyfl.vq5wENi6XTnbTwCk2c5mIJX7e2",
     "authLevel": "admin"
   },
   {
     "id": 2,
     "email": "accountant@test.com",
-    "password": "$2a$10$JPw/Z7LO1lFjQBVRK6ik/OjNMS3TOq2SawAVqQzqBrx34M.IpvCGW",
+    "password": "$2a$10$yKAlh4SR.cDIufxxVrXSKuNyfl.vq5wENi6XTnbTwCk2c5mIJX7e2",
     "authLevel": "accountant"
   },
   {
     "id": 3,
     "email": "user@test.com",
-    "password": "$2a$10$JPw/Z7LO1lFjQBVRK6ik/OjNMS3TOq2SawAVqQzqBrx34M.IpvCGW",
+    "password": "$2a$10$yKAlh4SR.cDIufxxVrXSKuNyfl.vq5wENi6XTnbTwCk2c5mIJX7e2",
     "authLevel": "user"
   }
 ]
