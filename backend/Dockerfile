@@ -5,12 +5,15 @@ RUN mkdir -p /app/node_modules && chown -R node:node /app
 WORKDIR /app
 
 COPY package*.json ./
+COPY tsconfig.json ./
 
 USER node
 RUN npm install
 
 COPY --chown=node:node ./src ./src
 
-EXPOSE 3000
+RUN npm run build
 
-CMD [ "node", "src/app.js" ]
+EXPOSE 5000
+
+CMD [ "node", "dist/app.js" ]

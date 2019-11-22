@@ -1,5 +1,12 @@
 version: '3'
 services:
+  api:
+    build: .
+    ports:
+      - 5000:5000
+    environment:
+      - DATABASE_URL=postgres://postgres@database/payday-db
+
   database:
     image: postgres:11.2
     container_name: payday
