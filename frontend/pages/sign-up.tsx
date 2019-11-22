@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { FormattedMessage } from 'react-intl';
 
 import { Heading, Paragraph, Link } from '../src/components/shared/typography';
 import { Flex, Box } from '../src/components/shared/layout';

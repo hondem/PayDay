@@ -21,14 +21,12 @@
     ]
   },
   "dependencies": {
-    "flat": "~5.0.0",
     "formik": "~2.0.6",
     "next": "~9.1.4",
     "ramda": "^0.26.1",
     "react": "~16.12.0",
     "react-dom": "~16.12.0",
     "react-feather": "~2.0.3",
-    "react-intl": "~3.6.2",
     "styled-components": "~5.0.0-beta.9",
     "styled-components-breakpoint": "~2.1.1",
     "styled-system": "~5.1.2",
@@ -43,7 +41,6 @@
     "@babel/preset-env": "~7.7.1",
     "@babel/preset-typescript": "~7.7.2",
     "@types/enzyme": "~3.10.3",
-    "@types/flat": "0.0.28",
     "@types/jest": "~24.0.23",
     "@types/node": "~12.12.11",
     "@types/ramda": "^0.26.36",
