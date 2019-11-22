@@ -1,79 +1,52 @@
-import React, { InputHTMLAttributes, useState } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import { useField } from 'formik';
+import { pick } from 'ramda';
+import { MarginProps } from 'styled-system';
 
 import * as S from './Input.styles';
-import { AlertOctagon } from 'react-feather';
+import { AlertCircle } from 'react-feather';
 
-type InputProps = {
-  icon?: React.ReactNode;
-} & InputHTMLAttributes<HTMLInputElement>;
+/* Props - <Input />
+============================================================================= */
+type Props = InputHTMLAttributes<HTMLInputElement> & MarginProps;
 
 /* <Input />
 ============================================================================= */
-const Input: React.FunctionComponent<InputProps> = ({
-  icon,
-  name,
-  type,
-  id,
-  placeholder,
-  disabled,
-  autoFocus,
-  ...props
-}) => {
-  const [field, { touched, error }] = useField({ name, type });
-  const [isFocused, setFocus] = useState<boolean>(autoFocus);
+const Input: React.FunctionComponent<Props> = ({ id, name, type, ...props }) => {
+  const [field, meta] = useField<any>({ id, name, type, ...props });
+  const hasError = !!meta.error && !!meta.touched;
 
-  const hasError: boolean = !!touched && !!error;
-  const { onBlur, ...otherFieldProps } = field;
+  /* Separate margin props */
+  const marginProps = pick([
+    'm',
+    'margin',
+    'mt',
+    'marginTop',
+    'mb',
+    'marginBottom',
+    'ml',
+    'marginLeft',
+    'mr',
+    'marginRight',
+    'my',
+    'mx',
+  ])(props);
 
-  /**
-   * Handles action for a focus event.
-   */
-  const handleFocus = () => { 
-    setFocus(true);
-  }
-
-  /**
-   * Handles action for a blur event.
-   */
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    onBlur(event);
-    setFocus(false);
-  }
-
-  /**
-   * Renders icon based on the current state of input.
-   */
-  const renderIcon = () => {
-    if (hasError) {
-      return (
-        <S.IconWrapper hasError={hasError}>
-          <AlertOctagon />
-        </S.IconWrapper>
-      );
-    } else {
-      if (icon !== undefined) {
-        return <S.IconWrapper hasError={hasError}>{icon}</S.IconWrapper>;
-      } else return null;
-    }
-  };
+  /* Checkbox variant */
+  // if (type === 'checkbox') {
+  //   return (
+  //     <S.CheckboxWrapper {...marginProps}>
+  //       <S.CheckboxInput id={id || name} type={type} {...props} {...field} />
+  //       <S.CheckboxCheckmark hasError={hasError} checked={field.checked} />
+  //     </S.CheckboxWrapper>
+  //   );
+  // }
 
   return (
-    <S.Wrapper isFocused={isFocused} hasError={hasError}>
-      {renderIcon()}
-
-      <S.Input
-        id={id || field.name}
-        type={type}
-        placeholder={placeholder}
-        disabled={disabled}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        autoFocus
-        {...otherFieldProps}
-        {...props}
-      />
-    </S.Wrapper>
+    <S.InputWrapper hasError={hasError} {...marginProps}>
+      <S.Input id={id || name} type={type} hasError={hasError} {...props} {...field} />
+      {hasError && <S.InputIconWrapper hasError={hasError}><AlertCircle /></S.InputIconWrapper>}
+    </S.InputWrapper>
   );
 };
 
@@ -81,7 +54,7 @@ const Input: React.FunctionComponent<InputProps> = ({
 ============================================================================= */
 Input.defaultProps = {
   type: 'text',
-  disabled: false,
+  mb: 's2',
 };
 
 export default Input;

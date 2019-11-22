@@ -23,7 +23,7 @@ const Paragraph = styled.p<SpaceProps & TypographyProps & ColorProps>(
 ============================================================================= */
 Paragraph.defaultProps = {
   mt: 0,
-  mb: 2,
+  mb: 's4',
   fontSize: '16px',
 };
 

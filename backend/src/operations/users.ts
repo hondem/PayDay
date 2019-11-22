@@ -108,7 +108,7 @@ const verifyTokenPayload = async(token: string) => {
     throw new errors.AuthorizationError()
   }
 
-  const user = await UsersRepository.getById(payload.user.id)
+  const user : User = await UsersRepository.getById(payload.user.id)
 
   if(!user) throw new errors.AuthorizationError()
   
