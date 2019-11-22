@@ -10,7 +10,7 @@ export async function up(knex: Knex): Promise<any> {
       table.string("stredne_meno", 255),
       table.string("priezvisko", 255).notNullable(),
       table.string("externe_osobne_cislo", 20).notNullable(),
-      table.boolean("aktivny").notNullable(),
+      table.boolean("aktivny").notNullable().comment('udaj oznacuje ci je mozne s danym zaznamom pracovat alebo nie. Nie - nevyberie sa pre spracovanie miezd'),
       table.string("funkcia", 50).notNullable(),
       table.string("pozicia", 50).notNullable(),
       table.string("oddelenie", 20).notNullable(),
@@ -26,7 +26,7 @@ export async function up(knex: Knex): Promise<any> {
       table.string("pohlavie", 1).notNullable(),
       table.string("statna_prislusnost", 20).notNullable(),
       table.string("miesto_narodenia", 100).notNullable(),
-      table.string("stav", 1).notNullable(),
+      table.string("stav", 1).notNullable().comment('zenaty,slobodny'),
       table.string("obcianky", 25).notNullable(),
       table.string("pas", 25).notNullable(),
       table.string("adresa_ulica_trvale", 100).notNullable(),
@@ -45,8 +45,8 @@ export async function up(knex: Knex): Promise<any> {
       table.string("okres_prechodne", 100),
       table.string("kraj_prechodne", 100),
       table.string("krajina_prechodne", 100),
-      table.date("nastup").notNullable(),
-      table.date("ukocenie").notNullable(),
+      table.date("nastup").notNullable().comment('datum zaciatku pracovneho pomeru'),
+      table.date("ukocenie").notNullable().comment('datum ukoncenia pracovneho pomeru'),
       table.string("pozn", 255)
     }))
 }

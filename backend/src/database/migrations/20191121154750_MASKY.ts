@@ -2,7 +2,7 @@ import * as Knex from "knex";
 
 
 export async function up(knex: Knex): Promise<any> {
-    knex.schema.raw(`
+  return knex.schema.raw(`
     CREATE TABLE "m.masky"(
         "id" int not null PRIMARY KEY,
         "nazov" char(30) not null,
@@ -161,8 +161,14 @@ export async function up(knex: Knex): Promise<any> {
         "z50" int not null,
         "format" char(1) not null
       );
-      COMMENT ON COLUMN m.masky.n1 IS '  obsahuje cislo pozicie pre napocet z vektora vypocitanych udajov (pozicie nXXX sa pripocitavaju)';
-      COMMENT ON COLUMN m.masky.z1 IS '  obsahuje cislo pozicie pre napocet z vektora vypocitanych udajov (pozicie zXX sa odpocitavaju)';
+      COMMENT ON TABLE m.masky IS 'Tabulka obsahuje pozicie, podla ktorych sa napocitavaju definovane hodnoty z tabulky vypocet.vektor';
+      COMMENT ON COLUMN m.masky.id IS 'poradove cislo zaznamu';
+      COMMENT ON COLUMN m.masky.nazov  IS 'Popis riadka - napriklad Hruba mzda';
+      COMMENT ON COLUMN m.masky.skratka  IS 'skratka napr.HM';
+      COMMENT ON COLUMN m.masky.skupina_zobrazenia  IS 'oznacenie skupiny riadkov, ktore patria vyznamovo k sebe';
+      COMMENT ON COLUMN m.masky.pozicia  IS 'pozicia v danej skupine zobrazenia';
+      COMMENT ON COLUMN m.masky.n1 IS '  obsahuje cislo pozicie pre napocet z vektora vypocitanych udajov (sumy z pozicie nXXX sa pripocitavaju)';
+      COMMENT ON COLUMN m.masky.z1 IS '  obsahuje cislo pozicie pre napocet z vektora vypocitanych udajov (sumy z pozicie zXX sa odpocitavaju)';      
       `)
 
 }

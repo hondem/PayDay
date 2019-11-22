@@ -2,7 +2,7 @@ import * as Knex from "knex";
 
 
 export async function up(knex: Knex): Promise<any> {
-    knex.schema.raw(`
+  return knex.schema.raw(`
     CREATE TABLE m.kalendar_typ(
         "id" int not null PRIMARY KEY,
         "nazov" char(30) not null,
@@ -18,7 +18,6 @@ export async function up(knex: Knex): Promise<any> {
       
       COMMENT ON table m.kalendar_typ IS 'Hlavicka kalendara obsahujuca zakladne udaje ku kalendaru ako su pocet hodin a pocet dni';
       COMMENT ON COLUMN m.kalendar_typ.id IS 'cislo kalendara jednojednoznacne (mandatory)';
-      COMMENT ON COLUMN m.kalendar_typ.typ IS 'Typ kalendara';
       COMMENT ON COLUMN m.kalendar_typ.mesiac_hod IS 'Priemerny pocet pracovnych hodin za mesiac';
       COMMENT ON COLUMN m.kalendar_typ.tyzden_hod IS 'Pocet pracovnych hodin za tyzden';
       COMMENT ON COLUMN m.kalendar_typ.den_hod IS 'Pocet pracovnych hodin za den';
