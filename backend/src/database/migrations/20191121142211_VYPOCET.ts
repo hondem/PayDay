@@ -3,8 +3,8 @@ import * as Knex from "knex";
 
 export async function up(knex: Knex): Promise<any> {
     return knex.schema.withSchema('m')
-    .createTable('zlozky', (table => {
-      table.integer('id').notNullable().references('m.osoba.id'),
+    .createTable('vypocet', (table => {
+      table.integer('id').notNullable().references('id').inTable('m.osoba'),
       table.date("obdobie").notNullable,
       table.string("vektor", 2000).notNullable,
       table.float("dovolenkovy_priemer").notNullable,

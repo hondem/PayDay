@@ -4,12 +4,12 @@ import * as Knex from "knex";
 export async function up(knex: Knex): Promise<any> {
     return knex.schema.withSchema('m')
     .createTable('udaje', (table => {
-      table.integer('id').notNullable().references('m.osoba.id').comment( 'id pacovnika (osc) (mandatory)'),
+      table.integer('id').notNullable().references('id').inTable('m.osoba').comment( 'id pacovnika (osc) (mandatory)'),
       table.date("platnost_od").notNullable().comment('(mandatory) - datum platnosti zaznamu - plati od datum bude mat den vzdy 1. napr 01.05.2019 '),
       table.string("druh", 1).notNullable().comment(' pracovneho pomeru (mandatory) (hlavny prac.pomer, dohoda o briganickj cinnosti studentov, dohoda o prac.cinnosti, dohoda o vykonani prace)'),
       table.string("trieda", 2).notNullable().comment( 'kodove oznacenie platobnej triedy napr 01,02, 03, A1, A2, ...  default hodnota medzera'),
       table.string("pracovna_doba_typ", 3).notNullable().comment( ' typ pracovnej dobyzatial nevyuzite.'),
-      table.integer("kalendar_typ").notNullable().references('m.kalendar_typ.id').comment( ' (mandatory)kod kalendara z tabulky kalendar_typ urcuje pocet prac. dni a pocet sviatkov, pocet hodin prac.dni a pocet hodin sviatkov,'),
+      table.integer("kalendar_typ").notNullable().references('id').inTable('m.kalendar_typ').comment( ' (mandatory)kod kalendara z tabulky kalendar_typ urcuje pocet prac. dni a pocet sviatkov, pocet hodin prac.dni a pocet hodin sviatkov,'),
       table.integer("uvazok").notNullable().comment( 'ciselne oznacenie percentualneho vyjadrenia uvazku. vacsinou 100%, default hodnota 100'),
       table.string("vypocet_sviatkov", 1).notNullable().comment( 'sposob prepoctu sviatkovP - priemerom, T - tarifom , default hodnota T'),
       table.string("pracovny_pomer_nad_5dni", 1).notNullable().comment( 'logicka premenna urcuje ci pracovnik pracuje viac ako 5 dni. Vacsinou True, default hodnota Nie'),
@@ -26,7 +26,7 @@ export async function up(knex: Knex): Promise<any> {
       table.integer("danovy_odpocet_manzelka").notNullable().comment( 'udava, ci si pracovnik uplatnuje danovy odpocet na manzelku, default hodnota Nie'),
       table.string("danovy_bonus", 1).notNullable().comment( 'udava, ci si uplatnuje danovy bonus na deti, default hodnota Nie'),
       table.string("nezdanitelne_min", 1).notNullable().comment( 'udava ci si uplatnuje nezdanitelne minimum, default hodnota Nie'),
-      table.string("zdravotna_poistovna", 1).notNullable().comment( ' udava cislo zdravotnej poistovne - hodnoty su: 24-DÔVERA zdravotná poisťovňa, a. s., 25-VŠEOBECNÁ zdravotná poisťovňa, a. s., .27 -UNION zdravotná poisťovňa, a. s. '),
+      table.integer("zdravotna_poistovna", 1).notNullable().comment( ' udava cislo zdravotnej poistovne - hodnoty su: 24-DÔVERA zdravotná poisťovňa, a. s., 25-VŠEOBECNÁ zdravotná poisťovňa, a. s., .27 -UNION zdravotná poisťovňa, a. s. '),
       table.string("zc_zp", 1).notNullable().comment( ' udava ci sa pracovnikovi pocita zdravotne poistenie za zamestnanca, default hodnota Ano'),
       table.string("zc_sp_dp", 1).notNullable().comment( ' udava ci sa pracovnikovi pocita socialne poistenie (dochodkove a invalidne)za zamestnanca, default hodnota Ano'),
       table.string("zc_sp_np", 1).notNullable().comment( ' udava ci sa pracovnikovi pocita nemocenske poistenie za zamestnanca, default hodnota Ano'),

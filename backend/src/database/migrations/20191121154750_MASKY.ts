@@ -3,7 +3,7 @@ import * as Knex from "knex";
 
 export async function up(knex: Knex): Promise<any> {
   return knex.schema.raw(`
-    CREATE TABLE "m.masky"(
+    CREATE TABLE m.masky(
         "id" int not null PRIMARY KEY,
         "nazov" char(30) not null,
         "skratka" char(10) not null,
