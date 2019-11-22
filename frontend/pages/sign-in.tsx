@@ -14,7 +14,7 @@ export default () => (
 
     <S.Wrapper>
       <S.Form>
-        <Box mb="s16">
+        <Box mb="s12">
           <Heading textAlign="center">Payday - Prihlásenie</Heading>
           <Paragraph textAlign="center">Pre prihlásenie zadajte svoj email a heslo.</Paragraph>
         </Box>
