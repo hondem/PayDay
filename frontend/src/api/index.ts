@@ -1,9 +1,23 @@
+import Cookies from "js-cookie";
+
+export const COOKIE_AUTH_TOKEN = 'payday-auth-token';
+
+/**
+ * Gets basic header params.
+ * 
+ * @param headers Header params
+ */
 export const getHeaders = (headers = {}) => ({
   'Content-Type': 'application/json',
   Accept: 'application/json',
   ...headers,
 });
 
+/**
+ * Handles native fetch response.
+ * 
+ * @param res Reponse
+ */
 export const handleResponse = async (res: Response) => {
   if (res.ok) {
     if (res.status === 200) {
@@ -24,3 +38,15 @@ export const handleResponse = async (res: Response) => {
     }
   }
 };
+
+/**
+ * Stores auth token into a cookie.
+ * 
+ * @param token Auth token
+ */
+export const setAuthToken = (token: string) => Cookies.set(COOKIE_AUTH_TOKEN, token);
+
+/**
+ * Gets the auth token cookie.
+ */
+export const getAuthToken = () => Cookies.get('COOKIE_AUTH_TOKEN');
