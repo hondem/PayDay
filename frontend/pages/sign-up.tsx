@@ -1,14 +1,17 @@
 import Head from 'next/head';
+import { NextPage, NextPageContext } from 'next';
+import { checkAuthAuthorization } from '../src/next';
 
 import { Heading, Paragraph, Link } from '../src/components/shared/typography';
-import { Flex, Box } from '../src/components/shared/layout';
 
 import * as S from '../src/components/auth/auth.styles';
 
-export default () => (
+/* <SignUp />
+============================================================================= */
+const SignUp: NextPage = () => (
   <>
     <Head>
-      <title>Payday - Sign in</title>
+      <title>Payday - Registrácia</title>
     </Head>
 
     <S.Wrapper>
@@ -27,3 +30,12 @@ export default () => (
     </S.Wrapper>
   </>
 );
+
+/* getInitialProps - <SignUp />
+============================================================================= */
+SignUp.getInitialProps = async (ctx: NextPageContext): Promise<{}> => {
+  checkAuthAuthorization(ctx);
+  return {};
+}
+
+export default SignUp;
