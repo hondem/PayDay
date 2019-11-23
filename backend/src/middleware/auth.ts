@@ -17,7 +17,7 @@ const AUTH_MIN_ADMIN: string = "min_admin"
  * @param authLevel Level that should be authenticated
  */
 const authorize = async(ctx: Context, next, authLevel: string) => {
-  if(!ctx.header.authorization) throw new errors.AuthorizationError('I NEED AUTHORIZATION TOKEN YOU MORRON! 😡')
+  if(!ctx.header.authorization) throw new errors.AuthorizationError(errors.NO_TOKEN, 'I NEED AUTHORIZATION TOKEN YOU MORRON! 😡')
   const data = await operations.verifyTokenPayload(ctx.header.authorization)
 
   // Checking permissions...
@@ -36,7 +36,7 @@ const authorize = async(ctx: Context, next, authLevel: string) => {
     
     return next()
   } else {
-    throw new errors.AuthorizationError("Permissions error... 👮‍♀️")
+    throw new errors.AuthorizationError(errors.TOKEN_INSUFFICIENT_PERMISSIONS, "Permissions error... 👮‍♀️")
   }
 }
 

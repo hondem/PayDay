@@ -1,12 +1,17 @@
 import Head from 'next/head';
+import { NextPage, NextPageContext } from 'next';
 
-import { Heading, Paragraph, Link } from '../src/components/shared/typography';
+import { Heading, Paragraph } from '../src/components/shared/typography';
 import { Flex, Box } from '../src/components/shared/layout';
+import SignInForm from '../src/components/auth/SignInForm/SignInForm';
+import { checkAuthAuthorization } from '../src/next';
 
 import * as S from '../src/components/auth/auth.styles';
-import SignInForm from '../src/components/auth/SignInForm/SignInForm';
+import { Link } from '../src/components/shared/misc';
 
-export default () => (
+/* <SignIn />
+============================================================================= */
+const SignIn: NextPage = () => (
   <>
     <Head>
       <title>Payday - Prihlásenie</title>
@@ -32,3 +37,12 @@ export default () => (
     </S.Wrapper>
   </>
 );
+
+/* getInitialProps - <SignIn />
+============================================================================= */
+SignIn.getInitialProps = async (ctx: NextPageContext): Promise<{}> => {
+  checkAuthAuthorization(ctx);
+  return {};
+}
+
+export default SignIn;

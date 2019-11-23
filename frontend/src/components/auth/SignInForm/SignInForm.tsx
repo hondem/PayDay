@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
+import Router from 'next/router';
 import * as Yup from 'yup';
 import to from 'await-to-js';
 
 import { Flex, Box } from '../../shared/layout';
-import { Link } from '../../shared/typography';
 import { Input, Label, ErrorMessage } from '../../shared/forms';
-import { Button, Alert } from '../../shared/misc';
+import { Button, Alert, Link } from '../../shared/misc';
 import { signIn } from '../../../api/auth';
-import { handleResponse } from '../../../api';
+import { handleResponse, setAuthToken } from '../../../api';
 import { AlertMessage } from '../../../types/common';
+import { User } from '../../../types/auth';
 
 /* Form data
 ============================================================================= */
@@ -43,9 +44,11 @@ const SignInForm: React.FunctionComponent = () => {
     setAlertMessage(undefined);
 
     /* Try to sign in user */
-    const [error, user] = await to<any>(signIn(email, password).then(handleResponse));
+    const [error, user] = await to<User>(signIn(email, password).then(handleResponse));
     if (user && !error) {
-      setAlertMessage({type: 'success', message: 'Prihlásenie bolo úspešné.'})
+      setAuthToken(user.accessToken);
+      setAlertMessage({type: 'success', message: 'Prihlásenie bolo úspešné. Prosím počkajte na presmerovanie.'})
+      Router.push('/employees');
     } else {
       setAlertMessage({type: 'error', message: 'Prihlásenie bolo neúspešné.'})
     }

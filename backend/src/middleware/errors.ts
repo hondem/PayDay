@@ -31,7 +31,7 @@ const errorMiddleware = async(ctx: Context, next) => {
 }
 
 const notFound = async(ctx: Context, next) => {
-  const err = new ErrorsUtil.NotFound()
+  const err = new ErrorsUtil.NotFound(ErrorsUtil.PAGE_NOT_FOUND)
 
   ctx.status = err.code
   ctx.body = {

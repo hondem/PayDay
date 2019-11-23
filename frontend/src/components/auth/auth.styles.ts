@@ -2,12 +2,12 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: center;
   min-height: 100vh;
   margin: ${({ theme }) => theme.space.s4} 0;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    justify-content: center;
+    align-items: center;
     margin: 0;
   }
 `;

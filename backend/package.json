@@ -5,13 +5,15 @@
   "main": "./src/app.ts",
   "scripts": {
     "test": "echo \"Error: PISS ON U!\" && exit 1",
-    "compiler": "tsc -w",
     "build": "tsc",
     "start": "ts-node ./src/app.ts",
     "dev": "nodemon --watch './src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' ./src/app.ts",
     "lint": "eslint --ext ts --report-unused-disable-directives ./src",
     "migrate:latest": "ts-node ./node_modules/.bin/knex migrate:latest --cwd ./src/database --knexfile ../config/knexfile.ts",
     "migrate:make": "ts-node ./node_modules/.bin/knex migrate:make --cwd ./src/database --knexfile ../config/knexfile.ts",
+    "migrate:rollback": "ts-node ./node_modules/.bin/knex migrate:rollback --all --cwd ./src/database --knexfile ../config/knexfile.ts",
+    "migrate:down": "ts-node ./node_modules/.bin/knex migrate:down --cwd ./src/database --knexfile ../config/knexfile.ts",
+    "migrate:up": "ts-node ./node_modules/.bin/knex migrate:up --cwd ./src/database --knexfile ../config/knexfile.ts",
     "seed:make": "ts-node ./node_modules/.bin/knex seed:make --cwd ./src/database --knexfile ../config/knexfile.ts",
     "seed:run": "ts-node ./node_modules/.bin/knex seed:run --cwd ./src/database --knexfile ../config/knexfile.ts",
     "docker:build": "docker build -t payday_api ."

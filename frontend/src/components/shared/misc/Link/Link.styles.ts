@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { AnchorHTMLAttributes } from 'react';
 import { color, ColorProps } from 'styled-system';
+import { AnchorHTMLAttributes } from 'react';
 
-export const Link = styled.a<AnchorHTMLAttributes<HTMLAnchorElement> & ColorProps>`
+export const Link = styled.a<ColorProps & any>`
   transition: all 0.2s ease-out;
   text-decoration: none;
 

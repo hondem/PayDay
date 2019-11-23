@@ -56,7 +56,7 @@ const verifyToken = async(token) : Promise<UserTokenPayload> => {
       })
     })
   } catch(err){
-    throw new errors.AuthorizationError('You are not permited to do this!')
+    throw new errors.AuthorizationError(errors.TOKEN_INSUFFICIENT_PERMISSIONS, 'You are not permited to do this!')
   }
 }
 
