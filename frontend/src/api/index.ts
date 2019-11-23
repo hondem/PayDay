@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-export const COOKIE_AUTH_TOKEN = 'payday-auth-token';
+export const COOKIE_ACCESS_TOKEN = 'accessToken';
 
 /**
  * Gets basic header params.
@@ -44,9 +44,9 @@ export const handleResponse = async (res: Response) => {
  * 
  * @param token Auth token
  */
-export const setAuthToken = (token: string) => Cookies.set(COOKIE_AUTH_TOKEN, token);
+export const setAuthToken = (token: string) => Cookies.set(COOKIE_ACCESS_TOKEN, token);
 
 /**
  * Gets the auth token cookie.
  */
-export const getAuthToken = () => Cookies.get('COOKIE_AUTH_TOKEN');
+export const getAuthToken = () => Cookies.get(COOKIE_ACCESS_TOKEN);
