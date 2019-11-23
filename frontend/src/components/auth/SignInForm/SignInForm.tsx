@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Form } from 'formik';
-import Router from 'next/router';
 import * as Yup from 'yup';
-import to from 'await-to-js';
 
 import { Flex, Box } from '../../shared/layout';
 import { Input, Label, ErrorMessage } from '../../shared/forms';
 import { Button, Alert, Link } from '../../shared/misc';
-import { signIn } from '../../../api/auth';
-import { handleResponse, setAuthToken } from '../../../api';
-import { AlertMessage } from '../../../types/common';
-import { User } from '../../../types/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch } from 'redux';
+import { signInAction, setAlertMessageAction } from '../../../actions/auth';
+import { selectAuthAlertMessage } from '../../../selectors/auth';
 
 /* Form data
 ============================================================================= */
@@ -27,7 +25,8 @@ const INITIAL_VALUES: FormValues = {
 /* <SignInForm />
 ============================================================================= */
 const SignInForm: React.FunctionComponent = () => {
-  const [alertMessage, setAlertMessage] = useState<AlertMessage>(undefined);
+  const alertMessage = useSelector(selectAuthAlertMessage);
+  const dispatch = useDispatch<Dispatch<setAlertMessageAction | signInAction>>();
 
   const getValidationSchema = (): Yup.Schema<object> =>
     Yup.object().shape({
@@ -40,30 +39,24 @@ const SignInForm: React.FunctionComponent = () => {
     });
 
   const handleSubmit = async ({ email, password }: FormValues) => {
-    /* Clear alert message */
-    setAlertMessage(undefined);
-
-    /* Try to sign in user */
-    const [error, user] = await to<User>(signIn(email, password).then(handleResponse));
-    if (user && !error) {
-      setAuthToken(user.accessToken);
-      setAlertMessage({type: 'success', message: 'Prihlásenie bolo úspešné. Prosím počkajte na presmerovanie.'})
-      Router.push('/employees');
-    } else {
-      setAlertMessage({type: 'error', message: 'Prihlásenie bolo neúspešné.'})
-    }
+    dispatch({ type: '[AUTH] SET_ALERT_MESSAGE', payload: { alertMessage: null } });
+    dispatch({ type: '[AUTH] SIGN_IN', payload: { email, password } });
   };
 
   return (
     <>
-      {alertMessage && <Alert type={alertMessage.type} mb="s8">{alertMessage.message}</Alert>}
+      {alertMessage && (
+        <Alert type={alertMessage.type} mb="s8">
+          {alertMessage.message}
+        </Alert>
+      )}
 
       <Formik
         initialValues={INITIAL_VALUES}
         validationSchema={getValidationSchema()}
         onSubmit={handleSubmit}
       >
-        {({isSubmitting}) => (
+        {({ isSubmitting }) => (
           <>
             <Form>
               <Box mb="s6">
@@ -82,7 +75,7 @@ const SignInForm: React.FunctionComponent = () => {
                 <Button type="submit" color="blue" disabled={isSubmitting}>
                   {isSubmitting ? 'Prihlasovanie...' : 'Prihlásiť'}
                 </Button>
-                <Link href="/forgotten-password" color="grays.3">
+                <Link href="/forgotten-password" color="grays.1">
                   Zabudnuté heslo?
                 </Link>
               </Flex>

@@ -11,13 +11,28 @@ type Props = LinkProps & ColorProps;
 
 /* <Link />
 ============================================================================= */
-const Link: React.FunctionComponent<Props> = ({ children, ...props }) => {
-  /* Separate color props */
-  const colorProps = pick(['color', 'bg', 'backgroundColor', 'opacity'])(props);
-
+const Link: React.FunctionComponent<Props> = ({
+  href,
+  as,
+  replace,
+  scroll,
+  shallow,
+  passHref,
+  prefetch,
+  children,
+  ...props
+}) => {
   return (
-    <NextLink {...props}>
-      <S.Link {...colorProps}>{children}</S.Link>
+    <NextLink
+      href={href}
+      as={as}
+      replace={replace}
+      scroll={scroll}
+      shallow={shallow}
+      passHref={passHref}
+      prefetch={prefetch}
+    >
+      <S.Link {...props}>{children}</S.Link>
     </NextLink>
   );
 };

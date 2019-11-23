@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-unfetch';
+
 import { getHeaders } from '.';
 
 /**
@@ -14,4 +16,10 @@ export const signIn = (email: string, password: string) =>
       email,
       password,
     }),
+  });
+
+export const getUser = (id: number) =>
+  fetch(`${process.env.API_URL}/users/${id}`, {
+    method: 'GET',
+    headers: getHeaders(),
   });

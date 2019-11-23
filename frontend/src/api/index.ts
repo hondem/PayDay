@@ -1,22 +1,12 @@
-import Cookies from "js-cookie";
+import { from } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 export const COOKIE_ACCESS_TOKEN = 'accessToken';
 
 /**
- * Gets basic header params.
- * 
- * @param headers Header params
- */
-export const getHeaders = (headers = {}) => ({
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
-  ...headers,
-});
-
-/**
  * Handles native fetch response.
- * 
- * @param res Reponse
+ *
+ * @param res Response
  */
 export const handleResponse = async (res: Response) => {
   if (res.ok) {
@@ -40,13 +30,24 @@ export const handleResponse = async (res: Response) => {
 };
 
 /**
- * Stores auth token into a cookie.
- * 
- * @param token Auth token
+ * Handles redux-observable fetch response.
+ *
+ * @param res Response
  */
-export const setAuthToken = (token: string) => Cookies.set(COOKIE_ACCESS_TOKEN, token);
-
-/**
- * Gets the auth token cookie.
- */
-export const getAuthToken = () => Cookies.get(COOKIE_ACCESS_TOKEN);
+export const handleObservableResponse = (res: Response) => {
+  if (res.ok) {
+    if (res.status === 200) {
+      return res.json();
+    }
+    return Promise.resolve({});
+  } else {
+    return from(res.json()).pipe(
+      catchError(() => {
+        throw { response: null, headers: res.headers };
+      }),
+      switchMap(x => {
+        throw { response: x, headers: res.headers };
+      }),
+    );
+  }
+};
