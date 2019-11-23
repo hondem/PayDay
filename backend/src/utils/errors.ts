@@ -1,11 +1,24 @@
 /**
+ * Subtype const
+ */
+const USER_NOT_FOUND = "USER_NOT_FOUND"
+const USER_ALREADY_EXISTS = "USER_ALREADY_EXISTS"
+const USER_WRONG_PASSWORD = "USER_WRONG_PASSWORD"
+const NO_TOKEN = "NO_TOKEN"
+const TOKEN_EXPIRED = "TOKEN_EXPIRED"
+const TOKEN_PAYLOAD_ERROR = "TOKEN_PAYLOAD_ERROR"
+const TOKEN_INSUFFICIENT_PERMISSIONS = "TOKEN_INSUFFICIENT_PERMISSIONS"
+const VALIDATION_ERROR = "VALIDATION_ERROR"
+const PAGE_NOT_FOUND = "PAGE_NOT_FOUND"
+
+/**
  * Base class for App errors
  */
 class AppError extends Error{
   type: string = null
   code: number = null
 
-  constructor(message: string, type: string, code: number){
+  constructor(message: string, type: string, subType: string, code: number){
     super()
     this.message = message
     this.type = type
@@ -17,8 +30,8 @@ class AppError extends Error{
  * Not found error
  */
 class NotFound extends AppError{
-  constructor(message?: string){
-    super(message || "Sorry, team of highly trained monkeys from VUT FIT labs are working on fixing your issue", 'NOT_FOUND', 404)
+  constructor(subtype: string, message?: string){
+    super(message || "Sorry, team of highly trained monkeys from VUT FIT labs are working on fixing your issue", 'NOT_FOUND', subtype,  404)
   }
 }
 
@@ -26,8 +39,8 @@ class NotFound extends AppError{
  * Validation error
  */
 class ValidationError extends AppError{
-  constructor(message?: string){
-    super(message || "Validation failed", 'VALIDATION_ERROR', 400)
+  constructor(subtype: string, message?: string){
+    super(message || "Validation failed", 'VALIDATION_ERROR', subtype, 400)
   }
 }
 
@@ -35,8 +48,8 @@ class ValidationError extends AppError{
  * Unauthorized error
  */
 class AuthorizationError extends AppError{
-  constructor(message?: string){
-    super(message || "Unauthorized access", 'UNAUTHORIZED_ERROR', 401)
+  constructor(subtype: string, message?: string){
+    super(message || "Unauthorized access", 'UNAUTHORIZED_ERROR', subtype, 401)
   }
 }
 
@@ -44,8 +57,8 @@ class AuthorizationError extends AppError{
  * Duplication error
  */
 class DuplicationError extends AppError{
-  constructor(message?: string){
-    super(message || "Duplication error", 'DUPLICATION_ERROR', 400)
+  constructor(subtype: string, message?: string){
+    super(message || "Duplication error", 'DUPLICATION_ERROR', subtype, 400)
   }
 }
 
@@ -53,8 +66,8 @@ class DuplicationError extends AppError{
  * Internal server error
  */
 class InternalError extends AppError{
-  constructor(message?: string){
-    super(message || "Internal server error... BOOOOOOM💥", 'INTERNAL_ERROR', 500)
+  constructor(subtype: string, message?: string){
+    super(message || "Internal server error... BOOOOOOM💥", 'INTERNAL_ERROR', 'INTERNAL_ERROR', 500)
   }
 }
 
@@ -64,5 +77,15 @@ export = {
   ValidationError,
   AuthorizationError,
   DuplicationError,
-  InternalError
+  InternalError,
+
+  USER_NOT_FOUND,
+  USER_ALREADY_EXISTS,
+  USER_WRONG_PASSWORD,
+  NO_TOKEN,
+  TOKEN_EXPIRED,
+  TOKEN_PAYLOAD_ERROR,
+  TOKEN_INSUFFICIENT_PERMISSIONS,
+  VALIDATION_ERROR,
+  PAGE_NOT_FOUND
 }

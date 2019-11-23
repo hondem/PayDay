@@ -8,7 +8,7 @@ const validate = (data, schema) => {
     validationErrors.map(error => {
       message += `${error.property} ${error.message} \n`
     })
-    throw new errors.ValidationError(message)
+    throw new errors.ValidationError(errors.VALIDATION_ERROR, message)
   }
 }
 
