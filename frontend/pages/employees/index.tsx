@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { NextPage, NextPageContext } from 'next';
 
 import { checkAuthorization } from '../../src/next';
+import { Header } from '../../src/components/shared/layout';
 
 /* Props - <Employees />
 ============================================================================= */
@@ -17,7 +18,9 @@ const Employees: NextPage<Props> = () => (
       <title>Payday - Zamestnanci</title>
     </Head>
 
-    <span>Zamestnanci</span>
+    <Header>
+      
+    </Header>
   </>
 );
 

@@ -5,9 +5,8 @@ import * as Yup from 'yup';
 import to from 'await-to-js';
 
 import { Flex, Box } from '../../shared/layout';
-import { Link } from '../../shared/typography';
 import { Input, Label, ErrorMessage } from '../../shared/forms';
-import { Button, Alert } from '../../shared/misc';
+import { Button, Alert, Link } from '../../shared/misc';
 import { signIn } from '../../../api/auth';
 import { handleResponse, setAuthToken } from '../../../api';
 import { AlertMessage } from '../../../types/common';
