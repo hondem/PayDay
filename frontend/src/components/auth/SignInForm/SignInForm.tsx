@@ -8,7 +8,7 @@ import { Button, Alert, Link } from '../../shared/misc';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { signInAction, setAlertMessageAction } from '../../../actions/auth';
-import { selectAuthAlertMessage } from '../../../selectors/auth';
+import { selectAlertMessage, selectIsInProgress } from '../../../selectors/auth';
 
 /* Form data
 ============================================================================= */
@@ -25,7 +25,8 @@ const INITIAL_VALUES: FormValues = {
 /* <SignInForm />
 ============================================================================= */
 const SignInForm: React.FunctionComponent = () => {
-  const alertMessage = useSelector(selectAuthAlertMessage);
+  const alertMessage = useSelector(selectAlertMessage);
+  const isInProgress = useSelector(selectIsInProgress);
   const dispatch = useDispatch<Dispatch<setAlertMessageAction | signInAction>>();
 
   const getValidationSchema = (): Yup.Schema<object> =>
@@ -72,8 +73,8 @@ const SignInForm: React.FunctionComponent = () => {
               </Box>
 
               <Flex flex={1} alignItems="center" justifyContent="space-between">
-                <Button type="submit" color="blue" disabled={isSubmitting}>
-                  {isSubmitting ? 'Prihlasovanie...' : 'Prihlásiť'}
+                <Button type="submit" color="blue" disabled={isSubmitting || isInProgress}>
+                  {isSubmitting || isInProgress ? 'Prihlasovanie...' : 'Prihlásiť'}
                 </Button>
                 <Link href="/forgotten-password" color="grays.1">
                   Zabudnuté heslo?

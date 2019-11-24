@@ -5,7 +5,12 @@ import { AuthState } from '../reducers/auth';
 
 export const getAuthState = (state: AppState): AuthState => state.auth;
 
-export const selectAuthAlertMessage = createSelector(
+export const selectAlertMessage = createSelector(
 	getAuthState,
 	state => state.alertMessage,
+);
+
+export const selectIsInProgress = createSelector(
+  getAuthState,
+  state => state.isInProgress,
 );
