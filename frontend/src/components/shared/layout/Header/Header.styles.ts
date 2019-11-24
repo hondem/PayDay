@@ -5,6 +5,10 @@ export const Wrapper = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  z-index: 1000;
   width: 100%;
   min-height: 60px;
   padding: 0;

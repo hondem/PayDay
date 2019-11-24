@@ -31,28 +31,32 @@ export type MenuProps = {
 ============================================================================= */
 const Menu: React.FunctionComponent<MenuProps> = ({ isMenuOpen, onMenuClose }) => {
   return (
-    <S.Wrapper isMenuOpen={isMenuOpen}>
-      <S.Header>
-        <Heading as="h3" color="grays.1" mb="0">
-          Menu
-        </Heading>
+    <>
+      <S.Wrapper isMenuOpen={isMenuOpen}>
+        <S.Header>
+          <Heading as="h3" color="grays.1" mb="0">
+            Menu
+          </Heading>
 
-        <S.CloseWrapper onClick={onMenuClose}>
-          <X />
-        </S.CloseWrapper>
-      </S.Header>
+          <S.CloseWrapper onClick={onMenuClose}>
+            <X />
+          </S.CloseWrapper>
+        </S.Header>
 
-      <S.Content>
-        <S.MenuList>
-          <S.MenuItem>
-            <MenuLink href="/employees" passHref>
-              <Users />
-              <Box ml="s4">Zamestnanci</Box>
-            </MenuLink>
-          </S.MenuItem>
-        </S.MenuList>
-      </S.Content>
-    </S.Wrapper>
+        <S.Content>
+          <S.MenuList>
+            <S.MenuItem>
+              <MenuLink href="/employees" passHref>
+                <Users />
+                <Box ml="s4">Zamestnanci</Box>
+              </MenuLink>
+            </S.MenuItem>
+          </S.MenuList>
+        </S.Content>
+      </S.Wrapper>
+
+      <S.Overlay onClick={onMenuClose} isMenuOpen={isMenuOpen} />
+    </>
   );
 };
 

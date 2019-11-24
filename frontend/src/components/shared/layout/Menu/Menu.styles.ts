@@ -10,6 +10,7 @@ export const Wrapper = styled.div<Pick<MenuProps, 'isMenuOpen'>>`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 2000;
   width: 100%;
   height: 100%;
   background: white;
@@ -108,4 +109,20 @@ export const MenuLink = styled.a<{ isActive: boolean }>`
   &:hover {
     color: ${({ theme }) => theme.colors.blues[1]};
   }
+`;
+
+export const Overlay = styled.div<Pick<MenuProps, 'isMenuOpen'>>`
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1900;
+
+  ${({ isMenuOpen }) =>
+    isMenuOpen &&
+    css`
+      display: block;
+    `}
 `;
