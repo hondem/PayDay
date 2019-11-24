@@ -5,7 +5,7 @@ import { LabelProps } from './Label';
 
 export const Label = styled.label<LabelProps>`
   display: block;
-  color: ${({ theme }) => theme.colors.grays[2]};
+  color: ${({ theme }) => theme.colors.grays[3]};
 
   ${margin}
 `;

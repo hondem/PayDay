@@ -4,7 +4,8 @@ export const THEME = {
     yellows: ['#FFE9BD', '#FFCE65'],
     blues: ['#ACDDF7', '#34ABEA'],
     greens: ['#B4F1BF', '#45DB60'],
-    grays: ['#D5DCE6', '#8B91A2', '#525665', '#353945'],
+    grays: ['#F0F0F0', '#D0D0D0', '#ADADAD', '#333333'],
+    background: '#F6F7FB'
   },
 
   breakpoints: {

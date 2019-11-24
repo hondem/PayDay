@@ -76,7 +76,7 @@ const SignInForm: React.FunctionComponent = () => {
                 <Button type="submit" color="blue" disabled={isSubmitting || isInProgress}>
                   {isSubmitting || isInProgress ? 'Prihlasovanie...' : 'Prihlásiť'}
                 </Button>
-                <Link href="/forgotten-password" color="grays.1">
+                <Link href="/forgotten-password" color="grays.2">
                   Zabudnuté heslo?
                 </Link>
               </Flex>

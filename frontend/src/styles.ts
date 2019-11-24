@@ -10,5 +10,6 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 15px;
     font-weight: 400;
     color: ${({ theme }) => theme.colors.grays[3]};
+    background: ${({ theme }) => theme.colors.background};
   }
 `;

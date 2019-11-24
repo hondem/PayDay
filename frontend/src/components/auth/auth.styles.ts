@@ -4,7 +4,9 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  margin: ${({ theme }) => theme.space.s4} 0;
+  padding: ${({ theme }) => theme.space.s10} 0;
+  background: white;
+  box-sizing: border-box;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     align-items: center;
@@ -13,22 +15,22 @@ export const Wrapper = styled.div`
 `;
 
 export const Form = styled.div`
-  margin: 0 ${({ theme }) => theme.space.s4};
+  width: 100%;
+  margin: 0 ${({ theme }) => theme.space.s6};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     width: 360px;
-    margin: 0 0 0 ${({ theme }) => theme.space[7]}px;
+    margin: 0;
   }
 `;
 
 export const Separator = styled.div`
   width: 200px;
   height: 1px;
-  margin: ${({ theme }) => theme.space.s8} auto;
-  background: ${({ theme }) => theme.colors.grays[0]};
+  margin: ${({ theme }) => theme.space.s10} auto;
+  background: ${({ theme }) => theme.colors.grays[1]};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     width: 300px;
-    margin: ${({ theme }) => theme.space[6]}px auto;
   }
 `;

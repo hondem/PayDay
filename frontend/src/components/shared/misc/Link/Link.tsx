@@ -37,4 +37,10 @@ const Link: React.FunctionComponent<Props> = ({
   );
 };
 
+/* <Link />
+============================================================================= */
+Link.defaultProps = {
+  color: 'blues.1'
+}
+
 export default Link;

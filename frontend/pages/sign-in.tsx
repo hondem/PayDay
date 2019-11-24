@@ -30,7 +30,7 @@ const SignIn: NextPage = () => (
           <S.Separator />
 
           <Paragraph>
-            Nemáte ešte účet? <Link href="/sign-up">Vytvorte si ho teraz!</Link>
+            Nemáte ešte účet? <Link href="/sign-up" passHref>Vytvorte si ho teraz!</Link>
           </Paragraph>
         </Flex>
       </S.Form>
