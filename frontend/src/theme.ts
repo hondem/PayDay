@@ -5,16 +5,10 @@ export const THEME = {
     blues: ['#ACDDF7', '#34ABEA'],
     greens: ['#B4F1BF', '#45DB60'],
     grays: ['#F0F0F0', '#D0D0D0', '#ADADAD', '#333333'],
-    background: '#F6F7FB'
+    background: '#F6F7FB',
   },
 
-  breakpoints: {
-    xs: '576px',
-    sm: '768px',
-    md: '992px',
-    lg: '1200px',
-    xl: '1600px',
-  },
+  breakpoints: ['576px', '768px', '992px', '1200px', '1600px'],
 
   space: {
     s0: '0',

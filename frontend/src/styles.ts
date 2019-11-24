@@ -85,6 +85,7 @@ export const GlobalStyles = createGlobalStyle`
     font-family: inherit;
     font-size: 100%;
     line-height: 1.15;
+    padding: 0;
     margin: 0
   }
 
@@ -193,7 +194,7 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({ theme }) => theme.colors.grays[3]};
     background: ${({ theme }) => theme.colors.background};
 
-    div {
+    * {
       box-sizing: border-box;
     }
   }

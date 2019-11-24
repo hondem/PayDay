@@ -16,6 +16,11 @@ const EmployeeList: React.FunctionComponent<Props> = () => {
   return (
     <S.Grid>
       <EmployeeItem />
+      <EmployeeItem />
+      <EmployeeItem />
+      <EmployeeItem />
+      <EmployeeItem />
+      <EmployeeItem />
     </S.Grid>
   );
 };

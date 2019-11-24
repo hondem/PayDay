@@ -16,7 +16,7 @@ export const Wrapper = styled.div<Pick<MenuProps, 'isMenuOpen'>>`
   background: white;
   box-shadow: 8px 0 25px -15px ${({ theme }) => theme.colors.grays[1]};
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.xs}) {
+  @media (min-width: ${({ theme }) => theme.breakpoints[0]}) {
     width: 300px;
   }
 
@@ -37,7 +37,7 @@ export const Header = styled.div`
   padding: 0 ${({ theme }) => theme.space.s6};
   box-sizing: border-box;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+  @media (min-width: ${({ theme }) => theme.breakpoints[1]}) {
     height: 80px;
   }
 `;
@@ -63,7 +63,7 @@ export const CloseWrapper = styled.button`
     height: 18px;
     color: ${({ theme }) => theme.colors.grays[1]};
 
-    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints[1]}) {
       width: 22px;
       height: 22px;
     }

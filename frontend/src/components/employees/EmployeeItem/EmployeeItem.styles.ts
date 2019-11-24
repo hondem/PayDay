@@ -50,6 +50,7 @@ export const FooterButton = styled.button`
   height: 50px;
   appearance: none;
   border: none;
+  background: white;
 
   &:focus {
     outline: none;

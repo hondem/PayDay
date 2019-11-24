@@ -16,7 +16,7 @@ export const Wrapper = styled.header`
   background-color: white;
   box-sizing: border-box;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+  @media (min-width: ${({ theme }) => theme.breakpoints[1]}) {
     min-height: 80px;
   }
 `;
@@ -56,7 +56,7 @@ export const HeaderButton = styled.button<{ borderLeft?: boolean }>`
   background: white;
   border: none;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+  @media (min-width: ${({ theme }) => theme.breakpoints[1]}) {
     width: 80px;
     height: 80px;
   }
@@ -88,7 +88,7 @@ export const HeaderButton = styled.button<{ borderLeft?: boolean }>`
     width: 18px;
     color: ${({ theme }) => theme.colors.grays[1]};
 
-    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints[1]}) {
       width: 22px;
     }
   }

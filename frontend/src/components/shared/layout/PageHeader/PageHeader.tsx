@@ -17,10 +17,10 @@ type Props = {
 const PageHeader: React.FunctionComponent<Props> = ({ icon, title, subtitle, children }) => {
   return (
     <S.Wrapper>
-      <Flex alignItems="center">
+      <Flex alignItems="center" mb={["s6", null, 0]}>
         <S.IconWrapper>{icon}</S.IconWrapper>
 
-        <Box ml="s8">
+        <Box ml={["s4", "s8"]}>
           <Heading mb="s2">{title}</Heading>
           <Paragraph mb="0" color="grays.2" fontWeight="bold">
             {subtitle}
