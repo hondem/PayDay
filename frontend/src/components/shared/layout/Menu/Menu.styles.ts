@@ -105,8 +105,9 @@ export const MenuLink = styled.a<{ isActive: boolean }>`
     css`
       color: ${({ theme }) => theme.colors.blues[1]};
     `}
-
+  &:focus,
   &:hover {
+    outline: none;
     color: ${({ theme }) => theme.colors.blues[1]};
   }
 `;

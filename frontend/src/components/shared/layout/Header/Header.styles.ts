@@ -40,7 +40,7 @@ export const Logo = styled.a`
 
   &:focus {
     outline: none;
-    opacity: 0.8;
+    opacity: 0.7;
   }
 `;
 
@@ -74,6 +74,7 @@ export const HeaderButton = styled.button<{ borderLeft?: boolean }>`
     outline: none;
   }
 
+  &:focus,
   &:hover {
     cursor: pointer;
 
