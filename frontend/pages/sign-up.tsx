@@ -2,9 +2,10 @@ import Head from 'next/head';
 import { NextPage, NextPageContext } from 'next';
 import { checkAuthAuthorization } from '../src/next';
 
-import { Heading, Paragraph, Link } from '../src/components/shared/typography';
+import { Heading, Paragraph } from '../src/components/shared/typography';
 
 import * as S from '../src/components/auth/auth.styles';
+import { Link } from '../src/components/shared/misc';
 
 /* <SignUp />
 ============================================================================= */
@@ -24,7 +25,7 @@ const SignUp: NextPage = () => (
         <S.Separator />
 
         <Paragraph textAlign="center">
-          Už máte vytvorený účet? <Link href="/sign-in">Prihlásenie</Link>
+          Už máte vytvorený účet? <Link href="/sign-in">Prihláste sa</Link>.
         </Paragraph>
       </S.Form>
     </S.Wrapper>
