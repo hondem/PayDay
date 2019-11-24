@@ -32,7 +32,7 @@ export const Wrapper = styled.div<Pick<AlertProps, 'type'>>`
   position: relative;
   width: 100%;
   padding: ${({ theme }) => theme.space.s4} ${({ theme }) => theme.space.s6};
-  /* border: 1px solid ${({ theme }) => theme.colors.grays[0]}; */
+  border: 1px solid ${({ theme }) => theme.colors.grays[0]};
   box-shadow: 0px 8px 30px -15px ${({ theme }) => theme.colors.grays[1]};
   background: white;
   border-radius: 4px;
