@@ -1,96 +1,78 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
+import sys
 from datetime import datetime
 import calendar
-import sqlite3 
-#import psycopg2
+import psycopg2
 import math
-
-#######################################################################################
-# funkcia runsql( psql:string ) - make conection to database an run sql statement
-#                               - resul: tuple with returned data
-# for t in [('2006-03-28', 'BUY', 'IBM', 1000, 45.00),
-#          ('2006-04-05', 'BUY', 'MSOFT', 1000, 72.00),
-#          ('2006-04-06', 'SELL', 'IBM', 500, 53.00),
-#         ]:
-#    c.execute('insert into stocks values (?,?,?,?,?)', t)
-#
-# https://docs.python.org/3.1/library/sqlite3.html
-#
-# sqlite3.connect(database[, timeout, detect_types, isolation_level, check_same_thread, factory, cached_statements])
-#
-#    Opens a connection to the SQLite database file database. You can use ":memory:" to open a database connection to a database that resides in RAM instead of on disk.
-#
-#    When a database is accessed by multiple connections, and one of the processes modifies the database, the SQLite database is locked until that transaction is committed. The timeout parameter specifies how long the connection should wait for the lock to go away until raising an exception. The default for the timeout parameter is 5.0 (five seconds).
-#
-#    For the isolation_level parameter, please see the Connection.isolation_level property of Connection objects.
-#
-#    SQLite natively supports only the types TEXT, INTEGER, FLOAT, BLOB and NULL. If you want to use other types you must add support for them yourself. The detect_types parameter and the using custom converters registered with the module-level register_converter() function allow you to easily do that.
-#
-#    detect_types defaults to 0 (i. e. off, no type detection), you can set it to any combination of PARSE_DECLTYPES and PARSE_COLNAMES to turn type detection on.
-#
-#    By default, the sqlite3 module uses its Connection class for the connect call. You can, however, subclass the Connection class and make connect() use your class instead by providing your class for the factory parameter.
-#
-#    Consult the section SQLite and Python types of this manual for details.
-#
-#    The sqlite3 module internally uses a statement cache to avoid SQL parsing overhead. If you want to explicitly set the number of statements that are cached for the connection, you can set the cached_statements parameter. The currently implemented default is to cache 100 statements.
-#
-#######################################################################################
-def runsql(psql):
-
-    conn = sqlite3.connect('./db/alfa.sqlite')    ### !!! doplnit timeout + chybove hlasenie a osetrenie chyby 
-    cur = conn.cursor()
-
-    #print(psql)
-
-    cur.execute(psql)
-    vysl = cur.fetchall()
-
-    #for row in cur:
-    #   print(row)
-    
-    conn.commit()
-    conn.close()
-
-    return(vysl)
 
 #######################################################################################
 # funkcia runpsql( psql:string ) - make conection to database an run sql statement
 #                                - resul: tuple with returned data
 #######################################################################################
-#def runpsql(psql):
-#
-#
-#    try:
-#        connection = psycopg2.connect(user = "sysadmin",
-#                                  password = "pynative@#29",
-#                                  host = "127.0.0.1",
-#                                  port = "5432",
-#                                  database = "postgres_db")
-#
-#        cursor = connection.cursor()
-#        # Print PostgreSQL Connection properties
-#        #print ( connection.get_dsn_parameters(),"\n")
-#
-#        # Print PostgreSQL version
-#        cursor.execute(psql)
-#        vysl = cursor.fetchall()
-#        #print("You are connected to - ", record,"\n")
-#
-#    except(Exception, psycopg2.Error) as error :
-#        print ("Error while connecting to PostgreSQL", error)
-#        # doplnit co urobi ak je chyba pri volani
-#    else:
-#        print('inak')
-#   
-#    finally:
-#        #closing database connection.
-#        if(connection):
-#            cursor.close()
-#            connection.close()
-#            #print("PostgreSQL connection is closed")
-#    return(vysl)
-######################################################################################
+def runpsql(psql):
+
+
+    try:
+        connection = psycopg2.connect(user = "postgres",
+                                  password = "mysuperpassord",
+                                  host = "127.0.0.1",
+                                  port = "5432",
+                                  database = "payday-db")
+
+        cursor = connection.cursor()
+        # Print PostgreSQL Connection properties
+        #print ( connection.get_dsn_parameters(),"\n")
+
+        # Print PostgreSQL version
+        cursor.execute(psql)
+        vysl = cursor.fetchall()
+        #print("You are connected to - ", vysl ,"\n")
+        connection.commit()
+        connection.close()
+        
+        return(vysl)
+    
+    except(Exception, psycopg2.Error) as error :
+        print ("Error while connecting to PostgreSQL", error)
+        # doplnit co urobi ak je chyba pri volani
+    #else:
+    #    print('Ina chyba!')
+   
+    finally:
+        #closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            #print("PostgreSQL connection is closed")
+    #j=input('Pre pokracovanie stlac Enter...')        
+
+def runpsql1( psql):    
+    try:
+        connection = psycopg2.connect(user="postgres",
+                                  password="mysuperpassord",
+                                  host="127.0.0.1",
+                                  port="5432",
+                                  database="payday-db")
+        cursor = connection.cursor()
+
+        cursor.execute( psql )
+
+        connection.commit()
+        count = cursor.rowcount
+        #print (count, "Record inserted successfully into mobile table")
+
+    except (Exception, psycopg2.Error) as error :
+        if(connection):
+            print("Failed to insert record into mobile table", error)
+
+    finally:
+        #closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+        
+#####################################################################################
 # funkcia mstr ( pint : integer ) - vrati retazec 8 znakov
 ######################################################################################
 
@@ -158,7 +140,7 @@ def roundown( pf , pdes ):
 
 
 ######################################################################################
-# funkcia poc_dni_vmes1 ( pdat : date ) - vrati pocet dni v mesiaci 
+# funkcia poc_dni_vmes1 ( pdat : str ) - vrati pocet dni v mesiaci 
 #                                         (pdat je tvare 'YYYY-MM-DD')
 ######################################################################################
 
@@ -198,7 +180,7 @@ def poc_dni_vmes( prok , pmes ):
             return 28
 
 ######################################################################################
-# funkcia eom( pdat : date ) - vrati datum konca mesiaca
+# funkcia eom( pdat : str ) - vrati datum konca mesiaca
 # 
 ######################################################################################
 def eom( pdat ):
@@ -209,7 +191,7 @@ def eom( pdat ):
     return ret
 
 ######################################################################################
-# funkcia bom( pdat : date ) - vrati datum zaciatku mesiaca
+# funkcia bom( pdat : str ) - vrati datum zaciatku mesiaca
 # 
 ######################################################################################
 def bom( pdat ):
@@ -220,7 +202,7 @@ def bom( pdat ):
     return ret
 
 ######################################################################################
-# funkcia day( pdat : date ) - vrati cislo dna v mesiaci
+# funkcia day( pdat : str ) - vrati cislo dna v mesiaci
 # 
 ######################################################################################
 def day( pdat ):
@@ -232,7 +214,7 @@ def day( pdat ):
 
 
 ######################################################################################
-# funkcia addyear( pdat : date, prok : integer ) - pripocita rok k datumu
+# funkcia addyear( pdat : str, prok : integer ) - pripocita rok k datumu
 # 
 ######################################################################################
 def addyear( pdat, prok ):
@@ -261,7 +243,7 @@ def addyear( pdat, prok ):
     return ret
 
 ######################################################################################
-# funkcia addmonth( pdat : date, pmes : integer ) - pripocita mesiac(e) k datumu
+# funkcia addmonth( pdat : str, pmes : integer ) - pripocita mesiac(e) k datumu
 # !!! otestovat pre obdobie 2019-10-01  adddate(pobd,0,-10,0) 
 ######################################################################################
 
@@ -308,7 +290,7 @@ def addmonth( pdat, pmes ):
 
 
 ######################################################################################
-# funkcia addday( pdat : date, pdni : integer ) - pripocita mesiac(e) k datumu
+# funkcia addday( pdat : str, pdni : integer ) - pripocita mesiac(e) k datumu
 # !!! nefunguje napr. -32 dni ak obdobie je 1/10/2019
 ######################################################################################
 
@@ -374,7 +356,7 @@ def addday( pdat, pdni ):
     return ret
 
 ######################################################################################
-# funkcia adddate( pdat : date , prok : integer , pmes : integer , pden : integer) 
+# funkcia adddate( pdat : str , prok : integer , pmes : integer , pden : integer) 
 # !!! otestovat vsetky moznosti pripadne preobit !!! 
 # obmedzenia : funguje len pre dni -31 do 31
 ######################################################################################
@@ -417,15 +399,15 @@ def adddate( pdat, prok, pmes, pden ):
     return ret
 
 ######################################################################################
-#   Funkcia je_sviatok( patum:datum ) - vrati 0 alebo 1 podla toho ci najde v mkas 
+#   Funkcia je_sviatok( pdatum : str ) - vrati 0 alebo 1 podla toho ci najde v mkas 
 ######################################################################################
 
 def je_sviatok( pdatum ):
 
-    sql = 'select count(*) from mkas where mkas_date='+'\''+str(pdatum)+'\''
-    a=runsql(sql)
+    sql = 'select count(*) from m.kalendar_sviatky where datum='+'\''+pdatum+'\''
+    a = runpsql(sql)
     #print(sql)
-    return(a[0][0])
+    return( a[0][0] )
 
 ##############################################################################
 ### Funkcia get_fpd( pdat:datum, pkal:integer) 
@@ -449,32 +431,27 @@ def je_sviatok( pdatum ):
 ##############################################################################
 
 def get_fpd( pdat, pkal ):
-    sql = 'select mkah.*, sum(mkar_pdni) as pdni, sum(mkar_phod) as phod, sum(mkar_sdni) as sdni, sum(mkar_shod) as shod from mkah, mkar where mkah_kal=mkar_kal and mkar_kal='+str(pkal)+' and mkar_datum like '+'\''+pdat[:8]+'%\''
+    sql = 'select m.kalendar_typ.id, m.kalendar_typ.nazov,m.kalendar_typ.typ,m.kalendar_typ.mesiac_hod,m.kalendar_typ.tyzden_hod,m.kalendar_typ.den_hod,m.kalendar_typ.pomer_hod,m.kalendar_typ.dni_v_tyzdni,m.kalendar_typ.dni_v_mes,m.kalendar_typ.pozn, sum(pracovne_dni) as pdni, sum(pracovne_hod) as phod, sum(sviatky_dni) as sdni, sum(sviatky_hod) as shod \
+    from m.kalendar_typ, m.kalendar \
+    where m.kalendar_typ.id = m.kalendar.typ and m.kalendar.typ='+str(pkal)+'and m.kalendar.datum >= '+'\''+pdat+'\''+' and m.kalendar.datum<='+'\''+eom(pdat)+'\''+' \
+    group by m.kalendar_typ.id, m.kalendar_typ.nazov, m.kalendar_typ.typ, m.kalendar_typ.mesiac_hod, m.kalendar_typ.tyzden_hod, m.kalendar_typ.den_hod, m.kalendar_typ.pomer_hod,m.kalendar_typ.dni_v_tyzdni,m.kalendar_typ.dni_v_mes,m.kalendar_typ.pozn'
+
     #print(sql)
-    a=runsql(sql)
+    a=runpsql(sql)
     return a    
 
 #############################################################################
-#     Funkcia get_sviat ( pdat: date , pkal : integer ) !!! asi zrusit
-#                                                     !!! rovnaka ako get_fpd
-#     output: vrati pocet dni a hodin za dany kalendar a mesiac
-#############################################################################
-
-def get_sviat( pdat, pkal ):
-    sql = 'select sum(mkar_sdni), sum(mkar_shod) from mkar where mkar_kal='+str(pkal)+' and mkar_datum like '+'\''+pdat[:7]+'%\''
-    a=runsql(sql)
-    return(a[0])
-
-#############################################################################
-#     Funkcia get_dni_hod ( pdat1: date , pdat2: date ,  pkal : integer ) 
+#     Funkcia get_dni_hod ( pdat1: str , pdat2: str ,  pkal : integer ) 
 #                                       
 #     output: vrati pocet dni a hodin za dany rozsah datumov a kalendar 
 #############################################################################
 
 def get_dni_hod( pdat1, pdat2, pkal ):
-    sql = 'select sum(mkar_pdni) as pdni, sum(mkar_phod) as phod, sum(mkar_sdni), sum(mkar_shod), count(*) from mkar where mkar_kal='+str(pkal)+' and mkar_datum >= '+'\''+pdat1+'\''+' and mkar_datum <= '+'\''+pdat2+'\''
+    sql = 'select sum(pracovne_dni) as pdni, sum(pracovne_hod) as phod, sum(sviatky_dni) as sdni, sum(sviatky_hod) as shod, count(*) as pocet \
+    from m.kalendar \
+    where typ='+str(pkal)+' and datum >= '+'\''+pdat1+'\''+' and mkar_datum <= '+'\''+pdat2+'\''
     #print(sql)
-    a=runsql(sql)
+    a=runpsql(sql)
     
     return(a[0]) 
 
@@ -484,65 +461,70 @@ def get_dni_hod( pdat1, pdat2, pkal ):
 #   popis: generuje riadky kalendara za cely rok podla zadanych parametrov,
 #           pricom kontroluje ci je v ten den sviatok alebo nie
 ##############################################################################
-def generuj_kal(prok,pkal):
+def generuj_kal( prok , pkal):
     lsviatok=0
-
+        
     sqll=list()
 
-    for x in range(1,13):
-        pdni=poc_dni_vmes(prok,x)
-        for y in range(1,pdni+1):
+    for x in range(1,13):  # genreruj pre kazdu mesiac 1-12
+        
+        pdni = poc_dni_vmes( prok , x )
+        
+        for y in range( 1 , pdni+1 ):   # generuj pre kazdy den 1 - pocet dni v mesiaci
 
-            datum=datetime.strptime(str(prok)+'-'+str(x)+'-'+str(y),'%Y-%m-%d' )
-            dat=datum.date()
-            pcden=datum.weekday()+1
-            lsviatok=je_sviatok(dat)  ## pocet dni sviatkov v mes
+            datum = datetime.strptime(str(prok)+'-'+str(x)+'-'+str(y),'%Y-%m-%d' )
+            dat   = datum.date()
+            pcden = datum.weekday()+1
+            lsviatok = je_sviatok(dat.strftime('%Y-%m-%d'))  ##   Je dany den sviatok?
 
-            if pcden in (1,2,3,4,5) and lsviatok==0:
+            if pcden in (1,2,3,4,5) and lsviatok == 0:
           
-                dp=float(1.0); hp=float(8.0); ds=float(0.0); hs=float(0.0)
+                dp = float(1.0); hp = float(8.0); ds = float(0.0); hs = float(0.0)
 
-            elif pcden in (1,2,3,4,5) and lsviatok!=0:
+            elif pcden in (1,2,3,4,5) and lsviatok != 0:
 
-                ds=float(1.0);hs=float(8.0);dp=float(0.0);hp=float(0.0)
+                ds = float(1.0); hs = float(8.0); dp = float(0.0); hp = float(0.0)
 
             else:
 
-                dp=float(0.0);hp=float(0.0);ds=float(0.0);hs=float(0.0)
+                dp = float(0.0); hp = float(0.0); ds = float(0.0); hs = float(0.0)
                     
-            sqll.append('insert into mkar (mkar_kal,mkar_datum,mkar_pdni,mkar_phod,mkar_sdni,mkar_shod) values('+str(kkal)+','+'\''+str(dat)+'\''+','+str(dp)+','+str(hp)+','+str(ds)+','+str(hs)+')')
+            sqll.append('insert into m.kalendar values('+str(pkal)+','+'\''+str(dat)+'\''+','+str(dp)+','+str(hp)+','+str(ds)+','+str(hs)+')')
 
         #for i in sqll:
         #    print(i)
 
     #########    pripojenie na db a spustenie selectov
-    sql='delete from mkar where mkar_kal='+str(kkal)+' and mkar_datum LIKE'+'\''+str(krok)+'%\''
+    sql='delete from m.kalendar where typ='+str(pkal)+' and DATE_PART('+'\''+'year'+'\''+',datum) = '+ str(prok)
     #print(sql) 
-    print('Mazem starre zaznamy v kalendari:',kkal,' za rok:',krok )
-    vysl=runsql(sql)
     
-    print('Vytvaram nove zaznamy v kalendari:',kkal,' za rok:',krok )
+    print('Mazem stare zaznamy v kalendari:'+str(pkal)+' za rok: '+str( prok) )
+    #print(sql)
+    runpsql1(sql)
+    
+    print('Vytvaram nove zaznamy v kalendari:' + str(pkal) + ' za rok: ' + str( prok) )
     for i in sqll:
-        vysl=runsql(i)
+        #print(i)
+        runpsql1(i)
         
-    j=input('Pre pokracovanie stlac Enter...')
+    j = input('Pre pokracovanie stlac Enter...')
 
 ##############################################################################
 #   Funkcia zobraz_sviatky( prok : integer ) - vypise sviatky v zadanom roku
 ##############################################################################
 def zobraz_sviatky(prok):
-
+    
     print('Kalendar sviatkov:')
-    sql='select mkas_date from mkas where mkas_date like '+'\''+str(prok)+'%\''+' order by 1'
+    sql='select datum from m.kalendar_sviatky where DATE_PART('+'\''+'year'+'\''+',datum) = '+ str(prok)
     #print(sql)
-    vysl = runsql(sql)
+    vysl = runpsql(sql)
     for row in vysl:
-        print(row)
+        print(row[0].strftime("%d.%m.%Y"))    
 
     cakaj=input('Pre pokracovanie stlac 0+Enter...')
 
 #############################################################################
-#   Funkcia zobraz_param( pdat : date ) - vypise parametre platne pre akt.obdobie
+#   Funkcia zobraz_param( pdat : str ) - vypise parametre platne pre akt.obdobie
 #############################################################################
 def zobraz_param( pdat ):
     print('+-----------------------------------------------------------+')
@@ -553,7 +535,7 @@ def zobraz_param( pdat ):
     
     cakaj=input('Pre pokracovanie stlac 0+Enter')
 ##################################################################################################
-#   Funkcia get_par ( pdat : datum ) - vrati list() aktualne nastavenie param. miezd podla datumu
+#   Funkcia get_par ( pdat : str ) - vrati list() aktualne nastavenie param. miezd podla datumu
 #   
 #   Vracia list x[0][0] - por.cislo zaznamu v tabulke mpar
 #               x[0][1] - datum od ktoreho platia dane parametre
@@ -628,8 +610,8 @@ def zobraz_param( pdat ):
 ##################################################################################################
 def get_par(pdat): 
 
-    sql='select * from mpar where mpar_datum<='+'\''+str(pdat)+'\''+' order by mpar_datum desc LIMIT 1'
-    x=runsql(sql)
+    sql='select * from m.parametre where datum<='+'\''+pdat+'\''+' order by datum desc LIMIT 1'
+    x=runpsql(sql)
 
     return x
 
@@ -665,7 +647,7 @@ def zadaj_rok_kal():
             break
     print('Chces generovat kalendar:'+str(kkal)+' pre rok:'+str(krok)+'?')
     vstup = input('Zadaj A/N:')
-    if upper(vstup)=='A':
+    if (vstup =='A' or vstup == 'a'):
         generuj_kal(krok, kkal)
  
 ###########################################################################################
@@ -673,9 +655,9 @@ def zadaj_rok_kal():
 ############################################################################################
 def zobraz_kalendar(pkal):
     #########    pripojenie na db a spustenie selectov - zobrazenie vybraneho kalendara
-    sql='select * from mkah where mkah_kal='+str(pkal)
+    sql='select * from m.kalendar_typ where id='+str(pkal)
     #print(sql)
-    x=runsql(sql)
+    x=runpsql(sql)
 
     for row in x:
        print(row)
@@ -691,8 +673,8 @@ def zobraz_kalendar(pkal):
 
 def vyber_osc( posc ):
     lst_osc = list()
-    sql = 'select mos_id, mos_meno, mos_meno2, mos_dnast, mos_dukon, mos_active from mos order by 1'
-    vysl=runsql(sql)
+    sql = 'select osobne_cislo, meno, priezvisko, nastup, ukoncenie, aktivny from m.osoba order by 1'
+    vysl=runpsql(sql)
     
     print('+---------+-------------+-------------------+--------------+--------------+---------+')
     print('|Os.cislo | Meno        | Priezvisko        |Datum nastupu | Datum Ukonc. | Aktivny |')
@@ -712,81 +694,81 @@ def vyber_osc( posc ):
 
 #########################################################################################################
 #
-#   Funkcia get_mzl1 ( pid : integer, pdat : date ) - vrati list, ktory obsahuje zaznamy z mzl pre zadane
+#   Funkcia get_mzl1 ( pid : integer, pdat : str ) - vrati list, ktory obsahuje zaznamy z mzl pre zadane
 #                                                    jedno osc a pdat (aktualne obdobie) aj s mkod
 #
 #########################################################################################################
 
 def get_mzl1( pid, pdat ):
-    sql = 'select * from mzl,mkod where mzl_kod=mkod_kod and mzl_id=' + str( pid )+' and mzl_d1<='+'\''+eom(pdat)+'\''+' and mzl_d2>='+'\''+pdat+'\''+' order by mzl_kod'
+    sql = 'select * from m.zlozky,m.kody where m.zlozky.kod = m.kody.id and os_id=' + str( pid )+' and datum_od<='+'\''+eom(pdat)+'\''+' and datum_do>='+'\''+pdat+'\''+' order by kod'
     #(mzl_d1>='2019-01-31' and mzl_d2>='2019-01-01')
     #print(sql)
-    vysl = runsql( sql )
+    vysl = runpsql( sql )
     return vysl
 
 #########################################################################################################
 #
-#   Funkcia get_mud ( pid : integer, pdat : date ) -vrati list, ktory obsahuje zaznam z mud pre zadany
+#   Funkcia get_mud ( pid : integer, pdat : str ) -vrati list, ktory obsahuje zaznam z mud pre zadany
 #                                                    posc a pdat (aktualne obdobie)
 #
 #########################################################################################################
 
 def get_mud( pid, pdat ):
-    sql = 'select * from mud where mud_id=' + str( pid )+' and mud_plati<='+'\''+pdat+'\''+' LIMIT 1'
+    sql = 'select * from m.udaje where id=' + str( pid )+' and platnost_od<='+'\''+pdat+'\''+' LIMIT 1'
     #print(sql)
-    vysl = runsql( sql )
+    vysl = runpsql( sql )
     return vysl
 
 #########################################################################################################
 #
 #   Funkcia get_osc ( pid  : integer ) - vrati list, ktory obsahuje 6 udajov z mos pre zadane posc 
-#
+#                                        pid - m.osoba.id
 #
 #########################################################################################################
 
 def get_osc( pid ):
-    sql = 'select mos_osc, mos_meno, mos_meno2, mos_dnast, mos_dukon, mos_active from mos where mos_id='+str(pid)
-    vysl=runsql(sql)
+    sql = 'select osobne_cislo, meno, priezvisko, nastup, ukoncenie, aktivny from m.osoba where id='+str(pid)
+    vysl=runpsql(sql)
     return vysl
 
 #########################################################################################################
 #
-#   Funkcia get_mos ( pid  : integer ) - vrati list, ktory obsahuje zaznam z mos pre zadane posc 
+#   Funkcia get_mos ( pid  : integer ) - vrati list, ktory obsahuje cely zaznam z mos pre zadane posc 
 #
 #
 #########################################################################################################
 
 def get_mos( pid  ):
-    sql = 'select * from mos where mos_id='+str(pid)
-    vysl=runsql(sql)
+    sql = 'select * from m.osoba where id='+str(pid)
+    vysl=runpsql(sql)
     return vysl
 
 #########################################################################################################
 #
-#   Funkcia get_oscall ( pdat : date ) - vrati list zaznamov z tabulky mosc zotriedeny podla osc
+#   Funkcia get_oscall ( pdat : str ) - vrati list zaznamov z tabulky mosc zotriedeny podla osc
 #
 #
 #########################################################################################################
 
 def get_oscall():
-    sql = 'select mos_id , mos_meno, mos_meno2, mos_dnast, mos_dukon, mos_active from mos order by 2'
-    vysl=runsql(sql)
+    sql = 'select id , meno, priezvisko, nastup, ukoncenie, aktivny, osobne_cislo from m.osoba order by osobne_cislo'
+    vysl=runpsql(sql)
     return vysl
 
 #########################################################################################################
 #
-#   Funkcia get_oscaktiv ( pdat : date ) - vrati list zaznamov z mosc, ktore su aktivne
+#   Funkcia get_oscaktiv ( pdat : str ) - vrati list zaznamov z mosc, ktore su aktivne
 #
 #   pozn. prehodnotit podmienku selectu, ci by nebolo vhodne tam nechat len aktivne a netestovat datumy!!
 #########################################################################################################
 
 def get_oscaktiv( pdat ):
-    sql = 'select mos_id , mos_meno, mos_meno2, mos_dnast, mos_dukon from mos where mos_active=1 and mos_dnast>='+str(pdat)+' and mos_dukon>='+str(pdat)+' order by 2'
-    vysl=runsql(sql)
+    sql = 'select id , meno, priezvisko, nastup, ukoncenie, osobne_cislo from m.osoba where aktivny='+'\''+'t'+'\''+' and nastup>='+str(pdat)+' and ukoncenie>='+str(pdat)+' order by 2'
+    vysl=runpsql(sql)
     return vysl
 
 ########################################################################################################
-#  Funkcia zapis_mvy ( pid : integer , pdat : date , v : list )  -  1.par OSC
+#  Funkcia zapis_mvy ( pid : integer , pdat : str , v : list )  -  1.par OSC
 #                                                                   2.par Obdobie
 #                                                                   3.par list of 250 values
 #  Output: 0 - chyba, 1 - zapis do tabulky ok
@@ -797,11 +779,15 @@ def zapis_mvy( pid, pdat, vektor):
     vysl = 0
     
     # test na existenciu zaznamu
-    sql='select count(*) from mvy where mvy_id='+str(pid)+' and mvy_datum='+'\''+pdat+'\''
-    #print(sql)
-    vysl = runsql(sql)
+    
+    sql='select count(*) from m.vypocet where id='+str(pid)+' and obdobie='+'\''+pdat+'\''
+    #print('sql='+sql)
+    
+    vysl = runpsql(sql)
     existuje = vysl[0][0]
     
+    #print('existuje?'+str(existuje))
+        
     for i in range(250):
         svektor=svektor+str(vektor[i])+';'
     if len(svektor)>2000:
@@ -809,21 +795,21 @@ def zapis_mvy( pid, pdat, vektor):
         vysl=-1
     else:
         if existuje:
-            #print(svektor)
-            sql='update mvy set mvy_vekt = '+'\''+svektor+'\''+' where mvy_id='+str(pid)+' and mvy_datum='+'\''+pdat+'\''
-            #print(sql)
-            vysl=runsql(sql)
+    #        print(svektor)
+            sql='update m.vypocet set vektor = '+'\''+svektor+'\''+' where id='+str(pid)+' and obdobie='+'\''+pdat+'\''
+    #        print(sql)
+            vysl=runpsql1(sql)
         else:
-            #print("Neexistuje zaznam v tabulke vypoctu, vytvaram novy")
-            sql = 'insert into mvy (mvy_id,mvy_datum,mvy_vekt,mvy_prd, mvy_prn) VALUES ('+str(pid)+ \
+    #        print("Neexistuje zaznam v tabulke vypoctu, vytvaram novy")
+            sql = 'insert into m.vypocet (id,obdobie,vektor,dovolenkovy_priemer, nemocensky_priemer) VALUES ('+str(pid)+ \
             ','+'\''+pdat+'\''+','+'\''+svektor+'\''+','+'0.0,0.0'+')'
-            #print(sql)
-            vysl=runsql(sql)
-            
+    #        print(sql)
+            vysl=runpsql1(sql)
+    #a=input('Pokracuj 0+Enter')        
     return vysl
 
 ########################################################################################################
-#  Funkcia get_mvy ( pid : integer , pdat : date  )  -  1.par OSC
+#  Funkcia get_mvy ( pid : integer , pdat : str  )  -  1.par OSC
 #                                                        2.par Obdobie
 #  Output: list of mvy_vekt ( list of floats )
 ########################################################################################################
@@ -832,9 +818,9 @@ def get_mvy( pid, pdat):
 
         l=[];s='';vysls='';poz=0
         
-        sql='select mvy_vekt from mvy where mvy_id='+str(pid)+' and mvy_datum='+'\''+pdat+'\''
+        sql='select vektor from m.vypocet where id='+str(pid)+' and obdobie = '+'\''+pdat+'\''
         #print(sql)
-        vysls=''.join(runsql(sql)[0])  #konverzia tuple[0] na retazec
+        vysls=''.join(runpsql(sql)[0])  #konverzia tuple[0] na retazec
         #vysls=''.join(vysl[0])
         vysll=vysls.split(';')         # rozdelenie retazca na list retazcov podla oddelovaca ';'
         vysll1=[float(i) for i in vysll[:-1]]  # konverzia na list float(ov)
@@ -851,8 +837,8 @@ def get_msk_suma( pzost, priad, vekt):
 
         suma = 0.0
 
-        sql='select * from mmsk where mmsk_skupzob='+str(pzost)+' and mmsk_pozicia='+str(priad)
-        mmsk = runsql( sql )
+        sql='select * from m.masky where skupina_zobrazenia='+str(pzost)+' and pozicia='+str(priad)
+        mmsk = runpsql( sql )
         
         for i in range(5,155):
         
@@ -870,7 +856,7 @@ def get_msk_suma( pzost, priad, vekt):
         return round(suma,2)
 
 ###################################################################################################
-# Funkcia get_priemd( pid : integer, pdat : date ) - funkcia vracia dov.priemer, ak neexistuje 
+# Funkcia get_priemd( pid : integer, pdat : str ) - funkcia vracia dov.priemer, ak neexistuje 
 #                                                    spocita pravdepodobny, alebo novy ak je 
 #                                                    1,4,7,9 mesiac 
 # output: float
@@ -879,16 +865,16 @@ def get_priemd( pid, pdat ):
     ## !! podla datumu nastupu resp. odpracovanych dni spocitat pravdepodobny priemer alebo
     ## ak je mesiac 1,4,7,9 tak spocitaj novy priemer
     try:    
-        sql = 'select mvy_prd from mvy where mvy_id='+str(pid)+' and mvy_datum='+'\''+pdat+'\''
+        sql = 'select dovolenkovy_priemer from m.vypocet where id='+str(pid)+' and obdobie='+'\''+pdat+'\''
         #print(sql)
-        vyslf = runsql(sql)[0][0]
+        vyslf = runpsql(sql)[0][0]
         return vyslf
     except:
         return 0.0
 
 
 ###################################################################################################
-# Funkcia get_priemn( pid : integer, pdat : date ) - funkcia vracia dov.priemer, ak neexistuje 
+# Funkcia get_priemn( pid : integer, pdat : str ) - funkcia vracia dov.priemer, ak neexistuje 
 #                                                    spocita pravdepodobny, alebo novy ak je 
 #                                                    1,4,7,9 mesiac 
 # output: float
@@ -896,15 +882,15 @@ def get_priemd( pid, pdat ):
 def get_priemn( pid, pdat ):
 
     try:
-        sql = 'select mvy_prn from mvy where mvy_id='+str(pid)+' and mvy_datum='+'\''+pdat+'\''
-        #vysls=''.join(runsql(sql)[0])  #konverzia tuple[0] na retazec
-        vyslf = runsql(sql)[0][0]
+        sql = 'select nemocensky_priemer from m.vypocet where id='+str(pid)+' and obdobie='+'\''+pdat+'\''
+        #vysls=''.join(runpsql(sql)[0])  #konverzia tuple[0] na retazec
+        vyslf = runpsql(sql)[0][0]
         return vyslf
     except:
         return 0.0
 
 #######################################################################################################
-# Funkcia tlac_rekapitulaciu( pdat , psub )
+# Funkcia tlac_rekapitulaciu( pdat :str , psub : str )
 # 
 # 
 #######################################################################################################
@@ -930,7 +916,7 @@ def tlac_rekapitulaciu( pdat , psub ):
     return 0
 
 #######################################################################################################
-# Funkcia tlac_prikaz( pdat , psub )
+# Funkcia tlac_prikaz( pdat : str , psub : str )
 # 
 # 
 #######################################################################################################
@@ -955,7 +941,7 @@ def tlac_prikaz( pdat , psub ):
     return 0
     
 #######################################################################################################
-# Funkcia tlac_mzdu( pid , pdat, psub )
+# Funkcia tlac_mzdu( pid : int, pdat : str , psub : str )
 # 
 # 
 #######################################################################################################
@@ -1024,9 +1010,10 @@ def tlac_mzdu( pid , pdat , psub ):
     for i in range(115):
         p.append(m10+m3)
         
-    p[1] =('Hruba mzda'+m15)[:13]; p[2]  = rtrim(m15+str(s_hm)+m2,13)
-    p[3] =('-  poistne'+m15)[:13]; p[4]  = rtrim(m15+str(round((mvy[151]+mvy[152]+mvy[153]+mvy[154]+mvy[155]),2))+m2,13)
-    
+    p[1] =('Hruba mzda'+m15)[:13]; 
+    p[2]  = rtrim(m15+str(s_hm)+m2,13)
+    p[3] =('-  poistne'+m15)[:13]; 
+    p[4]  = rtrim(m15+str(round((mvy[151]+mvy[152]+mvy[153]+mvy[154]+mvy[155]),2))+m2,13)
     
     p[5]=('-      dan'+m15)[:13] 
     p[6]=rtrim(m15+str(round(mvy[190]+mvy[191]+mvy[192]+mvy[193],2))+m2,13)
@@ -1148,8 +1135,7 @@ def vytlac_vektor( pid, pdat ):
     #    l_str.append('v[' + str( i*10 ) + ']: ' + str( v[i*10] ))
 
     for i in range(25):    
-        print('v[%3d]: %8.2f  v[%3d]: %8.2f  v[%3d]: %8.2f  v[%3d]: %8.2f  v[%3d]: %8.2f  v[%3d]: %8.2f \
-               v[%3d]: %8.2f  v[%3d]: %8.2f  v[%3d]: %8.2f  v[%3d]: %8.2f' % \
+        print('v[%3d]: %8.2f v[%3d]: %8.2f v[%3d]: %8.2f v[%3d]: %8.2f v[%3d]: %8.2f v[%3d]: %8.2f v[%3d]: %8.2f v[%3d]: %8.2f v[%3d]: %8.2f v[%3d]: %8.2f' % \
                (i*10, v[i*10], i*10+1, v[i*10+1], i*10+2, v[i*10+2], i*10+3, v[i*10+3], i*10+4, v[i*10+4],\
                 i*10+5, v[i*10+5], i*10+6, v[i*10+6], i*10+7, v[i*10+7], i*10+8, v[i*10+8], i*10+9, v[i*10+9]))
         
@@ -1201,7 +1187,7 @@ def pom_tlac(t0,t1,t2,t3,t4):
 
 
 #########################################################################################################
-#   Funkcia vypocet ( pid  : integer, pdat : date )
+#   Funkcia vypocet ( pid  : integer, pdat : str )
 #
 #   input:  1.par pid  - osobne cislo
 #           2.par pdat - aktualne obdobie pre vypocet
@@ -1229,38 +1215,43 @@ def pom_tlac(t0,t1,t2,t3,t4):
 #     9. zapis do mvy
 #
 #########################################################################################################
-    ### napocet z mzl   
-    ###                 poz row[0] - osc
-    ###                 poz row[1] - kod 
-    ###                 poz row[2] - kodext
-    ###                 poz row[3] - datum_od
-    ###                 poz row[4] - datum_do
-    ###                 poz row[5] - dni
-    ###                 poz row[6] - hod
-    ###                 poz row[7] - sadzba
-    ###                 poz row[8] - hodnota 
-    ###                 poz row[9] - pozn
-    ###                 poz skup : row[13]      1 - zakladne, 2 - nahrady , 3 - ... 9-zrazky
-    ###                 poz f1,2,3,4 zc         : 14,15,16,17
-    ###                 poz f1,2,3,4,5,6,7,8 zl :    18,19,20,21,22,23,24,25
-    ###                 poz hak:                : 26          # A - € celkom, B – sadzba * hod odprac., C – hodiny * suma_na_hod , D - datum od - do 
-    ###                 poz znizuje hod sviatok : 27 
-    ###                 poz alg1 koef           : 37  
-    ###                 poz alg2 vyp.korun      : 38
-    ###                 poz alg3 percMN         : 39
-    ###                 poz alg4 perc.tarif     : 40
-    ###                 poz alg5 perc.rezer     : 41   - preplatenie hodin sadzbou v centoch 
-    ###                 poz alg6 perc.+/-       : 42
-    ###                 poz alg7 perc.pls       : 43          100%+N%\N%
-    ###                 poz hod                 : row[52] 
-    ###                 poz sk                  : row[53] 
-    ###                 poz dni                 : row[54]  
-    ###                 poz poc                 : row[55]
-    ###                 poz prg nemoc           : 56
-    ###                 poz % pre nemoc1        : 57
-    ###                 poz poc.dni pre nem.1   : 58
-    ###                 poz % pre nemoc2        : 59
-    ###                 poz poc.dni pre nem.    : 60    
+    ### napocet z mzl1   
+    ###                 row[0]  - id
+    ###                 row[1]  -   id_osc
+    ###                 row[2]  -   kod 
+    ###                 row[3]  - kodext
+    ###                 row[4]  - datum_od
+    ###                 row[5]  - datum_do
+    ###                 row[6]  - dni
+    ###                 row[7]  - hod
+    ###                 row[8]  - sadzba
+    ###                 row[9]  - hodnota 
+    ###                 row[10]  - pozn
+    ###                 skup :  row[13]      1 - zakladne, 2 - nahrady , 3 - ... 9-zrazky
+    ###                 f1,2,3,4 zc         : 15,16,17,18
+    ###                 f1,2,3,4,5,6,7,8 zl : 19,20,21,22,23,24,25,26
+    ###                 hak:                : 27          # A - € celkom, B – sadzba * hod odprac., C – hodiny * suma_na_hod , D - datum od - do 
+    ###                 znizuje hod sviatok : 28 
+    ###                 alg1 koef           : 29  
+    ###                 alg3 percMN         : 30
+    ###                 alg4 perc.tarif     : 31
+    ###                 alg5 perc.rezer     :    - preplatenie hodin sadzbou v centoch 
+    ###                 alg6 perc.+/-       : 32
+    ###                 alg7 perc.pls       : 33  
+    ###                 stop na hodnota     : 34  (kody.hodnota T/F)
+    ###                 stop na hodiny      : 35  (kody.hodnota T/F)
+    ###                 stop na percento    : 36  (kody.hodnota T/F)
+    ###                 poz hod                 : row[42] 
+    ###                 poz sk                  : row[43] 
+    ###                 poz dni                 : row[44]  
+    ###                 poz poc                 : row[45]
+    ###                 poz prg nemoc           : 46
+    ###                 poz % pre nemoc1        : 47
+    ###                 poz poc.dni pre nem.1   : 48
+    ###                 poz % pre nemoc2        : 49
+    ###                 poz poc.dni pre nem.2   : 50
+    ###                 skupina zrazok          : 51  
+        
 
 def vypocet( pid, pdat ):
     rokp = int(pdat[:4])
@@ -1313,32 +1304,34 @@ def vypocet( pid, pdat ):
     # nacitanie dat z mpar, mos, mud, mzl a kalendara mkalh,mkalr pre pid (osobne cislo)
     mpar = get_par( pdat )              # popis navratovej hodnoty je vo funkcii
     mos  = get_mos( pid  )              # osc[0][1] os.cis., [6]-activ(0,1), [44]-d.nastupu, [45]-d.ukon.
-    mud  = get_mud( pid  , pdat )       # 6 - kal | 7 - uvazok | 8 - preplatenie sviatku P - priemer , T - tarif | 11,12,13 - zniz.prac.sch. | 18 - druh dochodku|19,20 - pocet deti | 21 - dan.banus| 22 - nezd.cast.dane | 24,25,26,27 poist.zam | 28,29,30,31 poi.pod
-    mzl  = get_mzl1( pid , pdat )       # vrati mzl(9 poli)+mkod(62 poli)
-    fpd  = get_fpd( pdat , mud[0][6] )  # vrati hodnoty z kalendara pre mesacne casove udaje pre fond pracovnej doby (fpd)
+    mud  = get_mud( pid  , pdat )       # 5 - kal | 6 - uvazok | 7 - preplatenie sviatku P - priemer , T - tarif | 9,10,11 - zniz.prac.sch. | 16 - druh dochodku|17,18 - pocet deti | 20 - dan.banus| 21 - nezd.cast.dane | 22 - zdr.poistovna | 23,24,25,26 poist.zam | 27,28,29,30 poi.pod | 31-odbory |
+    mzl1 = get_mzl1( pid , pdat )       # vrati mzl(11 poli)+mkod(53 poli)
+    fpd  = get_fpd( pdat , mud[0][5] )  # vrati hodnoty z kalendara pre mesacne casove udaje pre fond pracovnej doby (fpd)
+ 
+    #pom_tlac(mpar, fpd, mos, mud, mzl1)  # pomocna tlac pre kontrolu dat:wq:
+
     
-    mos_id  = mos[0][0]
-    mos_osc = mos[0][1]
-    mos_datum_nastup = mos[0][44]
-    mos_datum_ukonc = mos[0][45]
+    mos_id  = mos[0][0]   # typ integer
+    mos_osc = mos[0][1]   # typ integer
+    aktivny = mos[0][6]   # typ boolean
+    mos_datum_nastup = mos[0][41].strftime('%Y/%m/%d')   # typ string
+    mos_datum_ukonc = mos[0][42].strftime('%Y/%m/%d')    # typ string
     
-    v_pracuje = ( mos[0][6]=='1' and not( ( eom(pdat) < mos[0][44] ) or  ( pdat > mos[0][45] ) ))  # test ci pracuje podla datumov nastupu a ukoncenia a ci je oznaceny v mos_active==1 
+    v_pracuje = ( aktivny and not( ( eom(pdat) < mos_datum_nastup ) or  ( pdat > mos_datum_ukonc ) ))  # test ci pracuje podla datumov nastupu a ukoncenia a ci je oznaceny v mos_active==1 
 
     if v_pracuje:
         v_priemer_dovolenka = get_priemd( pid, pdat )  # nacitaj aktualne platny priemer, ak neexistuje vypocitaj
         v_priemer_nemoc     = get_priemn( pid, pdat )  # nacitaj platny priemer pre nemoc, ak neexistuje vypocitaj
     else:
-        print("Pracuje:",v_pracuje)
-        print("mos[0][6]:",mos[0][6])
-        print("datum zaciatku PPV - mos[0][44]:",mos[0][44])
-        print("datum ukoncen. PPV - mos[0][45]:",mos[0][45])
-        print("test pracuje:", mos[0][6]=='1' and not( ( eom(pdat) < mos[0][44] ) or  ( pdat > mos[0][45] ))) 
+        #print("Pracuje:",v_pracuje)
+        #print("Aktivny mos[0][6]:",mos[0][6])
+        #print("datum zaciatku PPV - mos[0][41]:",mos[0][41])
+        #print("datum ukoncen. PPV - mos[0][42]:",mos[0][42])
+        #print("test pracuje:", mos[0][6] and not( ( eom(pdat) < mos_datum_nastupu ) or  ( pdat > mos_datum_ukonc ))) 
         return(0)
        
-    p_deti_od6 = mud[0][19]             # pocet deti z mud viac ako 6 rokov 
-    p_deti_do6 = mud[0][20]             # pocet deti z mud menej ako 6 rokov 
-    
-    pom_tlac(mpar, fpd, mos, mud, mzl)  # pomocna tlac pre kontrolu dat:wq:
+    p_deti_od6 = mud[0][17]             # pocet deti z mud viac ako 6 rokov 
+    p_deti_do6 = mud[0][18]             # pocet deti z mud menej ako 6 rokov 
     
     fpd_kal = fpd[0][0]             # cislo kalendara  
     fpd_ka1popis  = fpd[0][1]       # popis kalendara
@@ -1347,53 +1340,70 @@ def vypocet( pid, pdat ):
     fpd_pphodd = fpd[0][5]          # priem. pocet hodin za den z kalendara     
     fpd_pomerphodd = fpd[0][6]      # pomerny pocet hodin z kalendara za den (podla uvazku z kalendara)
     fpd_ppdw = fpd[0][7]            # pocet dni pracovnych v tyzdni z kalendara
-    fpd_dnip = fpd[0][11]           # pocet dni pracovnych z kalendara (nie odpracovanych) je to fpd z kalendara
-    fpd_hodp = fpd[0][12]           # pocet hod pracovnych z kalendara
-    fpd_dnis = fpd[0][13]            # pocet dni sviatkov z kalendara
-    fpd_hods = fpd[0][14]            # pocet hodin sviatkov z kalendara
+    fpd_dnip = fpd[0][10]           # pocet dni pracovnych z kalendara (nie odpracovanych) je to fpd z kalendara
+    fpd_hodp = fpd[0][11]           # pocet hod pracovnych z kalendara
+    fpd_dnis = fpd[0][12]            # pocet dni sviatkov z kalendara
+    fpd_hods = fpd[0][13]            # pocet hodin sviatkov z kalendara
     fpd_hod  = fpd_hodp + fpd_hods   # fpd hod za mesiac aj so sviatkami
     fpd_dni  = fpd_dnip + fpd_dnis   # fpd dni za mesiac aj so sviatkami        
     dni_mes  = calendar.monthrange(rokp,mesp)[1] # celkovy pocet dni v mesiaci
 
 ### zisti tarif
     i=0
-    for row in mzl:
-        mzl_osc = row[0]     ; mzl_kod = row[1]     ; mzl_kodext = row[2]  ; mzl_datumod = row[3]; mzl_datumdo = row[4]
-        mzl_dni = row[5]     ; mzl_hod = row[6]     ; mzl_sadzba = row[7]  ; mzl_hodnota = row[8]; mkod_typ_hak = row[26]
-        mkod_zniz_hod_sviatku = row[27]             ; mkod_poz   = row[28] ; 
-        mkod_pozhod = row[52]; mkod_pozkor = row[53]; mkod_pozdni = row[54]; mkod_pozpoc = row[55]; mkod_pozdninek = row[66]
+    
+    for rd in mzl1:
+        #print('***************'+str(rd[2]))
+        mzl_idosc             = rd[1] 
+        mzl_kod               = rd[2]+0 
+        mzl_kodext            = rd[3]
+        mzl_datumod           = rd[4]
+        mzl_datumdo           = rd[5]
+        mzl_dni               = rd[6]+0
+        mzl_hod               = rd[7]+0 
+        mzl_sadzba            = rd[8]+0
+        mzl_hodnota           = rd[9]+0.0
+        mkod_typ_hak          = rd[27]
+        mkod_zniz_hod_sviatku = rd[28]
+        mkod_alg_koef         = rd[29] ; 
+        mkod_pozhod           = rd[40]
+        mkod_pozkor           = rd[41]
+        mkod_pozdni           = rd[42]
+        mkod_pozpoc           = rd[43]; ##mkod_pozdninek = row[66]
         
-        if (mzl_kod in (1110,1120,1130)):
+        if ( (mzl_kod == 1100) or (mzl_kod == 1120) or (mzl_kod == 1130)):
             v_tarif_na_hod = mzl_hodnota / fpd_pphodm   # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
             s_platzakl = s_platzakl + mzl_hodnota
             v_pozicia_tarif_hodiny  = mkod_pozhod
             v_pozicia_tarif_hodnota = mkod_pozkor
-            v_pozicia_tarif_dni     = mkod_pozdni                       
-        elif (mzl_kod in (1200,1210)): 
+            v_pozicia_tarif_dni     = mkod_pozdni  
+            #print('kod:'+str(mzl_kod)+' mzl_hodnota:'+str(rd[9])+' fpd_pphodm:'+str(fpd_pphodm)+' tarif/hod:'+str(v_tarif_na_hod))
+            #print('Zakladny plat:'+str(s_platzakl))                     
+        elif ((mzl_kod == 1200) or (mzl_kod == 1210) ): 
             v_tarif_na_hod = mzl_hodnota            # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
             s_platzakl = s_platzakl +  mzl_hodnota * fpd_hod   # !!!?? vypocet zakladneho platu z hodinovej sadzby
             v_pozicia_tarif_hodiny  = mkod_pozhod
             v_pozicia_tarif_hodnota = mkod_pozkor
             v_pozicia_tarif_dni     = mkod_pozdni       
         else:    
-            print('Nema tarif!')
+            print('Nema zadany tarif!')
     
 # napocet kodov START  ########################################
 
     i=0   # pocitadlo zaznamov v cykle
 
-    for row in mzl:   
-        mzl_osc     = row[0] ; mzl_kod      = row[1];  mzl_kodext  =  row[2]; mzl_datumod = row[3];  mzl_datumdo  = row[4]
-        mzl_dni     = row[5] ; mzl_hod      = row[6];  mzl_sadzba  = row[7] ; mzl_hodnota = row[8];  mkod_typ_hak = row[26]; mkod_zniz_hod_sviatku = row[27]
-        mkod_alg1   = row[37]; mkod_alg2    = row[38]; mkod_alg3   = row[39]; mkod_alg4   = row[40]; mkod_alg5    = row[40]; mkod_alg6 = row[40]; mkod_alg7 = row[40]  
-        mkod_pozhod = row[52]; mkod_pozkor  = row[53]; mkod_pozdni = row[54]; mkod_pozpoc = row[55]; mkod_pozdninek = row[66]
-        #row[26]: A - € celkom, B – sadzba * hod odprac., C – hodiny (bud priemerom alebo tarifom /*%) D - vyluky 
+    for row in mzl1:   
+        mzl_idosc   = row[1] ; mzl_kod     =  row[2]; mzl_kodext  = row[3];  mzl_datumod  = row[4];  mzl_datumdo   = row[5]
+        mzl_dni     = row[6] ; mzl_hod      = row[7];  mzl_sadzba  = row[8] ; mzl_hodnota = row[9];  mkod_typ_hak = row[27]; mkod_zniz_hod_sviatku = row[28]
+        mkod_alg1   = row[29]; mkod_alg2    = row[30]; mkod_alg3   = row[31]; mkod_alg4   = row[32]; mkod_alg5    = row[33]; mkod_alg6 = row[34]; mkod_alg7 = row[35]  
+        mkod_pozhod = row[40]; mkod_pozkor  = row[41]; mkod_pozdni = row[42]; mkod_pozpoc = row[43] ##; mkod_pozdninek = row[66]
+        
+        #row[27]: (kody.druh_vypoctu) A - € celkom, B – sadzba * hod odprac., C – hodiny (bud priemerom alebo tarifom /*%) D - vyluky datum od - do 
        
-        print('Riadok:',i)
-        print('osc a kod:',row[0],row[1])
-        print('row[12]',row[12],type(row[12]))
-        print("v_tarif_na_hod:", v_tarif_na_hod)
-        print("Priem.pocet hod/mes z kal.:",fpd_pphodm)
+        #print('Riadok:',i)
+        #print('osc a kod:',row[0],row[2])
+        #print('row[13]',row[13],type(row[13]))
+        #print("v_tarif_na_hod:", v_tarif_na_hod)
+        #print("Priem.pocet hod/mes z kal.:",fpd_pphodm)
         #print('mzl.kod-A:',row[1]);print('mzl.d1-d2:',row[2]+'-',row[3]);print('mzl.dni:',row[4]);print('mzl.dni:',row[4]);
         #print('mzl.dni:',row[4]);print('mzl.dni:',row[4]);print('mkod.hak:',row[25]);print('mkod.poz:',row[27]);
         #print('mkod.pozhod:',row[51]);print('mkod.pozsk:',row[52]);print('mkod.pozdni:',row[53]);print('mkod.pozpoc:',row[54])
@@ -1442,9 +1452,10 @@ def vypocet( pid, pdat ):
             v_sviatdni =  kod_dniahod[2]                          # dni celkom pre kod
             v_sviathod =  kod_dniahod[3]                          # dni celkom pre kod
             
-            print("Kod a dni a hod:",mzl_kod+' Dni_p:'+str(v_kod_dniprac)+' Hod_p:'+str(v_kod_hodprac)+' Dni_s:'+str(v_kod_dnisviat)+' Hod_s:'+str(v_kod_hodsviat))
+            #print("Kod a dni a hod:",mzl_kod+' Dni_p:'+str(v_kod_dniprac)+' Hod_p:'+str(v_kod_hodprac)+' Dni_s:'+str(v_kod_dnisviat)+' Hod_s:'+str(v_kod_hodsviat))
             
             v_dni = 0.0           #IF (EY>=FM/2 AND EV>=DJ AND EY<>0,DL+DN-1,DL+DN)  
+            
             if (pdat > mzl_datumod):
                 v_hod = 0 
             else: 
@@ -1462,8 +1473,8 @@ def vypocet( pid, pdat ):
                 v[mkod_pozkor] = v[mkod_pozkor] + mzl_hodnota   # prepocet sumy podla zadaneho algoritmu
             if( mkod_pozdni > 0 ): 
                 v[mzl_pozdni]  = v[mzl_pozdni] + mzl_dni  #23 (v[],v[] + IF (Do > EOM (pdat),EOM (pdat),Do) - IF (Od < pdat,pdat,Od)+1,4),Vys dni zapisat*4+1,4)                              
-            if( mkod_pozdninek > 0 ): 
-                v[mzl_poz_dninek]=v[mzl_poz_dninek] + v_dni  #24 REP (Virtualne pole,MSTR (MVAL (MID (Virtualne pole,Vysledok dni ne*4+1,4)) + v dni,4),Vysledok dni ne * 4 + 1,4)   
+            ##if( mkod_pozdninek > 0 ): 
+            ##    v[mzl_poz_dninek]=v[mzl_poz_dninek] + v_dni  #24 REP (Virtualne pole,MSTR (MVAL (MID (Virtualne pole,Vysledok dni ne*4+1,4)) + v dni,4),Vysledok dni ne * 4 + 1,4)   
             # skontrolovat v_dni ci sa napocitava !!!   
             if ((mzl_kod == 500) and ( mzl_datumod < eom(pdat) ) and (mzl_datumdo > eom(pdat)) and (eom(mos_datum_ukonc) > pdat)):                   
                 v_pomdatum = mzl_datumod
@@ -1481,20 +1492,21 @@ def vypocet( pid, pdat ):
     
     ## Zapis do vektora dni odpracovane ##  
     #!!! zmenit na get_msk_suma() - napocet odpracovanych dni a hodin a neodpracovanych dni a hod
-    v[10]=fpd_dni; 
-    v[11]=fpd_dni - d_neodp; 
-    v[13] = fpd_dnis;  # zapis do pomocneho vektora vypoctu v
+    v[10] = fpd_dni;             # fond prac.doby dni
+    v[11] = fpd_dnip - d_neodp;   # odpracovae dni
+    v[13] = fpd_dnis;          # zapis do pomocneho vektora vypoctu v dni sviatku
     ## Zapis do vektora hod odpracovane##
-    v[50]=fpd_hod; 
-    v[51]=fpd_hod - h_neodp; 
-    v[53] = fpd_hods;  # zapis do pomocneho vektora vypoctu v
+    v[50] = fpd_hod;             # fond prac.doby hod
+    v[51] = fpd_hodp - h_neodp;   # odpracovane hodiny
+    v[53] = fpd_hods;          # zapis do pomocneho vektora vypoctu v hod.sviatky
     ## Zapis do vektora sumy odpracovane ##
-    v[100] = s_platzakl                                                           # tarifny plat 
-    v[101] = round(  s_platzakl / fpd_hod * ( fpd_hod - h_neodp ), 2) # odpracovane suma
+    v[100] = s_platzakl        # tarifny plat 
+    v[101] = round(  s_platzakl / fpd_hod * ( fpd_hodp - h_neodp ), 2) # odpracovane suma
+    
     if ( mud[0][8] == 'T' ):
-        v[123] = round(( s_platzakl / fpd_hod * fpd_hods ) ,2 )              # sviatok suma platom
+        v[123] = round(( s_platzakl / fpd_hod * fpd_hods ) ,2 )              # preplatenie sviatku suma platom
     else:
-        v[123] = round(( v_priemer_dovolenka * fpd_hods    ) ,2 )
+        v[123] = round(( v_priemer_dovolenka * fpd_hods    ) ,2 )            # preplatenie sviatku priemerom
 
 # END mzl END ##############################################################################################
 
@@ -1508,8 +1520,8 @@ def vypocet( pid, pdat ):
     VZ_SP = get_msk_suma( 100 , 3 , v ) 
     VZ_UP = VZ_SP               # neohraniceny VZ pre urazove poistenie
     
-    if ( VZ_SP > mpar[0][40] ): # kontrola hranice VZ 
-        VZ_SP = mpar[0][40]
+    if ( VZ_SP > mpar[0][40] ): # kontrola hranice VZ SP
+        VZ_SP = mpar[0][40]     # a je vacsi, tak maximalne ten co je v parametroch
 
     VZ_NP  = VZ_SP; VZ_DPs = VZ_SP; VZ_DPi = VZ_SP; VZ_PvN = VZ_SP; VZ_GP  = VZ_SP; VZ_RF  = VZ_SP 
     
@@ -1522,46 +1534,46 @@ def vypocet( pid, pdat ):
     # DPi - poistenec, ktory je dochodkovo poisteny po priznani starobneho dochodku alebo predcasneho starobneho dochodku alebo ak je poberatelom vysluhoveho dochodku podla osobitneho predpisu a dovrsil dochodkovy vek neplati DPi
     # DPi - zamestnavatel za zamestnanca, ktory je dochodkovo poisteny po priznani starobneho dochodku alebo predcasneho starobneho dochodku alebo ak je poberatelom vysluhoveho dochodku a dovrsil dochodkovy vek neplati DPi.
     
-    if (mud[0][24] == 'A'):
+    if (mud[0][23] ):  #
         ZPzam  = roundown( (VZ_ZP  * mpar[0][14] / 100 ) , 2 )
     else:
         ZPzam = 0.0
         
-    if (mud[0][25] == 'A'):
+    if (mud[0][24] ):
         NPzam  = roundown( (VZ_NP  * mpar[0][15] / 100 ) , 2 )
     else:
         NPzam = 0.0        
 
-    if (mud[0][26] == 'A'):
+    if (mud[0][25] ):
         DPszam = roundown( (VZ_DPs * mpar[0][16] / 100 ) , 2 )
         DPizam = roundown( (VZ_DPi * mpar[0][17] / 100 ) , 2 )
     else:
         DPszam = 0.0
         DPizam = 0.0
     
-    if (mud[0][27] == 'A'):
+    if (mud[0][26] ):
         PvNzam = roundown( (VZ_PvN * mpar[0][18] / 100 ) , 2 )
     else:
         PvNzam = 0.0
     
-    if (mud[0][28] == 'A'):
+    if (mud[0][27] ):
         ZPpod  = roundown( (VZ_ZP  * mpar[0][19] / 100 ) , 2 )
     else:
         ZPpod = 0.0
     
-    if (mud[0][29] == 'A'):
+    if (mud[0][28] ):
         NPpod  = roundown( (VZ_NP  * mpar[0][20] / 100 ) , 2 )
     else:
         NPpod = 0.0
     
-    if (mud[0][30] == 'A'):
+    if (mud[0][29] ):
         DPspod = roundown( (VZ_DPs * mpar[0][21] / 100 ) , 2 )
         DPipod = roundown( (VZ_DPi * mpar[0][22] / 100 ) , 2 )
     else:
         DPspod = 0.0
         DPipod = 0.0
         
-    if (mud[0][31] == 'A'):
+    if (mud[0][30] ):
         PvNpod = roundown( (VZ_PvN * mpar[0][23] / 100 ) , 2 )
     else:
         PvNpod = 0.0
@@ -1570,7 +1582,7 @@ def vypocet( pid, pdat ):
     GPpod  = roundown( (VZ_GP * mpar[0][24] / 100 ) , 2 )   ## !!! zaokruhlenie nadol?
     RFpod  = roundown( (VZ_RF * mpar[0][25] / 100 ) , 2 )
     UPpod  = roundown( (VZ_UP * mpar[0][26] / 100 ) , 2 )
-    
+    #print('VS_ZP='+str(VZ_SP))
     # zapis odvodov do vektora v
     v[151] = v[151] + ZPzam
     v[152] = v[152] + NPzam
@@ -1594,25 +1606,32 @@ def vypocet( pid, pdat ):
     # Dan mes.  190  Dan roc.  191  Oprava z min.r. 192  Rozd. z r.zuc. 193  Dan.bonus 194
     # !!! doplnit napocitanie odpoctov s_zivpoist, s_dds, s_auto, a_odpocetost
     # dan sa zaokruhluje na najblizsi eurocent nadol
+    
+    #print('mud[0][20]:',mud[0][20])
+    #print('p_detido6:'+str(p_deti_do6)); print(type(p_deti_do6))
+    #print('p_detiod6:'+str(p_deti_od6)); print(type(p_deti_od6))
+    #print('danovy bonus mpar[0][53]:'+str(mpar[0][53])); print(type(mpar[0][53]))
+    if ( mud[0][20] ):    # ak ma nastavene ze si uplatnuje danovy bonus v mzdovych udajoch
+        if (p_deti_do6>0):      # ak ma pocet deti do 6 rokov 
+            s_danbonus = s_danbonus + mpar[0][53] * p_deti_od6 * 2   # mpar[0][43] -danovy bonus mesacny
+        if (p_deti_od6>0):      
+            s_danbonus = s_danbonus + mpar[0][53] * p_deti_od6       #!!! od 1.4.2019 deti do 6 r. dvojnas. bonus | rocny dan.bonus z mpar / 12 * pocet deti z mud
         
-    if (p_deti_do6>0):
-        s_danbonus = s_danbonus + mpar[0][53] * p_deti_od6 / 12 
-    if (p_deti_od6>0):  
-        s_danbonus = s_danbonus + mpar[0][54] * p_deti_od6 / 12  #!!! od 1.4.2019 deti do 6 r. dvojnas. bonus | rocny dan.bonus z mpar / 12 * pocet deti z mud
-        
-    if ( mud[0][22] == 'A'):                            # ak si uplatnuje nezd.cast zakl.dane mesacnu
-        s_nezdcastzdane = mpar[0][51]                   ###!!!!! overit ?????????
+    if ( mud[0][21] ):                            # ak si uplatnuje nezd.cast zakl.dane mesacnu
+        s_nezdcastzdane = mpar[0][51]                   # nezd.cast mesacna
     else: 
         s_nezdcastzdane = 0.0
     
     s_ciast_zaklad_dane1 = get_msk_suma( 100 , 9 , v )  # napocet podla mmsk
     s_ciast_zaklad_dane = round(s_ciast_zaklad_dane1 - s_nezdcastzdane - s_zivpoist - s_dds + s_auto + s_odpocetost,2)
-
-    if (s_ciast_zaklad_dane<0.0):
-        s_ciast_zaklad_dane=0.0
+    #print('dan.bonus='+str(s_danbonus))
+    #print('NCZD='+str(s_nezdcastzdane))
+    #print('CZD='+str(s_ciast_zaklad_dane1))
+    if ( s_ciast_zaklad_dane < 0.0 ):
+        s_ciast_zaklad_dane = 0.0
         
     ## rozdelenie na 19% dan a 25% dan - ak je nczd > ako 176.8 nasobok ziv.minima / 12
-    hranica = round( mpar[0][69] * mpar[0][41] / 12 , 2 )
+    hranica = round( mpar[0][70] * mpar[0][50] / 12 , 2 )   # mpar[0][69] - nasobok , mpar[0][50] - rocna nezd.cast zakl.dane
     
     if ( s_ciast_zaklad_dane > hranica ):
     
@@ -1624,7 +1643,7 @@ def vypocet( pid, pdat ):
         s_czd2 = 0.0
          
     s_dan_mes = roundown(( s_czd1  * mpar[0][44] / 100  + s_czd2  *  mpar[0][45] / 100 ) , 2)
-    print('s_ciast_zaklad_dane:',s_ciast_zaklad_dane)  
+    #print('s_ciast_zaklad_dane:',s_ciast_zaklad_dane)  
 
     if (s_dan_mes < 0 ):
         s_dan_mes = 0.0 
@@ -1657,9 +1676,9 @@ def vypocet( pid, pdat ):
     if ( l_vyplata == 'P' ):
         v[212] = s_vyplata  # postou
 # zrazky END   #########################################################################################
-
+    #print('Pred zapisom do vypoctu...')
     zapis_mvy( pid, pdat, v) # uloz vypocitane udaje do databazy
-    
+    #print('Po zapise do vypoctu')
     return 1
 
 
