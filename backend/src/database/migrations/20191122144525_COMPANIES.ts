@@ -7,11 +7,10 @@ export async function up(knex: Knex): Promise<any> {
     table.increments('id').primary()
     table.string('name')
   })
-  
-  // Create foreign key in users
-  .alterTable('users', (table) => {
-    table.integer('company').defaultTo(null)
-    table.foreign('company').references('companies.id')
+
+  .alterTable('m.osoba', table => {
+    table.integer('spolecnost').defaultTo(null)
+    table.foreign('spolecnost').references('companies.id')
   })
 }
 

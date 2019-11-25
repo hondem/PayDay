@@ -16,6 +16,7 @@ const errorMiddleware = async(ctx: Context, next) => {
     ctx.status = err.code
     ctx.body = {
       type: err.type,
+      subType: err.subType,
       message: err.message
     }
 
@@ -24,6 +25,7 @@ const errorMiddleware = async(ctx: Context, next) => {
     logger.error({
       code: err.code,
       type: err.type,
+      subType: err.subType,
       message: err.message,
       stack: err.stack
     })
@@ -36,6 +38,7 @@ const notFound = async(ctx: Context, next) => {
   ctx.status = err.code
   ctx.body = {
     type: err.type,
+    subType: err.subType,
     message: err.message
   }
 
@@ -44,6 +47,7 @@ const notFound = async(ctx: Context, next) => {
   logger.error({
     code: err.code,
     type: err.type,
+    subType: err.subType,
     message: err.message,
     stack: err.stack
   })

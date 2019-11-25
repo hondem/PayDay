@@ -10,18 +10,21 @@ const TOKEN_PAYLOAD_ERROR = "TOKEN_PAYLOAD_ERROR"
 const TOKEN_INSUFFICIENT_PERMISSIONS = "TOKEN_INSUFFICIENT_PERMISSIONS"
 const VALIDATION_ERROR = "VALIDATION_ERROR"
 const PAGE_NOT_FOUND = "PAGE_NOT_FOUND"
+const COMPANY_NOT_FOUND = "COMPANY_NOT_FOUND"
 
 /**
  * Base class for App errors
  */
 class AppError extends Error{
   type: string = null
+  subType: string = null
   code: number = null
 
   constructor(message: string, type: string, subType: string, code: number){
     super()
     this.message = message
     this.type = type
+    this.subType = subType
     this.code = code
   }
 }
@@ -87,5 +90,6 @@ export = {
   TOKEN_PAYLOAD_ERROR,
   TOKEN_INSUFFICIENT_PERMISSIONS,
   VALIDATION_ERROR,
-  PAGE_NOT_FOUND
+  PAGE_NOT_FOUND,
+  COMPANY_NOT_FOUND
 }
