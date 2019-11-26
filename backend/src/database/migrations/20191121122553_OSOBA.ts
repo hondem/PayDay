@@ -4,13 +4,16 @@ import * as Knex from "knex";
 export async function up(knex: Knex): Promise<any> {
     return knex.schema.withSchema('m')
     .createTable('osoba', (table => {
-      table.increments('id').primary()
+      table.increments('id')
+        .primary(),
       table.string("osobne_cislo", 10).notNullable(),
       table.string("meno", 255).notNullable(),
       table.string("stredne_meno", 255),
       table.string("priezvisko", 255).notNullable(),
       table.string("externe_osobne_cislo", 20),
-      table.boolean("aktivny").notNullable().comment('udaj oznacuje ci je mozne s danym zaznamom pracovat alebo nie. Nie - nevyberie sa pre spracovanie miezd'),
+      table.boolean("aktivny")
+        .notNullable()
+        .comment('udaj oznacuje ci je mozne s danym zaznamom pracovat alebo nie. Nie - nevyberie sa pre spracovanie miezd'),
       table.string("funkcia", 50),
       table.string("pozicia", 50),
       table.string("oddelenie", 20),
@@ -45,8 +48,12 @@ export async function up(knex: Knex): Promise<any> {
       table.string("okres_prechodne", 100),
       table.string("kraj_prechodne", 100),
       table.string("krajina_prechodne", 100),
-      table.date("nastup").notNullable().comment('datum zaciatku pracovneho pomeru'),
-      table.date("ukocenie").notNullable().comment('datum ukoncenia pracovneho pomeru'),
+      table.date("nastup")
+        .notNullable()
+        .comment('datum zaciatku pracovneho pomeru'),
+      table.date("ukoncenie")
+        .notNullable()
+        .comment('datum ukoncenia pracovneho pomeru'),
       table.string("pozn", 255)
     }))
 }
