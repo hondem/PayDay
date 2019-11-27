@@ -5,11 +5,19 @@ import * as S from './Menu.styles';
 import { X, Users } from 'react-feather';
 import { Heading } from '../../typography';
 import { Box } from '..';
-import { withRouter } from 'next/router';
+import { withRouter, Router } from 'next/router';
 import { WithRouterProps } from 'next/dist/client/with-router';
 
+/* Props - <MenuLink />
+============================================================================= */
+type MenuLinkProps = {
+  router: Router;
+} & LinkProps;
+
+/* <MenuLink />
+============================================================================= */
 const MenuLink = withRouter(
-  ({ router, children, ...props }: PropsWithChildren<LinkProps & WithRouterProps>) => {
+  ({ router, children, ...props }: PropsWithChildren<MenuLinkProps>) => {
     const isActive = router.pathname === props.href;
 
     return (
