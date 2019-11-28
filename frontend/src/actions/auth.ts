@@ -1,25 +1,6 @@
 import { User } from '../types/auth';
 import { AlertMessage } from '../types/common';
 
-export type signInAction = {
-  type: '[AUTH] SIGN_IN',
-  payload: {
-    email: string;
-    password: string;
-  }
-}
-
-export type signInSuccessAction = {
-  type: '[AUTH] SIGN_IN_SUCCESS',
-  payload: {
-    user: User;
-  }
-}
-
-export type signInFailureAction = {
-  type: '[AUTH] SIGN_IN_FAILURE',
-}
-
 export type saveUserAction = {
   type: '[AUTH] SAVE_USER';
   payload: {
@@ -34,6 +15,6 @@ export type setAlertMessageAction = {
   }
 }
 
-type AuthAction = signInAction | signInSuccessAction | signInFailureAction | saveUserAction | setAlertMessageAction;
+type AuthAction = saveUserAction | setAlertMessageAction;
 
 export default AuthAction;

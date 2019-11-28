@@ -7,8 +7,12 @@ import { Input, Label, ErrorMessage } from '../../shared/forms';
 import { Button, Alert, Link } from '../../shared/misc';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
-import { signInAction, setAlertMessageAction } from '../../../actions/auth';
-import { selectAlertMessage, selectIsInProgress } from '../../../selectors/auth';
+import { setAlertMessageAction, saveUserAction } from '../../../actions/auth';
+import { selectAlertMessage } from '../../../selectors/auth';
+import { signIn } from '../../../api/client/auth';
+import { setAuthToken } from '../../../api/client';
+import Router from 'next/router';
+import { ErrorReponse } from '../../../types/common';
 
 /* Form data
 ============================================================================= */
@@ -26,8 +30,13 @@ const INITIAL_VALUES: FormValues = {
 ============================================================================= */
 const SignInForm: React.FunctionComponent = () => {
   const alertMessage = useSelector(selectAlertMessage);
-  const isInProgress = useSelector(selectIsInProgress);
-  const dispatch = useDispatch<Dispatch<setAlertMessageAction | signInAction>>();
+  const dispatch = useDispatch<Dispatch<setAlertMessageAction | saveUserAction>>();
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: '[AUTH] SET_ALERT_MESSAGE', payload: { alertMessage: null } });
+    };
+  }, []);
 
   const getValidationSchema = (): Yup.Schema<object> =>
     Yup.object().shape({
@@ -41,7 +50,70 @@ const SignInForm: React.FunctionComponent = () => {
 
   const handleSubmit = async ({ email, password }: FormValues) => {
     dispatch({ type: '[AUTH] SET_ALERT_MESSAGE', payload: { alertMessage: null } });
-    dispatch({ type: '[AUTH] SIGN_IN', payload: { email, password } });
+
+    await signIn(email, password)
+      .then(({ data: user }) => {
+        /* Save user into Redux state */
+        dispatch({
+          type: '[AUTH] SAVE_USER',
+          payload: {
+            user,
+          },
+        });
+
+        /* Store user token into a cookie */
+        setAuthToken(user?.accessToken);
+
+        /* Redirect */
+        Router.push('/');
+      })
+      .catch(({ response: { subType } }: ErrorReponse) => {
+        switch (subType) {
+          case 'NOT_FOUND':
+            dispatch({
+              type: '[AUTH] SET_ALERT_MESSAGE',
+              payload: {
+                alertMessage: {
+                  type: 'error',
+                  message: 'Zadaný užívateľ neexistuje.',
+                },
+              },
+            });
+            break;
+          case 'USER_WRONG_PASSWORD':
+            dispatch({
+              type: '[AUTH] SET_ALERT_MESSAGE',
+              payload: {
+                alertMessage: {
+                  type: 'error',
+                  message: 'Zadali ste nesprávne heslo.',
+                },
+              },
+            });
+            break;
+          case 'USER_NOT_FOUND':
+            dispatch({
+              type: '[AUTH] SET_ALERT_MESSAGE',
+              payload: {
+                alertMessage: {
+                  type: 'error',
+                  message: 'Zadaný užívateľ neexistuje.',
+                },
+              },
+            });
+            break;
+          default:
+            dispatch({
+              type: '[AUTH] SET_ALERT_MESSAGE',
+              payload: {
+                alertMessage: {
+                  type: 'error',
+                  message: 'Prihlásenie bolo neúspešné.',
+                },
+              },
+            });
+        }
+      });
   };
 
   return (
@@ -73,8 +145,8 @@ const SignInForm: React.FunctionComponent = () => {
               </Box>
 
               <Flex flex={1} alignItems="center" justifyContent="space-between">
-                <Button type="submit" color="blue" disabled={isSubmitting || isInProgress}>
-                  {isSubmitting || isInProgress ? 'Prihlasovanie...' : 'Prihlásiť'}
+                <Button type="submit" color="blue" disabled={isSubmitting}>
+                  {isSubmitting ? 'Prihlasovanie...' : 'Prihlásiť'}
                 </Button>
                 <Link href="/forgotten-password" color="grays.2">
                   Zabudnuté heslo?

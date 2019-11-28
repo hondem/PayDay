@@ -9,8 +9,3 @@ export const selectAlertMessage = createSelector(
 	getAuthState,
 	state => state.alertMessage,
 );
-
-export const selectIsInProgress = createSelector(
-  getAuthState,
-  state => state.isInProgress,
-);

@@ -6,7 +6,6 @@ import { X, Users } from 'react-feather';
 import { Heading } from '../../typography';
 import { Box } from '..';
 import { withRouter, Router } from 'next/router';
-import { WithRouterProps } from 'next/dist/client/with-router';
 
 /* Props - <MenuLink />
 ============================================================================= */

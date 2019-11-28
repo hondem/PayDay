@@ -1,7 +1,40 @@
-import { from } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import axios from 'axios';
+
+import { getAuthToken } from './client';
+import { ErrorReponse } from '../types/common';
 
 export const COOKIE_ACCESS_TOKEN = 'accessToken';
+
+/**
+ * Creates Axios instance.
+ */
+export const API = axios.create({
+  baseURL: process.env.API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+});
+
+/* Request interceptor */
+API.interceptors.request.use(
+  config => {
+    const authToken = getAuthToken();
+
+    /* Set auth header if token is stored in cookies */
+    if (authToken) {
+      config.headers.post['Authorization'] = `Bearer ${getAuthToken}`;
+    }
+
+    return config;
+  },
+  error => Promise.reject<ErrorReponse>({ error, response: error.response?.data }),
+);
+
+/* Response interceptor */
+API.interceptors.response.use(null, error =>
+  Promise.reject<ErrorReponse>({ error, response: error.response?.data }),
+);
 
 /**
  * Handles native fetch response.
@@ -26,28 +59,5 @@ export const handleResponse = async (res: Response) => {
     } else {
       throw { response: undefined, status: res.status, headers: res.headers };
     }
-  }
-};
-
-/**
- * Handles redux-observable fetch response.
- *
- * @param res Response
- */
-export const handleObservableResponse = (res: Response) => {
-  if (res.ok) {
-    if (res.status === 200) {
-      return res.json();
-    }
-    return Promise.resolve({});
-  } else {
-    return from(res.json()).pipe(
-      catchError(() => {
-        throw { response: null, headers: res.headers };
-      }),
-      switchMap(x => {
-        throw { response: x, headers: res.headers };
-      }),
-    );
   }
 };
