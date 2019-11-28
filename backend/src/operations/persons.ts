@@ -35,10 +35,9 @@ const getByIdInCompany = async(companyId: IdOrIds, employeeId: IdOrIds) => {
  * @param person
  */
 const create = async(person) : Promise<any> => {
-  const data = EmployeesUtils.nestedObjectToPlain(person)
-  const company = await CompaniesOperations.getById(data.spolecnost)
+  const company = await CompaniesOperations.getById(person.spolecnost)
   if(!company) throw new errors.NotFound(errors.COMPANY_NOT_FOUND, "Given company doesn't exist")
-  return EmployeesUtils.plainObjectToNested(await PersonsRepository.create(data))
+  return EmployeesUtils.plainObjectToNested(await PersonsRepository.create(person))
 }
 
 /**
@@ -57,8 +56,7 @@ const update = async(person) : Promise<any> => {
   const employee = await PersonsRepository.getByIdInCompany(companyId, employeeId)
   if(!employee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Given employee was not found")
 
-  const data = EmployeesUtils.nestedObjectToPlain(person)
-  return EmployeesUtils.plainObjectToNested(await PersonsRepository.update(employeeId, data))
+  return EmployeesUtils.plainObjectToNested(await PersonsRepository.update(employeeId, person))
 }
 
 /**
