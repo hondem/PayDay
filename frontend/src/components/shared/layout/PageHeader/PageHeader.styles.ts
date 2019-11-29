@@ -35,7 +35,7 @@ export const IconWrapper = styled.div`
   }
 
   svg {
-    color: white;
+    color: ${({ theme }) => theme.colors.white};
     width: 20px;
     height: 20px;
   }

@@ -12,12 +12,12 @@ import { Link } from '../src/components/shared/misc';
 const SignUp: NextPage = () => (
   <>
     <Head>
-      <title>Payday - Registrácia</title>
+      <title>Registrácia - Payday</title>
     </Head>
 
     <S.Wrapper>
       <S.Form>
-        <Heading textAlign="center">Payday - Registrácia</Heading>
+        <Heading textAlign="center">Registrácia - Payday</Heading>
         <Paragraph textAlign="center">Pre registráciu kontaktujte administrátora:</Paragraph>
         <Paragraph fontWeight="bold" textAlign="center">
           xkorec04@stud.fit.vutbr.cz

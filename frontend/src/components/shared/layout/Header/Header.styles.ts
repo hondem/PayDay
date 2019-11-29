@@ -13,7 +13,7 @@ export const Wrapper = styled.header`
   min-height: 60px;
   padding: 0;
   box-shadow: 0px 5px 20px -12px ${({ theme }) => theme.colors.grays[1]};
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   box-sizing: border-box;
 
   @media (min-width: ${({ theme }) => theme.breakpoints[1]}) {
@@ -53,7 +53,7 @@ export const HeaderButton = styled.button<{ borderLeft?: boolean }>`
   padding: 0;
   margin: 0;
   appearance: none;
-  background: white;
+  background: ${({ theme }) => theme.colors.white};
   border: none;
 
   @media (min-width: ${({ theme }) => theme.breakpoints[1]}) {

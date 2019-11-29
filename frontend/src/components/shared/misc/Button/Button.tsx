@@ -87,7 +87,7 @@ const Button = styled.button<ButtonProps>`
   border: 1px solid;
   border-radius: 4px;
   font-size: 16px;
-  color: white;
+  color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
 
   &:hover {

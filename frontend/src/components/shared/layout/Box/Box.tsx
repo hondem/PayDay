@@ -1,18 +1,8 @@
 import styled from 'styled-components';
-import {
-  background,
-  color,
-  flexbox,
-  layout,
-  position,
-  space,
-  typography,
-  compose,
-} from 'styled-system';
+import { background, color, layout, position, space, typography, compose } from 'styled-system';
 import {
   BackgroundProps,
   ColorProps,
-  FlexboxProps,
   LayoutProps,
   PositionProps,
   SpaceProps,
@@ -21,7 +11,6 @@ import {
 
 export type BoxProps = BackgroundProps &
   ColorProps &
-  FlexboxProps &
   LayoutProps &
   PositionProps &
   SpaceProps &
@@ -34,13 +23,5 @@ export const Box = styled.div<BoxProps>(
     boxSizing: 'border-box',
     minWidth: 0,
   },
-  compose(
-    background,
-    color,
-    flexbox,
-    layout,
-    position,
-    space,
-    typography,
-  ),
+  compose(background, color, layout, position, space, typography),
 );

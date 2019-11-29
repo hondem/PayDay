@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Heading, Paragraph } from '../../shared/typography';
-import { Box, Flex } from '../../shared/layout';
+import { Heading, Paragraph } from '../../../shared/typography';
+import { Box, Flex } from '../../../shared/layout';
 
 import * as S from './EmployeeItem.styles';
 
