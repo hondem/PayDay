@@ -14,7 +14,7 @@ const getAll = () : Promise<any> => {
  * @param id 
  */
 const getById = (id: IdOrIds) : Promise<any> => {
-  return CompanyModel.query().findById(id)
+  return CompanyModel.query().findById(id).first()
 }
 
 /**

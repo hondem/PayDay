@@ -554,8 +554,12 @@ const removeEmployee : Object = {
   required: true,
   additionalProperties: false,
   properties: {
-    id: {
-      type: 'number',
+    companyId: {
+      type: 'integer',
+      required: true
+    },
+    employeeId: {
+      type: 'integer',
       required: true
     }
   }
