@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   justify-content: center;
   min-height: 100vh;
   padding: ${({ theme }) => theme.space.s10} 0;
-  background: white;
+  background: ${({ theme }) => theme.colors.white};
   box-sizing: border-box;
 
   @media (min-width: ${({ theme }) => theme.breakpoints[0]}) {

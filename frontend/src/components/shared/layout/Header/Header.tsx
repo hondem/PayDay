@@ -9,7 +9,7 @@ import Router from 'next/router';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setAlertMessageAction } from '../../../../actions/auth';
-import { Menu } from '..';
+import { Navigation } from '..';
 
 /* <Header />
 ============================================================================= */
@@ -37,10 +37,10 @@ const Header: React.FunctionComponent = () => {
     });
   };
 
-  /* Handle menu closing event */
+  /* Handle navigation closing event */
   const handleMenuClose = () => {
     setIsMenuOpen(false);
-  }
+  };
 
   return (
     <>
@@ -58,7 +58,7 @@ const Header: React.FunctionComponent = () => {
         </S.HeaderButton>
       </S.Wrapper>
 
-      <Menu isMenuOpen={isMenuOpen} onMenuClose={handleMenuClose} />
+      <Navigation isNavigationOpen={isMenuOpen} onNavigationClose={handleMenuClose} />
     </>
   );
 };

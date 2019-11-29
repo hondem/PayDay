@@ -34,7 +34,7 @@ export const Wrapper = styled.div<Pick<AlertProps, 'type'>>`
   padding: ${({ theme }) => theme.space.s4} ${({ theme }) => theme.space.s6};
   border: 1px solid ${({ theme }) => theme.colors.grays[0]};
   box-shadow: 0px 8px 30px -15px ${({ theme }) => theme.colors.grays[1]};
-  background: white;
+  background: ${({ theme }) => theme.colors.white};
   border-radius: 4px;
   box-sizing: border-box;
   overflow: hidden;
@@ -61,5 +61,5 @@ export const Icon = styled.div<Pick<AlertProps, 'type'>>`
   height: 24px;
   border-radius: 12px;
   background-color: ${getTypeColor};
-  color: white;
+  color: ${({ theme }) => theme.colors.white};
 `;

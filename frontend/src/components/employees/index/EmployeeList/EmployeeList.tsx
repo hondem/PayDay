@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { EmployeeItem } from '..';
+import { EmployeeItem } from '../..';
 
 import * as S from './EmployeeList.styles';
 

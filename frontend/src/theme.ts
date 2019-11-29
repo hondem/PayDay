@@ -6,6 +6,7 @@ export const THEME = {
     greens: ['#B4F1BF', '#45DB60'],
     grays: ['#F0F0F0', '#D0D0D0', '#ADADAD', '#333333'],
     background: '#F6F7FB',
+    white: '#FFFFFF',
   },
 
   breakpoints: ['576px', '768px', '992px', '1200px', '1600px'],

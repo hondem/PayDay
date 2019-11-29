@@ -134,13 +134,13 @@ const SignInForm: React.FunctionComponent = () => {
             <Form>
               <Box mb="s6">
                 <Label htmlFor="email">Emailová adresa</Label>
-                <Input type="email" name="email" autoFocus />
+                <Input type="email" name="email" autoComplete="email" autoFocus />
                 <ErrorMessage name="email" />
               </Box>
 
               <Box mb="s6">
                 <Label htmlFor="password">Heslo</Label>
-                <Input type="password" name="password" />
+                <Input type="password" name="password" autoComplete="current-password" />
                 <ErrorMessage name="password" />
               </Box>
 

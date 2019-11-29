@@ -94,7 +94,7 @@ export const Input = styled.input<{ hasError: boolean } & InputHTMLAttributes<HT
 //   left: 0;
 //   height: 22px;
 //   width: 22px;
-//   background: white;
+//   background: ${({ theme }) => theme.colors.white};
 //   border: 1px solid ${({ theme }) => theme.colors.grays[2]};
 
 //   ${({ hasError }) => {

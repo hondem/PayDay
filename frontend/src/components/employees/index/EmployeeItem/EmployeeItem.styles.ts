@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  background: white;
+  background: ${({ theme }) => theme.colors.white};
   border-radius: 4px;
   box-shadow: 0px 5px 25px -10px ${({ theme }) => theme.colors.grays[1]};
 `;
@@ -50,16 +50,16 @@ export const FooterButton = styled.button`
   height: 50px;
   appearance: none;
   border: none;
-  background: white;
+  background: ${({ theme }) => theme.colors.white};
 
   &:focus {
     outline: none;
-    color: white;
+    color: ${({ theme }) => theme.colors.white};
   }
 
   &:hover {
     cursor: pointer;
-    color: white;
+    color: ${({ theme }) => theme.colors.white};
   }
 
   &:first-child {

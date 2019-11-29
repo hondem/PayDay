@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 
-import { MenuProps } from './Menu';
+import { NavigationProps } from './Navigation';
 
-export const Wrapper = styled.div<Pick<MenuProps, 'isMenuOpen'>>`
+export const Wrapper = styled.div<Pick<NavigationProps, 'isNavigationOpen'>>`
   transition: transform 0.3s ease-out;
   transform: translateX(-100%);
   display: flex;
@@ -13,15 +13,15 @@ export const Wrapper = styled.div<Pick<MenuProps, 'isMenuOpen'>>`
   z-index: 2000;
   width: 100%;
   height: 100%;
-  background: white;
+  background: ${({ theme }) => theme.colors.white};
   box-shadow: 8px 0 25px -15px ${({ theme }) => theme.colors.grays[1]};
 
   @media (min-width: ${({ theme }) => theme.breakpoints[0]}) {
     width: 300px;
   }
 
-  ${({ isMenuOpen }) =>
-    isMenuOpen &&
+  ${({ isNavigationOpen }) =>
+    isNavigationOpen &&
     css`
       transform: translateX(0);
     `};
@@ -75,13 +75,13 @@ export const Content = styled.div`
   width: 100%;
 `;
 
-export const MenuList = styled.ul`
+export const NavigationList = styled.ul`
   width: 100%;
   padding: 0;
   margin: 0;
 `;
 
-export const MenuItem = styled.li`
+export const NavigationItem = styled.li`
   display: flex;
   width: 100%;
   padding: 0 ${({ theme }) => theme.space.s6};
@@ -92,7 +92,7 @@ export const MenuItem = styled.li`
   }
 `;
 
-export const MenuLink = styled.a<{ isActive: boolean }>`
+export const NavigationLink = styled.a<{ isActive: boolean }>`
   transition: color 0.2s ease-out;
   display: flex;
   align-items: center;
@@ -112,7 +112,7 @@ export const MenuLink = styled.a<{ isActive: boolean }>`
   }
 `;
 
-export const Overlay = styled.div<Pick<MenuProps, 'isMenuOpen'>>`
+export const Overlay = styled.div<Pick<NavigationProps, 'isNavigationOpen'>>`
   display: none;
   position: absolute;
   top: 0;
@@ -121,8 +121,8 @@ export const Overlay = styled.div<Pick<MenuProps, 'isMenuOpen'>>`
   height: 100%;
   z-index: 1900;
 
-  ${({ isMenuOpen }) =>
-    isMenuOpen &&
+  ${({ isNavigationOpen }) =>
+    isNavigationOpen &&
     css`
       display: block;
     `}

@@ -14,13 +14,13 @@ import { Link } from '../src/components/shared/misc';
 const SignIn: NextPage = () => (
   <>
     <Head>
-      <title>Payday - Prihlásenie</title>
+      <title>Prihlásenie - Payday</title>
     </Head>
 
     <S.Wrapper>
       <S.Form>
         <Box mb="s12">
-          <Heading textAlign="center">Payday - Prihlásenie</Heading>
+          <Heading textAlign="center">Prihlásenie - Payday</Heading>
           <Paragraph textAlign="center">Pre prihlásenie zadajte svoj email a heslo.</Paragraph>
         </Box>
 
