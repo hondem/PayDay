@@ -3,6 +3,7 @@ export type User = {
   authLevel?: 'god' | 'admin' | 'accountant' | 'personalist' | 'user',
   email?: string,
   password?: string,
+  companyId?: number,
   accessToken?: string,
 }
 
