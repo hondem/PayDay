@@ -3,36 +3,33 @@ import App from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
-import withRedux from "next-redux-wrapper";
+import withRedux from 'next-redux-wrapper';
 import { parseCookies } from 'nookies';
 import JwtDecode from 'jwt-decode';
-import to from 'await-to-js';
 import { Store } from 'redux';
 
 import { User } from '../src/types/auth';
-import { getUser } from '../src/api/server/auth';
-import { handleResponse } from '../src/api';
 import { THEME } from '../src/theme';
 import { GlobalStyles } from '../src/styles';
 import initStore from '../src/store';
 import { AppState } from '../src/reducers';
+import { getUser } from '../src/api/shared/auth';
 
 class CustomApp extends App<{ store: Store<AppState> }> {
-  static async getInitialProps({Component, ctx}) {
+  static async getInitialProps({ Component, ctx }) {
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 
     const { accessToken } = parseCookies(ctx);
 
     if (accessToken) {
-      const { user } = JwtDecode(accessToken);
-  
+      const { user } = JwtDecode<{ user: User }>(accessToken);
+
       /* Get user from API */
-      const [error, userData] = await to<User>(getUser(ctx, user.id).then(handleResponse));
-      if (user && !error) {
-        ctx.store.dispatch({ type: '[AUTH] SAVE_USER', payload: { user: userData } });
-      } else {
-        // TODO: Redirect to error page
-      }
+      await getUser(ctx, user.id).then(response => {
+        ctx.store.dispatch({ type: '[AUTH] SAVE_USER', payload: { user: response.data } });
+      }).catch(() => {
+        // TODO: Implement custom error handling
+      });
     }
 
     return { pageProps };

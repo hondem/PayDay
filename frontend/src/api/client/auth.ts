@@ -12,10 +12,3 @@ export const signIn = (email: string, password: string) =>
     email,
     password,
   });
-
-/**
- * Gets user data.
- *
- * @param id ID of user for which to get data
- */
-export const getUser = (id: number) => API.get(`/users/${id}`);
