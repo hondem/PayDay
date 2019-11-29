@@ -2,29 +2,6 @@ import Cookies from "js-cookie";
 import { COOKIE_ACCESS_TOKEN } from "..";
 
 /**
- * Gets basic header params.
- * 
- * @param headers Header params
- */
-export const getHeaders = (headers = {}) => ({
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
-  ...headers,
-});
-
-/**
- * Gets basic header params with bearer auth token.
- * 
- * @param headers Header params
- */
-export const getAuthHeaders = (headers = {}) => ({
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
-  'Authorization': `Bearer ${getAuthToken()}`,
-  ...headers,
-});
-
-/**
  * Stores auth token into a cookie.
  * 
  * @param token Auth token

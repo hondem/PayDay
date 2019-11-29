@@ -1,7 +1,11 @@
 import CompaniesOperations from '../operations/companies'
+
 import Koa from 'koa'
 import validate from '../validations'
-import schemas from '../validations/schemas/companies'
+import companiesSchemas from '../validations/schemas/companies'
+
+import _ from 'lodash'
+
 
 /**
  * Return all companies
@@ -19,7 +23,7 @@ const getById = async(ctx: Koa.Context) : Promise<any> => {
     id: parseInt(ctx.params.id)
   }
 
-  validate(data, schemas.getById)
+  validate(data, companiesSchemas.getById)
   ctx.body = await CompaniesOperations.getById(data.id)
 }
 
@@ -32,7 +36,7 @@ const create = async(ctx: Koa.Context) : Promise<any> => {
     name: ctx.request.body.name
   }
 
-  validate(data, schemas.create)
+  validate(data, companiesSchemas.create)
   ctx.body = await CompaniesOperations.create(data)
 }
 
@@ -46,7 +50,7 @@ const update = async(ctx: Koa.Context) : Promise<any> => {
     name: ctx.request.body.name
   }
 
-  validate(data, schemas.update)
+  validate(data, companiesSchemas.update)
   ctx.body = await CompaniesOperations.update(data)
 }
 
@@ -54,5 +58,5 @@ export default {
   getAll,
   getById,
   create,
-  update
+  update,
 }

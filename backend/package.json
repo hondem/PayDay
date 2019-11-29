@@ -55,7 +55,7 @@
     "@types/koa-router": "^7.0.42",
     "@types/node": "^12.7.9",
     "@types/pino": "^5.8.10",
-    "eslint": "^6.5.1",
+    "eslint": "~6.7.1",
     "nodemon": "^1.19.3",
     "ts-node-dev": "^1.0.0-pre.44"
   }
