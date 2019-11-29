@@ -17,8 +17,26 @@ const SideMenu: React.FunctionComponent = () => {
         </MenuItem>
 
         <MenuItem>
-          <ActiveLink href="/employees/[id]/other" passHref>
-            {isActive => <MenuLink isActive={isActive}>Ostatné</MenuLink>}
+          <ActiveLink href="/employees/[id]/professional" passHref>
+            {isActive => <MenuLink isActive={isActive}>Firemné informácie</MenuLink>}
+          </ActiveLink>
+        </MenuItem>
+
+        <MenuItem>
+          <ActiveLink href="/employees/[id]/contact" passHref>
+            {isActive => <MenuLink isActive={isActive}>Kontakt</MenuLink>}
+          </ActiveLink>
+        </MenuItem>
+
+        <MenuItem>
+          <ActiveLink href="/employees/[id]/permanentaddress" passHref>
+            {isActive => <MenuLink isActive={isActive}>Trvalá adresa</MenuLink>}
+          </ActiveLink>
+        </MenuItem>
+
+        <MenuItem>
+          <ActiveLink href="/employees/[id]/subsidiaryaddress" passHref>
+            {isActive => <MenuLink isActive={isActive}>Prechodná adresa</MenuLink>}
           </ActiveLink>
         </MenuItem>
       </Menu>

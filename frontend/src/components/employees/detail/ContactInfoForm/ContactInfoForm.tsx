@@ -34,9 +34,33 @@ const OtherInfoForm: React.FunctionComponent<Props> = () => {
             <Form>
               <Grid gridTemplateColumns={['1fr', null, null, '1fr 1fr']} gridGap="s6" mb="s6">
                 <div>
-                  <Label htmlFor="meno">Meno</Label>
-                  <Input name="meno" autoComplete="given-name" />
-                  <ErrorMessage name="meno" />
+                  <Label htmlFor="telefon_pracovny">Pracovný telefón</Label>
+                  <Input name="telefon_pracovny" />
+                  <ErrorMessage name="telefon_pracovny" />
+                </div>
+
+                <div>
+                  <Label htmlFor="telefon_sukromny">Súkromný telefón</Label>
+                  <Input name="telefon_sukromny" />
+                  <ErrorMessage name="telefon_sukromny" />
+                </div>
+
+                <div>
+                  <Label htmlFor="telefon_iny">Iný telefón</Label>
+                  <Input name="telefon_iny" />
+                  <ErrorMessage name="telefon_iny" />
+                </div>
+
+                <div>
+                  <Label htmlFor="email">Email</Label>
+                  <Input name="email" />
+                  <ErrorMessage name="email" />
+                </div>
+
+                <div>
+                  <Label htmlFor="skype">Skype</Label>
+                  <Input name="skype" />
+                  <ErrorMessage name="skype" />
                 </div>
               </Grid>
 

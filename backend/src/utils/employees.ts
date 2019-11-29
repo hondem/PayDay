@@ -18,7 +18,7 @@ const plainObjectToNested = (plain) => {
       statna_prislusnost: (plain && plain.statna_prislusnost) ? plain.statna_prislusnost : undefined,
       miesto_narodenia: (plain && plain.miesto_narodenia) ? plain.miesto_narodenia : undefined,
       stav: (plain && plain.stav) ? plain.stav : undefined,
-      obcianky: (plain && plain.obcianky) ? plain.obcianky : undefined,
+      obciansky: (plain && plain.obciansky) ? plain.obciansky : undefined,
       pas: (plain && plain.pas) ? plain.pas : undefined
     },
     firemni:{
@@ -81,7 +81,7 @@ const nestedObjectToPlain = (nested) => {
     statna_prislusnost: (nested && nested.osobni && nested.osobni.statna_prislusnost) ? nested.osobni.statna_prislusnost : undefined,
     miesto_narodenia: (nested && nested.osobni && nested.osobni.miesto_narodenia) ? nested.osobni.miesto_narodenia : undefined,
     stav: (nested && nested.osobni && nested.osobni.stav) ? nested.osobni.stav : undefined,
-    obcianky: (nested && nested.osobni && nested.osobni.obcianky) ? nested.osobni.obcianky : undefined,
+    obciansky: (nested && nested.osobni && nested.osobni.obciansky) ? nested.osobni.obciansky : undefined,
     pas: (nested && nested.osobni && nested.osobni.pas) ? nested.osobni.pas : undefined,
 
     osobne_cislo: (nested && nested.firemni && nested.firemni.osobne_cislo) ? nested.firemni.osobne_cislo : undefined,

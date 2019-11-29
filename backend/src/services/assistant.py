@@ -46,3 +46,13 @@ def roundown( pf , pdes ):
     ret = math.floor( pf * nasob ) / nasob
     
     return ret
+
+######################################################################################
+# funkcia day( pdat : str ) - vrati cislo dna v mesiaci
+######################################################################################
+def day( pdat ):
+    rok = pdat[:4]
+    mes = pdat[5:7]
+    den = pdat[8:10]
+    
+    return den

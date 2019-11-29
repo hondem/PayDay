@@ -10,24 +10,31 @@ export async function up(knex: Knex): Promise<any> {
         .references('id')
         .inTable('m.osoba')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE'),
+        .onDelete('CASCADE')
+        .comment('id osoby z tabulky osoba'),
       table.integer('kod')
         .notNullable()
         .references('id')
         .inTable('m.kody')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE'),
-      table.string("kod_ext", 10).notNullable,
-      table.date("datum_od").notNullable,
-      table.date("datum_do").notNullable,
-      table.float("dni").notNullable,
-      table.float("hod").notNullable,
-      table.float("sadzba").notNullable,
-      table.float("suma").notNullable,
-      table.string("pozn", 30)
+        .onDelete('CASCADE')
+        .comment('id kod mzdovej zlozky z tabulky kody'),
+      table.string("kod_ext", 10)
+        .comment('externy kod mzdovej zlozky z tabulky kody, iba pokial chce zakaznik pouzit svoje cislo pre kod'),
+      table.date("datum_od")
+        .notNullable()
+        .comment('datum platnosti od'),
+      table.date("datum_do")
+        .notNullable()
+        .comment('datum platnosti do'),
+      table.float("dni").notNullable(),
+      table.float("hod").notNullable(),
+      table.float("sadzba").notNullable(),
+      table.float("suma").notNullable(),
+      table.string("pozn", 30),
+      table.comment('Mzdove odchylky, v tabulke su zaznamenane datumove, hodinove a hodnotove udaje potrebne pre vypocet mzdy pomocou kodov.')
     }))
 }
-
 
 export async function down(knex: Knex): Promise<any> {
   return knex.raw(`DROP TABLE m.zlozky CASCADE;`);
