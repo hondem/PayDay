@@ -72,10 +72,28 @@ const remove = async(id: IdOrIds) : Promise<any> => {
   return PersonsRepository.remove(id)
 }
 
+/**
+ * Calculate salary
+ * @param data 
+ */
+const calculate = async(data) : Promise<any> => {
+  const companyId = data.companyId
+  const employeeId = data.employeeId
+
+  const company = await CompaniesOperations.getById(companyId)
+  if(!company) throw new errors.NotFound(errors.COMPANY_NOT_FOUND, "Given compaany doesn't exist")
+
+  const employee = await PersonsRepository.getByIdInCompany(companyId, employeeId)
+  if(!employee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Given employee was not found")
+
+  return "Heyaaaa do piči"
+}
+
 export = {
   create,
   update,
   getByCompany,
   getByIdInCompany,
-  remove
+  remove,
+  calculate
 }

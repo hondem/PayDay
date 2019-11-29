@@ -210,110 +210,90 @@ const update: Object = {
 
     druh: {
       type: "string",
-
       maxLength: 1
     },
 
     trieda: {
       type: "string",
-
       maxLength: 2
     },
 
     pracovna_doba_typ: {
       type: "string",
-
       maxLength: 3
     },
 
     kalendar_typ: {
-      type: "integer",
-      required: true
+      type: "integer"
     },
 
     uvazok: {
-      type: "number",
-      requird: true
+      type: "number"
     },
 
     vypocet_sviatkov: {
       type: "string",
-
       maxLength: 1
     },
 
     pracovny_pomer_nad_5dni: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     pracovna_schopnost_znizena1: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     pracovna_schopnost_znizena2: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     pracovna_schopnost_znizena3: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     pracovna_kategoria: {
       type: "string",
-
       maxLength: 1
     },
 
     staticticky_udaj: {
       type: "string",
-
       maxLength: 1
     },
 
     specialna_kategoria: {
       type: "string",
-
       maxLength: 1
     },
 
     dochodca: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     dochodok_typ: {
       type: "string",
-
       maxLength: 1
     },
 
     pocet_deti: {
-      type: "integer",
-      required: true
+      type: "integer"
     },
 
     pocet_deti_do_6: {
-      type: "integer",
-      required: true
+      type: "integer"
     },
 
     danovy_odpocet_manzelka: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     danovy_bonus: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     nezdanitelne_min: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     zdravotna_poistovna: {
@@ -321,48 +301,39 @@ const update: Object = {
     },
 
     zc_zp: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     zc_sp_dp: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     zc_sp_np: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     zc_sp_pvn: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     zl_zp: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     zl_sp_dp: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     zl_sp_np: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     zl_sp_pvn: {
-      type: "boolean",
-      required: true
+      type: "boolean"
     },
 
     odbory: {
       type: "string",
-
       maxLength: 1
     }
   }

@@ -52,9 +52,24 @@ const create = async(ctx: Koa.Context) => {
   ctx.body = await Operations.create(data)
 }
 
+/**
+ * Update wage record in datatbase
+ * @param ctx 
+ */
+const update = async(ctx: Koa.Context) => {
+  const data = _.clone(ctx.request.body)
+  data.companyId = parseInt(ctx.params.companyId)
+  data.employeeId = parseInt(ctx.params.employeeId)
+  data.date = ctx.params.date
+
+  validate(data, schemas.update)
+  ctx.body = await Operations.update(data)
+}
+
 export = {
   getByEmployee,
   getByEmployeeAndDate,
-  create
+  create,
+  update
 }
 
