@@ -17,13 +17,13 @@ const INITIAL_VALUES: FormValues = {
   priezvisko: '',
 };
 
-/* Props - <PersonalInfoForm />
+/* Props - <OtherInfoForm />
 ============================================================================= */
 type Props = {};
 
-/* <PersonalInfoForm />
+/* <OtherInfoForm />
 ============================================================================= */
-const PersonalInfoForm: React.FunctionComponent<Props> = () => {
+const OtherInfoForm: React.FunctionComponent<Props> = () => {
   const [initialValues, setInitialValues] = useState<FormValues>(INITIAL_VALUES);
 
   return (
@@ -38,18 +38,6 @@ const PersonalInfoForm: React.FunctionComponent<Props> = () => {
                   <Input name="meno" autoComplete="given-name" />
                   <ErrorMessage name="meno" />
                 </div>
-
-                <div>
-                  <Label htmlFor="priezvisko">Priezvisko</Label>
-                  <Input name="priezvisko" autoComplete="family-name" />
-                  <ErrorMessage name="priezvisko" />
-                </div>
-
-                <div>
-                  <Label htmlFor="stredne_meno">Stretné meno</Label>
-                  <Input name="stredne_meno" autoComplete="additional-name" />
-                  <ErrorMessage name="stredne_meno" />
-                </div>
               </Grid>
 
               <Button type="submit" color="blue" disabled={isSubmitting}>
@@ -63,8 +51,8 @@ const PersonalInfoForm: React.FunctionComponent<Props> = () => {
   );
 };
 
-/* Default props - <PersonalInfoForm />
+/* Default props - <OtherInfoForm />
 ============================================================================= */
-PersonalInfoForm.defaultProps = {};
+OtherInfoForm.defaultProps = {};
 
-export default PersonalInfoForm;
+export default OtherInfoForm;

@@ -10,7 +10,7 @@ import { saveUserAction } from '../../../src/actions/auth';
 import { AppState } from '../../../src/reducers';
 import { Button, ActiveLink } from '../../../src/components/shared/misc';
 import { Menu, MenuItem, MenuLink } from '../../../src/components/shared/layout/Panel/modules/Menu';
-import { PersonalInfoForm, SideMenu } from '../../../src/components/employees';
+import { PersonalInfoForm, SideMenu, OtherInfoForm } from '../../../src/components/employees';
 
 /* Props - <EmployeeDetail />
 ============================================================================= */
@@ -37,7 +37,7 @@ const EmployeeDetail: NextPage<Props> = () => (
         <SideMenu />
 
         <Panel title="Osobné informácie">
-          <PersonalInfoForm />
+          <OtherInfoForm />
         </Panel>
       </Grid>
     </Content>
