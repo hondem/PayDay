@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0067)https://www.fit.vutbr.cz/study/courses/IIS/private/projekt/doc.html -->
+<html class="gr__fit_vutbr_cz"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
+    
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+<style>@media print {#ghostery-purple-box {display:none !important}}</style></head>
+<body data-gr-c-s-loaded="true">
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu 
+     podle použitého editoru -->
+
+<h1>Mzdy a Personalistika (Payday)</h1> <!-- Nahradte názvem svého zadání -->
+
+<dl>
+	<dt>Autoři</dt>
+	<dd>Jan Demel <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xdemel01@stud.fit.vutbr.cz">xdemel01@stud.fit.vutbr.cz</a> -
+		Návrh a implementácia api
+	</dd>
+	<dd>Jozef Hruška <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xhrusk25@stud.fit.vutbr.cz">xhrusk25@stud.fit.vutbr.cz</a> - 
+		Návrh a implementácia frontendu
+	</dd>
+  <dd>Tomáš Korec <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xkorec04@stud.fit.vutbr.cz">xkorec04@stud.fit.vutbr.cz</a> - 
+		Návrh a implementácia databázy, výpočtu mzdy
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
+	<dd>(pokud má aplikace více vstupních stránek, napište obdobně další URL)</dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<table>
+<tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin@test.com</td><td>admin</td><td>Administrátor</td></tr>
+<tr><td>accountant@test.com</td><td>accountant</td><td>Mzdová účetní</td></tr>
+<tr><td>personalist@test.com</td><td>personalist</td><td>Personalistka</td></tr>
+</tbody></table>
+
+<p>Use case diagram</p> 
+<dd><a href="https://drive.google.com/open?id=1bmls4FOSS0gETWFHXglth2OC1VUCc-KD">https://drive.google.com/open?id=1bmls4FOSS0gETWFHXglth2OC1VUCc-KD</a></dd>
+<h2>Implementace</h2>
+<p><b>Frontend</b></p>
+<p><b>API</b></p>
+<p><b>Vypocet mzdy</b><br>
+Directory: /backend/src/services/*<br>
+Jazyk: Python<br>
+vystupy:<br>
+		- vypocitane udaje sa zapisu do tabulky mesacneho vypoctu m.vypocet<br>
+		 ktora obsahuje odobne cislo, obdobie a 2000 znakove pole, do ktoreho sa zapisuju vypocitane udaje v zakodovanom tvare <br>
+		 na poziciu definovanu v takulke m.vektor.<br>
+	<br>
+vstupy:<br>
+	- aktualne obdobie (za ktore sa pocitaju mzdy)<br>
+	- id zamestnanca<br>
+	- data v tabulke m.udaje a m.osoba<br>
+				- kalendar (kazdy pracovnik ma svoj kalendar definovany v mzdovych udajoch) <br>
+				- datum nastupu (z kmenovych udajov pracovnika)<br>
+				- datum ukoncenia pracovneho pomeru (z kmenovych udajov pracovnika)<br>
+				- mzdove udaje (vyfiltrovane aktualne platne podla aktualneho obdobia v torom sa pocitaju mzdy)<br>
+				- zmenove kody vyfiltrovane pre aktualne obdobie za ktore sa pocitaju mzdy<br>
+</p>
+
+<h3>Databáze</h3>
+<p>ER diagram</p> 
+<dd><a href="https://dbdiagram.io/d/5dd43412edf08a25543e1edc">https://dbdiagram.io/d/5dd43412edf08a25543e1edc</a></dd>
+
+<h2>Instalace</h2>
+
+Stručně popište: 
+<ul>
+<li>postup instalace na ubuntu server</li>
+<li>softwarové požadavky,</li>
+Python v2.7.13
+Docker v19.03.5
+node v10.16.3
+npm v6.9.0
+
+Moduly:
+psycopg2
+<li>jak rozbalit, konfigurovat, inicializovat databázi<br>
+		API set-up<br>
+		Follow these steps to run API locally within a docker container.<br>
+		- run `docker-compose up -d api database` in `./backend` folder (this should build API image for you, download the required PostgreSQL image and start it all)<br>
+		- make sure that all containers are running with `docker-compose ps`<br>
+		- your database is now clean as a baby's ass so run migrations with `npm run migrate:latest`<br>
+		- (optional) run seeds (if you have them) with `npm run seed:run`<br>
+</li><br>
+</ul>
+
+<h2>Známé problémy</h2>
+<p>Zde popište, které body zadání nejsou implementovány a z jakého důvodu. Např. &#8222;Z časových důvodů nebyla implementována správa uživatelů.&#8221; Pomůžete tím zrychlit hodnocení, když neimplementované funkce nebudeme muset dlouze hledat.</p>
+
+
+
+</body></html>
