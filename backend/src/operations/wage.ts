@@ -46,8 +46,6 @@ const create = async(data) => {
   const wage = await WageRepository.getByEmployeeAndDate(foundEmployee.id, data.platnost_od)
   if(wage) throw new errors.NotFound(errors.WAGE_ALREADY_EXISTS, "Wage record for this day already exists!")
 
-  const companyId = data.companyId
-  const employeeId = data.employeeId
   delete data.companyId
   delete data.employeeId
   data.id = foundEmployee.id
@@ -55,8 +53,31 @@ const create = async(data) => {
   return WageRepository.create(data)
 }
 
+/**
+ * Update wage record
+ * @param data 
+ */
+const update = async(data) => {
+  const foundEmployee = await EmployeesOperations.getByIdInCompany(data.companyId, data.employeeId)
+  if(!foundEmployee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Employee not found")
+
+  const wage = await WageRepository.getByEmployeeAndDate(foundEmployee.id, data.date)
+  if(!wage) throw new errors.NotFound(errors.WAGE_NOT_FOUND, "Wage record was not found")
+
+  const companyId = data.companyId
+  const employeeId = data.employeeId
+  const date = data.date
+
+  delete data.companyId
+  delete data.employeeId
+  delete data.date
+
+  return WageRepository.update(employeeId, date, data)
+}
+
 export = {
   getByEmployee,
   getByEmployeeAndDate,
-  create
+  create,
+  update
 }

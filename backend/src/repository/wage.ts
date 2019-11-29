@@ -39,7 +39,7 @@ const create = (wageData) : Promise<any> => {
  * @param data 
  */
 const update = (employeeId: IdOrIds, date,  data): Promise<any> => {
-  return WageModel.query().where('id', employeeId).where('platnost_od', date).patchAndFetch(data)
+  return WageModel.query().patchAndFetchById([employeeId, date], data)
 }
 
 /**

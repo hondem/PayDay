@@ -72,10 +72,26 @@ const remove = async(ctx: Koa.Context) : Promise<any> => {
   ctx.body = await EmployeesOperations.remove(data.id)
 }
 
+/**
+ * Calculate salary for user
+ * @param ctx 
+ */
+const calculate = async(ctx: Koa.Context) : Promise<any> => {
+  const data = {
+    companyId: parseInt(ctx.params.companyId),
+    employeeId: parseInt(ctx.params.employeeId),
+    date: ctx.params.date
+  }
+
+  validate(data, employeesSchemas.calculate)
+  ctx.body = await EmployeesOperations.calculate(data)
+}
+
 export default {
   create,
   getByCompany,
   getByCompanyAndId,
   update,
-  remove
+  remove,
+  calculate
 }
