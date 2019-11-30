@@ -101,8 +101,7 @@ def get_dni_hod( pdat1, pdat2, pkal ):
     where typ='+str(pkal)+' and datum >= '+'\''+pdat1+'\''+' and datum <= '+'\''+pdat2+'\''
     a=runpsql(sql)
     
-    return(a[0]) 
-
+    return(a[0])
 
 ##################################################################################################
 #   Funkcia get_par ( pdat : str ) - vrati list() aktualne nastavenie param. miezd podla datumu
@@ -200,7 +199,6 @@ def get_mzl1( pid, pdat ):
 #########################################################################################################
 def get_mud( pid, pdat ):
     sql = 'select * from m.udaje where id=' + str( pid )+' and platnost_od<='+'\''+pdat+'\''+' LIMIT 1'
-    #print(sql)
     vysl = runpsql( sql )
     return vysl
 
@@ -273,9 +271,9 @@ def zapis_mvy( pid, pdat, vektor):
 #                                                        2.par Obdobie
 #  Output: list of mvy_vekt ( list of floats )
 ########################################################################################################
-def get_mvy( pid, pdat):
+def get_mvy(pid, pdat):
 
-        vysls='';        
+        vysls=''
         sql='select vektor from m.vypocet where id='+str(pid)+' and obdobie = '+'\''+pdat+'\''
         vysls=''.join(runpsql(sql)[0])  #konverzia tuple[0] na retazec
         vysll=vysls.split(';')         # rozdelenie retazca na list retazcov podla oddelovaca ';'

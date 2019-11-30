@@ -90,7 +90,7 @@ const createPersonalData : Object = {
       required: true
     },
 
-    obcianky: {
+    obciansky: {
       type: 'string',
       maxLength: 25,
       required: true
@@ -356,7 +356,7 @@ const updatePersonalData : Object = {
       
     },
 
-    obcianky: {
+    obciansky: {
       type: 'string',
       maxLength: 25,
       

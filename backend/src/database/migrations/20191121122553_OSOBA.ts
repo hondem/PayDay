@@ -30,7 +30,7 @@ export async function up(knex: Knex): Promise<any> {
       table.string("statna_prislusnost", 20),
       table.string("miesto_narodenia", 100),
       table.string("stav", 1).comment('zenaty,slobodny'),
-      table.string("obcianky", 25),
+      table.string("obciansky", 25),
       table.string("pas", 25),
       table.string("adresa_ulica_trvale", 100),
       table.string("adresa_cislo_popisne_trvale", 100),

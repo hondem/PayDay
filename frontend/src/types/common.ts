@@ -19,3 +19,8 @@ export type ErrorReponse = {
     stack?: any;
   };
 };
+
+export type SelectOption = {
+  label: string;
+  value: string;
+}

@@ -53,7 +53,7 @@ BASIC SOLUTION
     vystupy:
         Vyplatny listok:
                 + zobrazene data z m.osoba + m.vypocet
-                        Zobrazenie vypocitanych udajov na obrazovke:    
+                        Zobrazenie vypocitanych udajov na obrazovke:
                             - Vypocitane udaje sa nacitaju z tabulky mesacneho vypoctu m.vypocet
                             - zobrazia sa pouzivatelovi vo vhodnom tvare na obrazovke:
                         Minimalne zobrazenie zahrna tieto udaje:
@@ -73,11 +73,10 @@ BASIC SOLUTION
                     (z kalendara sa napocita Fond pracovnej doby - urcuje kolko hodin v mesiaci je pracovnych a kolko je platenych sviatkov. Kaledara je priradeny kazemu pracovnikovi vo mzdovych udajoch.) 
                     - datum nastupu (z kmenovych udajov pracovnika)
                     - datum ukoncenia pracovneho pomeru (z kmenovych udajov pracovnika)
-                    - mzdove udaje (vyfiltrovane aktualne platne podla aktualneho obdobia v torom sa pocitaju mzdy) 
+                    - mzdove udaje (vyfiltrovane aktualne platne podla aktualneho obdobia v torom sa pocitaju mzdy)
                     - zmenove kody vyfiltrovane pre aktualne obdobie za ktore sa pocitaju mzdy
 
     vystupy:
         - vypocitane udaje sa zapisu do tabulky mesacneho vypoctu m.vypocet
          ktora obsahuje odobne cislo, obdobie a 2000 znakove pole, do ktoreho sa zapisuju vypocitane udaje v zakodovanom tvare 
-         na poziciu definovanu v takulke mvek. Na zapis a citanie z vektora sa pouziju funkcie mval(a:string[8]):double a mstr(a:double):string[8]. Do 2000 znakoveho pola sa da tymto sposobom 
-         zapisat 250 ciselnych udajov. (priklad.: Fondpracovnej doby pozicia cislo 10. )   
+         na poziciu definovanu v takulke m.vektor.

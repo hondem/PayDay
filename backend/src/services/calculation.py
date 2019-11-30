@@ -184,15 +184,9 @@ def vypocet( pid, pdat ):
         if ( (mzl_kod == 1100) or (mzl_kod == 1120) or (mzl_kod == 1130)):
             v_tarif_na_hod = mzl_hodnota / fpd_pphodm  # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
             s_platzakl = s_platzakl + mzl_hodnota
-            v_pozicia_tarif_hodiny  = mkod_pozhod
-            v_pozicia_tarif_hodnota = mkod_pozkor
-            v_pozicia_tarif_dni     = mkod_pozdni  
         elif ((mzl_kod == 1200) or (mzl_kod == 1210) ): 
             v_tarif_na_hod = mzl_hodnota  # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
             s_platzakl = s_platzakl +  mzl_hodnota * fpd_hod  #NOTE: vypocet zakladneho platu z hodinovej sadzby
-            v_pozicia_tarif_hodiny  = mkod_pozhod
-            v_pozicia_tarif_hodnota = mkod_pozkor
-            v_pozicia_tarif_dni     = mkod_pozdni       
         else:    
             print('Nema zadany tarif!')
 
@@ -210,7 +204,7 @@ def vypocet( pid, pdat ):
         
         if (mkod_typ_hak == 'C'):  # pre kody 'C' zapis hodiny, sumu a dni do vektora
             mzl_hodnota = 0.0
-            #mzl_dni         = day(assistant.eom(p_dat)) / FPD_hod * mzl_hod  # vypocet poctu dni z hodin
+            mzl_dni = assistant.day(assistant.eom(pdat)) / fpd_hod * mzl_hod  # vypocet poctu dni z hodin
             if ( mkod_alg3 > 0 ):  # prepocet priemerom - ak je percento priemeru PPU > 0
                 mzl_hodnota = mzl_hod * v_priemer_dovolenka * mkod_alg3 / 100         
             if ( mkod_alg4 > 0 ):  # prepocet tarifom - ak je percento tarifu > 0
@@ -219,7 +213,7 @@ def vypocet( pid, pdat ):
                 mzl_sadzba  = mkod_alg4 
                 mzl_hodnota = mzl_hod * mkod_alg4 / 100  # preplatenie sadzbou na hodinu            
 
-            if( mkod_pozhod > 0 ): v[mkod_pozhod] = v[mkod_pozhod] + mzl_hodiny          
+            if( mkod_pozhod > 0 ): v[mkod_pozhod] = v[mkod_pozhod] + mzl_hod
             if( mkod_pozkor > 0 ): v[mkod_pozkor] = v[mkod_pozkor] + mzl_hodnota  # prepocet sumy podla zadaneho algoritmu
             if( mkod_pozdni > 0 ): v[mkod_pozdni] = v[mkod_pozdni] + mzl_dni 
 
@@ -423,7 +417,7 @@ def vypocet( pid, pdat ):
 # dane end
     HM = pgFunctions.get_msk_suma( 100 , 100 , v )  # napocet podla mmsk 100 - skupina zobrazenia, 100 - pozicia
     CM = pgFunctions.get_msk_suma( 100 , 110 , v )  # napocet podla mmsk 100 - skupina zobrazenia, 110 - pozicia
-    v[240] = HM        
+    v[240] = HM
     v[241] = CM
 
 ## zrazky

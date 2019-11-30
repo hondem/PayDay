@@ -1,15 +1,18 @@
 import Head from 'next/head';
 import { NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { Users } from 'react-feather';
 import { connect } from 'react-redux';
 import { NextJSContext } from 'next-redux-wrapper';
 
 import { checkAuthorization } from '../../src/next';
-import { Header, Content, PageHeader } from '../../src/components/shared/layout';
+import { Header, Content, PageHeader, Flex } from '../../src/components/shared/layout';
 import { saveUserAction } from '../../src/actions/auth';
 import { AppState } from '../../src/reducers';
-import { EmployeeList } from '../../src/components/employees';
 import { Button } from '../../src/components/shared/misc';
+import { THEME } from '../../src/theme';
+import { EmployeeList } from '../../src/components/employees';
+
 
 /* Props - <Employees />
 ============================================================================= */
