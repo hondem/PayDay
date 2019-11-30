@@ -58,3 +58,22 @@ export const deleteEmployee = (companyId: number, employeeId: number) =>
       Authorization: getAuthToken(),
     },
   });
+
+/**
+ * Creates a new employee
+ *
+ * @param companyId ID of company employee should belong to
+ * @param employee Object with employee's data
+ */
+export const createEmployee = (companyId: number, employee: any) =>
+  API.post(
+    `/companies/${companyId}/employees/`,
+    {
+      ...employee,
+    },
+    {
+      headers: {
+        Authorization: getAuthToken(),
+      },
+    },
+  );

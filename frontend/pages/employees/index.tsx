@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Router from 'next/router';
 import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { Users } from 'react-feather';
@@ -10,9 +11,7 @@ import { Header, Content, PageHeader, Flex } from '../../src/components/shared/l
 import { saveUserAction } from '../../src/actions/auth';
 import { AppState } from '../../src/reducers';
 import { Button } from '../../src/components/shared/misc';
-import { THEME } from '../../src/theme';
 import { EmployeeList } from '../../src/components/employees';
-
 
 /* Props - <Employees />
 ============================================================================= */
@@ -32,7 +31,13 @@ const Employees: NextPage<Props> = () => (
 
     <Content>
       <PageHeader icon={<Users />} title="Zoznam zamestnancov" subtitle="Zamestnanci">
-        <Button>Vytvoriť nového zamestnanca</Button>
+        <Button
+          onClick={() => {
+            Router.push('/employee/create/[formType]', `/employee/create/personal`);
+          }}
+        >
+          Vytvoriť nového zamestnanca
+        </Button>
       </PageHeader>
 
       <EmployeeList />
