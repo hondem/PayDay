@@ -2,37 +2,55 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { NextPage } from 'next';
 import { Users } from 'react-feather';
+import Router from 'next/router';
 import { connect, useSelector } from 'react-redux';
 import { NextJSContext } from 'next-redux-wrapper';
 import { Formik, Form } from 'formik';
 import JwtDecode from 'jwt-decode';
 
 import { checkAuthorization } from '../../../../src/next';
-import { Header, Content, PageHeader, Panel, Grid } from '../../../../src/components/shared/layout';
+import {
+  Header,
+  Content,
+  PageHeader,
+  Panel,
+  Grid,
+  Flex,
+} from '../../../../src/components/shared/layout';
 import { saveUserAction } from '../../../../src/actions/auth';
 import { AppState } from '../../../../src/reducers';
-import { Button } from '../../../../src/components/shared/misc';
-import {
-  SideMenu,
-  EssentialInfo,
-} from '../../../../src/components/employees';
+import { Button, Alert } from '../../../../src/components/shared/misc';
+import { SideMenu, EssentialInfo } from '../../../../src/components/employees';
 import { deleteEmployee, updateEmployee } from '../../../../src/api/client/companies';
 import { selectUser } from '../../../../src/selectors/auth';
-import { getEmployee } from '../../../../src/api/shared/employees';
+import { getEmployee } from '../../../../src/api/client/companies';
 import { User } from '../../../../src/types/auth';
+import { AlertMessage } from '../../../../src/types/common';
 
 /* Props - <EssentialInfoPage />
 ============================================================================= */
 type Props = {
-  employee: any;
+  employeeId: number;
   formType: string | string[];
 };
 
 /* <EssentialInfoPage />
 ============================================================================= */
-const EssentialInfoPage: NextPage<Props> = ({ employee, formType }) => {
+const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
+  const [employee, setEmployee] = useState<any>(null);
   const [isDeleteInProgress, setIsDeleteInProgress] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<AlertMessage>(null);
   const user = useSelector(selectUser);
+
+  useEffect(() => {
+    fetchEmployee();
+  }, []);
+
+  const fetchEmployee = async () => {
+    await getEmployee(user.companyId, employeeId).then(({ data }) => {
+      setEmployee(data);
+    });
+  };
 
   /**
    * Handles delete button click event.
@@ -46,7 +64,23 @@ const EssentialInfoPage: NextPage<Props> = ({ employee, formType }) => {
       if (confirmation) {
         setIsDeleteInProgress(true);
 
-        await deleteEmployee(user.companyId, employee.id);
+        await deleteEmployee(user.companyId, employee.id)
+          .then(() => {
+            /* Show success message */
+            setAlertMessage({ type: 'success', message: 'Zamestnanec úspešne odstránený.' });
+
+            setIsDeleteInProgress(false);
+
+            setTimeout(() => {
+              Router.push('/');
+            }, 4000)
+          })
+          .catch(() => {
+            /* Show success message */
+            setAlertMessage({ type: 'success', message: 'Zamestnaneca sa nepodarilo odstrániť.' });
+
+            setIsDeleteInProgress(false);
+          });
       }
     }
   };
@@ -63,7 +97,17 @@ const EssentialInfoPage: NextPage<Props> = ({ employee, formType }) => {
       ...values.kontakt,
     };
 
-    await updateEmployee(user.companyId, employee.id, employeeOut).then(response => console.log(response));
+    await updateEmployee(user.companyId, employee.id, employeeOut)
+      .then(({ data }) => {
+        setEmployee(data);
+
+        /* Show success message */
+        setAlertMessage({ type: 'success', message: 'Dáta boli úspešne aktualizované.' });
+      })
+      .catch(() => {
+        /* Show error message */
+        setAlertMessage({ type: 'error', message: 'Dáta sa nepodarilo aktualizovať.' });
+      });
   };
 
   /**
@@ -91,52 +135,67 @@ const EssentialInfoPage: NextPage<Props> = ({ employee, formType }) => {
 
   return (
     <>
-      <Head>
-        <title>
-          {employee.osobni.meno} {employee.osobni.priezvisko} - Payday
-        </title>
-      </Head>
-
       <Header />
 
       <Content isNarrow>
-        <Formik initialValues={employee} onSubmit={handleSubmit}>
-          {({ isSubmitting }) => (
-            <Form>
-              <PageHeader
-                icon={<Users />}
-                title={`${employee.osobni.meno} ${employee.osobni.priezvisko}`}
-                subtitle="Zamestnanci"
-              >
-                <Button type="button" mr="s6" color="blue">
-                  Zložky
-                </Button>
+        {employee !== null ? (
+          <>
+            <Head>
+              <title>
+                {employee.osobni.meno} {employee.osobni.priezvisko} - Payday
+              </title>
+            </Head>
 
-                <Button
-                  type="button"
-                  onClick={handleDelete}
-                  disabled={isDeleteInProgress}
-                  color="red"
-                  mr="s6"
-                >
-                  {isDeleteInProgress ? 'Odstraňovanie...' : 'Odstrániť zamestnanca'}
-                </Button>
+            <Formik initialValues={employee} onSubmit={handleSubmit}>
+              {({ isSubmitting }) => (
+                <Form>
+                  <PageHeader
+                    icon={<Users />}
+                    title={`${employee.osobni.meno} ${employee.osobni.priezvisko}`}
+                    subtitle="Zamestnanci"
+                  >
+                    <Button type="button" mr="s6" color="blue">
+                      Zložky
+                    </Button>
 
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? 'Ukladanie...' : 'Uložiť'}
-                </Button>
-              </PageHeader>
+                    <Button
+                      type="button"
+                      onClick={handleDelete}
+                      disabled={isDeleteInProgress}
+                      color="red"
+                      mr="s6"
+                    >
+                      {isDeleteInProgress ? 'Odstraňovanie...' : 'Odstrániť zamestnanca'}
+                    </Button>
 
-              <Grid gridTemplateColumns={['auto', null, '300px auto']} gridGap="s6">
-                <SideMenu employee={employee} />
+                    <Button type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? 'Ukladanie...' : 'Uložiť'}
+                    </Button>
+                  </PageHeader>
 
-                <Panel title={resolveFormTypeTitle()}>
-                  <EssentialInfo formType={formType} />
-                </Panel>
-              </Grid>
-            </Form>
-          )}
-        </Formik>
+                  <Grid gridTemplateColumns={['auto', null, '300px auto']} gridGap="s6">
+                    <SideMenu employee={employee} />
+
+                    <Flex flexDirection="column">
+                      {alertMessage && (
+                        <Alert type={alertMessage.type}>{alertMessage.message}</Alert>
+                      )}
+
+                      <Panel title={resolveFormTypeTitle()}>
+                        <EssentialInfo formType={formType} />
+                      </Panel>
+                    </Flex>
+                  </Grid>
+                </Form>
+              )}
+            </Formik>
+          </>
+        ) : (
+          <Flex justifyContent="center" pt="s10">
+            Získavanie dát, prosím počkajte...
+          </Flex>
+        )}
+        ;
       </Content>
     </>
   );
@@ -148,19 +207,8 @@ EssentialInfoPage.getInitialProps = async (
   ctx: NextJSContext<AppState, saveUserAction>,
 ): Promise<Props> => {
   const accessToken = checkAuthorization(ctx);
-  let employee = null;
 
-  if (accessToken) {
-    const { user } = JwtDecode<{ user: User }>(accessToken);
-
-    await getEmployee(ctx, user?.companyId, +ctx?.query?.id).then(({ data }) => {
-      employee = data;
-    });
-
-    return { employee, formType: ctx?.query?.formType };
-  }
-
-  return { employee, formType: ctx?.query?.formType };
+  return { employeeId: +ctx?.query?.id, formType: ctx?.query?.formType };
 };
 
 export default connect(state => state)(EssentialInfoPage);

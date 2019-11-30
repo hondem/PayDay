@@ -1,5 +1,3 @@
-import { NextPageContext } from 'next';
-
 import { API } from '..';
 import { getAuthToken } from '.';
 
@@ -11,6 +9,19 @@ import { getAuthToken } from '.';
  */
 export const getCompanyEmployees = (companyId: number = 1) =>
   API.get<object[]>(`/companies/${companyId}/employees`, {
+    headers: {
+      Authorization: getAuthToken(),
+    },
+  });
+
+/**
+ * Gets employee by his ID.
+ *
+ * @param companyId ID of company employee belongs to
+ * @param employeeID ID of employee that has to be received
+ */
+export const getEmployee = (companyId: number, employeeId: number) =>
+  API.get<any>(`/companies/${companyId}/employees/${employeeId}`, {
     headers: {
       Authorization: getAuthToken(),
     },
