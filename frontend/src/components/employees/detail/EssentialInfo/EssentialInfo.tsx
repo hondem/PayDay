@@ -4,6 +4,7 @@ import { Label, Input, Select, ErrorMessage } from '../../../shared/forms';
 import { Grid, Flex } from '../../../shared/layout';
 import { SelectOption } from '../../../../types/common';
 import { Heading, Paragraph } from '../../../shared/typography';
+import { Box } from 'react-feather';
 
 /* Form data
 ============================================================================= */
@@ -135,7 +136,7 @@ const EssentialInfo: React.FunctionComponent<Props> = ({ formType }) => {
 
           <div>
             <Label htmlFor="firemni.aktivny">Aktívny</Label>
-            <Input name="firemni.aktivny" />
+            <Input type="checkbox" name="firemni.aktivny" />
             <ErrorMessage name="firemni.aktivny" />
           </div>
 

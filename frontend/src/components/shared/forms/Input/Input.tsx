@@ -2,9 +2,9 @@ import React, { InputHTMLAttributes } from 'react';
 import { useField } from 'formik';
 import { pick } from 'ramda';
 import { MarginProps } from 'styled-system';
+import { AlertCircle } from 'react-feather';
 
 import * as S from './Input.styles';
-import { AlertCircle } from 'react-feather';
 
 /* Props - <Input />
 ============================================================================= */
@@ -33,14 +33,14 @@ const Input: React.FunctionComponent<Props> = ({ id, name, type, ...props }) => 
   ])(props);
 
   /* Checkbox variant */
-  // if (type === 'checkbox') {
-  //   return (
-  //     <S.CheckboxWrapper {...marginProps}>
-  //       <S.CheckboxInput id={id || name} type={type} {...props} {...field} />
-  //       <S.CheckboxCheckmark hasError={hasError} checked={field.checked} />
-  //     </S.CheckboxWrapper>
-  //   );
-  // }
+  if (type === 'checkbox') {
+    return (
+      <S.CheckboxWrapper {...marginProps}>
+        <S.CheckboxInput id={id || name} type={type} {...props} {...field} />
+        <S.CheckboxCheckmark hasError={hasError} checked={field.checked} />
+      </S.CheckboxWrapper>
+    );
+  }
 
   return (
     <S.InputWrapper hasError={hasError} {...marginProps}>

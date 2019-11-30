@@ -66,60 +66,63 @@ export const Input = styled.input<{ hasError: boolean } & InputHTMLAttributes<HT
     `}
 `;
 
-// export const CheckboxWrapper = styled.label<MarginProps>`
-//   position: relative;
-//   width: 22px;
-//   height: 22px;
+export const CheckboxWrapper = styled.label<MarginProps>`
+  display: block;
+  position: relative;
+  width: 24px;
+  height: 24px;
 
-//   ${margin}
-// `;
+  ${margin}
+`;
 
-// export const CheckboxInput = styled.input<InputHTMLAttributes<HTMLInputElement>>`
-//   position: absolute;
-//   opacity: 0;
-//   height: 0;
-//   width: 0;
+export const CheckboxInput = styled.input<InputHTMLAttributes<HTMLInputElement>>`
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
 
-//   &:focus + span {
-//     border-color: ${({ theme }) => theme.colors.blues[2]};
-//     box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.blues[2]};
-//   }
-// `;
+  &:focus + span {
+    border-color: ${({ theme }) => theme.colors.blues[1]};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.blues[1]};
+    outline: none;
+  }
+`;
 
-// export const CheckboxCheckmark = styled.span<{ hasError: boolean; checked: boolean }>`
-//   transition: all 200ms;
-//   transform: translateY(-50%);
-//   position: absolute;
-//   top: 50%;
-//   left: 0;
-//   height: 22px;
-//   width: 22px;
-//   background: ${({ theme }) => theme.colors.white};
-//   border: 1px solid ${({ theme }) => theme.colors.grays[2]};
+export const CheckboxCheckmark = styled.span<{ hasError: boolean; checked: boolean }>`
+  transition: all 200ms;
+  transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 24px;
+  width: 24px;
+  background: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.grays[2]};
+  border-radius: 4px;
 
-//   ${({ hasError }) => {
-//     if (hasError) {
-//       return css`
-//         border-color: ${({ theme }) => theme.colors.reds[2]} !important;
-//         box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.reds[2]} !important;
-//       `;
-//     }
-//   }}
+  ${({ hasError }) => {
+    if (hasError) {
+      return css`
+        border-color: ${({ theme }) => theme.colors.reds[1]};
+        box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.reds[1]};
+      `;
+    }
+  }}
 
-//   &::after {
-//     content: '';
-//     display: ${({ checked }) => (checked ? 'block' : 'none')};
-//     transform: translateX(-50%) translateY(-60%) rotate(45deg);
-//     position: absolute;
-//     top: 50%;
-//     left: 50%;
-//     width: 6px;
-//     height: 12px;
-//     border-right: 3px solid #2e7de1;
-//     border-bottom: 3px solid #2e7de1;
-//   }
-// `;
+  &::after {
+    content: '';
+    display: ${({ checked }) => (checked ? 'block' : 'none')};
+    transform: translateX(-50%) translateY(-60%) rotate(45deg);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 12px;
+    border-right: 3px solid ${({ theme }) => theme.colors.blues[1]};
+    border-bottom: 3px solid ${({ theme }) => theme.colors.blues[1]};
+  }
+`;
 
-// export const CheckboxLabel = styled.span`
-//   user-select: none;
-// `;
+export const CheckboxLabel = styled.span`
+  user-select: none;
+`;
