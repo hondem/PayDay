@@ -3,6 +3,8 @@ import { IdOrIds } from 'objection'
 import { Company } from '../types/companies'
 import errors from '../utils/errors'
 
+import logger from '../utils/logger'
+
 import EmployeesOperations from './persons'
 
 /**
@@ -38,13 +40,18 @@ const create = async(data) => {
   if(!foundEmployee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Employee not found")
 
   const wage = await WageRepository.getByEmployeeAndDate(foundEmployee.id, data.platnost_od)
-  if(wage) throw new errors.NotFound(errors.WAGE_ALREADY_EXISTS, "Wage record for this day already exists!")
-
+  
   delete data.companyId
   delete data.employeeId
-  data.id = foundEmployee.id
 
-  return WageRepository.create(data)
+  if(wage){
+    const date = data.platnost_od
+    delete data.platnost_od
+    return WageRepository.update(foundEmployee.id, date, data)
+  } else {
+    data.id = foundEmployee.id
+    return WageRepository.create(data)   
+  }
 }
 
 /**
