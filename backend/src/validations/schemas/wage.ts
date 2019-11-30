@@ -35,7 +35,7 @@ const create: Object = {
     pracovna_doba_typ: {
       type: "string",
       required: true,
-      maxLength: 3
+      maxLength: 1
     },
 
     kalendar_typ: {
@@ -177,6 +177,11 @@ const create: Object = {
       type: "string",
       required: true,
       maxLength: 1
+    },
+
+    tarif: {
+      type: "number",
+      required: true
     }
   }
 }
@@ -220,7 +225,7 @@ const update: Object = {
 
     pracovna_doba_typ: {
       type: "string",
-      maxLength: 3
+      maxLength: 1
     },
 
     kalendar_typ: {
@@ -335,6 +340,10 @@ const update: Object = {
     odbory: {
       type: "string",
       maxLength: 1
+    },
+
+    tarif: {
+      type: "number",
     }
   }
 }
