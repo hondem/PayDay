@@ -13,7 +13,7 @@ import * as S from './EmployeeList.styles';
 
 /* <EmployeeList />
 ============================================================================= */
-const EmployeeList: React.FunctionComponent<Props> = () => {
+const EmployeeList: React.FunctionComponent = () => {
   const user = useSelector(selectUser);
   const employees = useSelector(selectEmployees);
   const dispatch = useDispatch<Dispatch<saveEmployeesAction>>();
