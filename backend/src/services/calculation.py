@@ -134,6 +134,8 @@ def vypocet( pid, pdat ):
     aktivny = mos[0][6]  # typ boolean
     mos_datum_nastup = mos[0][41].strftime('%Y/%m/%d')  # typ string
     mos_datum_ukonc = mos[0][42].strftime('%Y/%m/%d')  # typ string
+    s_platzakl = mud[0][32]
+    druh_mzdy = mud[0][33]
     
     v_pracuje = ( aktivny and not( ( assistant.eom(pdat) < mos_datum_nastup ) or  ( pdat > mos_datum_ukonc ) ))  # test ci pracuje podla datumov nastupu a ukoncenia a ci je oznaceny v mos_active==1 
 
@@ -145,7 +147,9 @@ def vypocet( pid, pdat ):
        
     p_deti_od6 = mud[0][17]  # pocet deti z mud viac ako 6 rokov 
     p_deti_do6 = mud[0][18]  # pocet deti z mud menej ako 6 rokov 
-    
+    tarif = mud[0][32] 
+    druh_mzdy = mud[0][33]  
+
     fpd_kal = fpd[0][0]  # cislo kalendara  
     fpd_ka1popis  = fpd[0][1]  # popis kalendara
     fpd_pphodm = fpd[0][3]  # priem. pocet hodin za mesiac z kalendara
@@ -162,33 +166,14 @@ def vypocet( pid, pdat ):
     dni_mes  = calendar.monthrange(rokp,mesp)[1]  # celkovy pocet dni v mesiaci
 
 ## zisti tarif
-    i=0
-    for rd in mzl1:
-        mzl_idosc             = rd[1] 
-        mzl_kod               = rd[2]+0 
-        mzl_kodext            = rd[3]
-        mzl_datumod           = rd[4].strftime('%Y/%m/%d')
-        mzl_datumdo           = rd[5].strftime('%Y/%m/%d')
-        mzl_dni               = rd[6]+0
-        mzl_hod               = rd[7]+0 
-        mzl_sadzba            = rd[8]+0
-        mzl_hodnota           = rd[9]+0.0
-        mkod_typ_hak          = rd[27]
-        mkod_zniz_hod_sviatku = rd[28]
-        mkod_alg_koef         = rd[29]  
-        mkod_pozhod           = rd[40]
-        mkod_pozkor           = rd[41]
-        mkod_pozdni           = rd[42]
-        mkod_pozpoc           = rd[43]
-        
-        if ( (mzl_kod == 1100) or (mzl_kod == 1120) or (mzl_kod == 1130)):
-            v_tarif_na_hod = mzl_hodnota / fpd_pphodm  # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
-            s_platzakl = s_platzakl + mzl_hodnota
-        elif ((mzl_kod == 1200) or (mzl_kod == 1210) ): 
-            v_tarif_na_hod = mzl_hodnota  # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
+    if ( (druh_mzdy == 'M') and ( s_zaklplat >0) ):
+            v_tarif_na_hod = mzl_tarif / fpd_pphodm  # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
+    elif  ( (druh_mzdy == 'H') and ( s_zaklplat >0) ): 
+            v_tarif_na_hod = s_platzakl   # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
             s_platzakl = s_platzakl +  mzl_hodnota * fpd_hod  #NOTE: vypocet zakladneho platu z hodinovej sadzby
-        else:    
-            print('Nema zadany tarif!')
+    else:
+        print('Nema zakladny plat.')
+
 
 ## napocet kodov
     i=0

@@ -27,10 +27,6 @@ export async function up(knex: Knex): Promise<any> {
       table.date("datum_do")
         .notNullable()
         .comment('datum platnosti do'),
-      table.float("dni").notNullable(),
-      table.float("hod").notNullable(),
-      table.float("sadzba").notNullable(),
-      table.float("suma").notNullable(),
       table.string("pozn", 30),
       table.comment('Mzdove odchylky, v tabulke su zaznamenane datumove, hodinove a hodnotove udaje potrebne pre vypocet mzdy pomocou kodov.')
     }))
