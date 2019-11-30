@@ -70,7 +70,7 @@ const EssentialInfo: React.FunctionComponent<Props> = ({ formType }) => {
 
           <div>
             <Label htmlFor="osobni.datum_nar">Dátum narodenia</Label>
-            <Input name="osobni.datum_nar" />
+            <Input type="data" name="osobni.datum_nar" />
             <ErrorMessage name="osobni.datum_nar" />
           </div>
 
