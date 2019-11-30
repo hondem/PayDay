@@ -23,9 +23,15 @@ const EmployeeItem: React.FunctionComponent<Props> = ({ employee }) => {
   const [isDeleteInProgress, setIsDeleteInProgress] = useState<boolean>(false);
 
   const handleDelete = async () => {
-    setIsDeleteInProgress(true);
+    let confirmation = confirm(
+      `Určite chcete zmazať zamestnanca "${employee.osobni.meno} ${employee.osobni.priezvisko}"?`,
+    );
 
-    await deleteEmployee(user.companyId, employee.id);
+    if (confirmation) {
+      setIsDeleteInProgress(true);
+
+      await deleteEmployee(user.companyId, employee.id);
+    }
   };
 
   return (
