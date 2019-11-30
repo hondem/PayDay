@@ -80,7 +80,7 @@ export const createEmployee = (companyId: number, employee: any) =>
 
 /**
  * Gets wage data for specified employee.
- * @param companyId ID of company employee should belong to
+ * @param companyId ID of company employee belongs to
  * @param employeeId ID of employee of which to get wage data
  */
 export const getWageData = (companyId: number = 1, employeeId: any, date: string) =>
@@ -89,3 +89,29 @@ export const getWageData = (companyId: number = 1, employeeId: any, date: string
       Authorization: getAuthToken(),
     },
   });
+
+/**
+ * Gets components of specified employee.
+ *
+ * @param companyId ID of company employee belongs to
+ * @param employeeId ID of employee of which to get components
+ */
+export const getEmployeesComponents = (companyId: number = 1, employeeId: any, date: string) =>
+  API.get<any>(`/companies/${companyId}/employees/${employeeId}/folders/${date}`, {
+    headers: {
+      Authorization: getAuthToken(),
+    },
+  });
+
+export const createComponent = (companyId: number = 1, employeeId: any, component: any) =>
+  API.post<any>(
+    `/companies/${companyId}/employees/${employeeId}/folders`,
+    {
+      ...component,
+    },
+    {
+      headers: {
+        Authorization: getAuthToken(),
+      },
+    },
+  );
