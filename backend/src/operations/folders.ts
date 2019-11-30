@@ -4,6 +4,20 @@ import EmployeeOperations from './persons'
 import errors from '../utils/errors'
 
 /**
+ * Get folder by Id
+ * @param data 
+ */
+const getById = async(data) => {
+  const foundEmployee = await EmployeeOperations.getByIdInCompany(data.companyId, data.employeeId)
+  if(!foundEmployee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Employee does not exist")
+
+  const foundFolder = await FoldersRepository.getById(data.folderId)
+  if(!foundFolder) throw new errors.NotFound(errors.FOLDER_NOT_FOUND, "Folder not found")
+
+  return foundFolder
+}
+
+/**
  * Get all folders for employee
  * @param data 
  */
@@ -34,7 +48,7 @@ const create = async(data) => {
   if(!foundEmployee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Employee does not exist")
 
   const employeeId = data.employeeId
-  
+
   delete data.employeeId
   delete data.companyId
   data.os_id = employeeId
@@ -77,6 +91,7 @@ const update = async(data) => {
 }
 
 export = {
+  getById,
   getByEmployeeId,
   getByEmployeeIdAndMonth,
   create,

@@ -34,12 +34,6 @@ const getByEmployeeIdAndMonth = (employeeId: IdOrIds, date: string) => {
   const startOfMonth = Moment(date).startOf('month').format('YYYY-MM-DD')
   const endOfMonth = Moment(date).endOf('month').format('YYYY-MM-DD')
 
-  // return (
-  //   (start1 < end2 && start1 >= start2) 
-  //   ||
-  //   (start2 < end1 && start2 >= start1)
-  // );
-
   return FolderModel.query().where('os_id', employeeId).andWhere(function(){
     this.where(function(){
       this.where("datum_do", ">", startOfMonth).andWhere("datum_od", "<=", startOfMonth)
@@ -47,8 +41,6 @@ const getByEmployeeIdAndMonth = (employeeId: IdOrIds, date: string) => {
       this.where("datum_od", "<", endOfMonth).andWhere("datum_od", ">=", startOfMonth)
     })
   })
-
-  return FolderModel.query().whereBetween(date, [startOfMonth, endOfMonth]).andWhere('os_id', employeeId)
 }
 
 /**

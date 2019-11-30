@@ -155,12 +155,33 @@ const remove = {
   }
 }
 
+const getById = {
+  type: 'object',
+  required: true,
+  additionalProperties: false,
+  properties: {
+    companyId: {
+      type: 'integer',
+      required: true
+    },
 
+    employeeId: {
+      type: 'integer',
+      required: true
+    },
+
+    folderId: {
+      type: 'integer',
+      required: true
+    }
+  }
+}
 
 export = {
   getByEmployeeId,
   getByEmployeeIdAndMonth,
   create,
   remove,
-  update
+  update,
+  getById
 }

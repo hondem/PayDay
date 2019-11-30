@@ -4,11 +4,20 @@ import validate from '../validations'
 import schemas from '../validations/schemas/folders'
 import _ from 'lodash'
 
-// getByEmployeeId,
-// getByEmployeeIdAndMonth,
-// create,
-// remove,
-// update
+/**
+ * Get folder by id
+ * @param ctx 
+ */
+const getById = async(ctx: Koa.Context) => {
+  const data = {
+    employeeId: parseInt(ctx.params.employeeId),
+    companyId: parseInt(ctx.params.companyId),
+    folderId: parseInt(ctx.params.folderId)
+  } 
+
+  validate(data, schemas.getById)
+  ctx.body = await Operations.getById(data)
+}
 
 /**
  * Get all folder records for one user
@@ -82,6 +91,7 @@ const update = async(ctx: Koa.Context) => {
 }
 
 export default {
+  getById,
   getByEmployeeId,
   getByEmployeeIdAndMonth,
   create,
