@@ -10,32 +10,32 @@ export async function up(knex: Knex): Promise<any> {
         .inTable('m.osoba')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
-        .comment('id pacovnika (osc) (mandatory)'),
+        .comment('id pacovnika (osc)'),
       table.date("platnost_od")
         .notNullable()
-        .comment('(mandatory) - datum platnosti zaznamu - plati od datum bude mat den vzdy 1. napr 01.05.2019'),
+        .comment('datum platnosti zaznamu - plati od datum bude mat den vzdy 1. napr 01.05.2019'),
       table.string("druh", 1)
         .notNullable()
-        .comment(' pracovneho pomeru (mandatory) (hlavny prac.pomer, dohoda o briganickj cinnosti studentov, dohoda o prac.cinnosti, dohoda o vykonani prace)'),
+        .comment('pracovneho pomeru default:H, H-Hlavny, V-vedlajsi, B-Brigada'),
       table.string("trieda", 2)
         .notNullable()
         .comment('kodove oznacenie platobnej triedy napr 01,02, 03, A1, A2, ...  default hodnota medzera'),
-      table.string("pracovna_doba_typ", 3)
+      table.string("pracovna_doba_typ", 1)
         .notNullable()
-        .comment('typ pracovnej dobyzatial nevyuzite.'),
+        .comment('typ pracovnej doby aka druh mzdy hodnoty: M - mesacena | H - hodinova.'),
       table.integer("kalendar_typ")
         .notNullable()
         .references('id')
         .inTable('m.kalendar_typ')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
-        .comment('(mandatory)kod kalendara z tabulky kalendar_typ urcuje pocet prac. dni a pocet sviatkov, pocet hodin prac.dni a pocet hodin sviatkov,'),
+        .comment('kod kalendara z tabulky kalendar_typ urcuje pocet prac. dni a pocet sviatkov, pocet hodin prac.dni a pocet hodin sviatkov,'),
       table.integer("uvazok")
         .notNullable()
         .comment('ciselne oznacenie percentualneho vyjadrenia uvazku. vacsinou 100%, default hodnota 100'),
       table.string("vypocet_sviatkov", 1)
         .notNullable()
-        .comment('sposob prepoctu sviatkovP - priemerom, T - tarifom , default hodnota T'),
+        .comment('sposob prepoctu sviatkov P - priemerom, T - tarifom , default hodnota T'),
       table.boolean("pracovny_pomer_nad_5dni")
         .notNullable()
         .comment('logicka premenna urcuje ci pracovnik pracuje viac ako 5 dni. Vacsinou True, default hodnota Nie'),
@@ -107,7 +107,8 @@ export async function up(knex: Knex): Promise<any> {
         .comment(' udava ci sa pracovnikovi pocita poistenie v nezamestnanosti za zamestnavatela, default hodnota Ano'),
       table.string("odbory", 1)
         .notNullable()
-        .comment('clenstvo v odboroch, default hodnota Nie'),
+        .comment('clenstvo v odboroch, default hodnota Nie')
+      table.float('tarif').notNullable()
       table.primary(['id','platnost_od'])
     }))
 }
