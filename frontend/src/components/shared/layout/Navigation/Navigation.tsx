@@ -56,7 +56,7 @@ const Navigation: React.FunctionComponent<NavigationProps> = ({ isNavigationOpen
             <S.NavigationItem>
               <NavigationLink href="/employees" passHref>
                 <Users />
-                <Box ml="s4">Personalistika</Box>
+                <Box ml="s4">Zamestnanci</Box>
               </NavigationLink>
             </S.NavigationItem>
           </S.NavigationList>

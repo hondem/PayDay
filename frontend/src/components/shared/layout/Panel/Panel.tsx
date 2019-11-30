@@ -1,4 +1,5 @@
 import React from 'react';
+import { MarginProps } from 'styled-system';
 
 import { Heading } from '../../typography';
 
@@ -9,13 +10,14 @@ import * as S from './Panel.styles';
 export type PanelProps = {
   title?: string;
   isPadded?: boolean;
-};
+} & MarginProps;
 
 /* <Panel />
 ============================================================================= */
-const Panel: React.FunctionComponent<PanelProps> = ({ title, isPadded, children }) => {
+const Panel: React.FunctionComponent<PanelProps> = ({ title, isPadded, children, ...props }) => {
+
   return (
-    <S.Wrapper>
+    <S.Wrapper {...props}>
       {title && (
         <S.Header>
           <Heading as="h3" mb="0">

@@ -25,13 +25,13 @@ type Props = {
 const Employees: NextPage<Props> = () => (
   <>
     <Head>
-      <title>Personalistika - Payday</title>
+      <title>Zamestnanci - Payday</title>
     </Head>
 
     <Header />
 
     <Content>
-      <PageHeader icon={<Users />} title="Zoznam zamestnancov" subtitle="Personalistika">
+      <PageHeader icon={<Users />} title="Zoznam zamestnancov" subtitle="Zamestnanci">
         <Button>Vytvoriť nového zamestnanca</Button>
       </PageHeader>
 

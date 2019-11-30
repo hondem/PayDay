@@ -9,12 +9,12 @@ const Index: NextPage = () => null;
 ============================================================================= */
 Index.getInitialProps = async (ctx: NextPageContext): Promise<null> => {
   if (ctx.req) {
-    ctx.res.writeHead(302, { Location: `/employees/${ctx?.query?.id}/essential/personal` });
+    ctx.res.writeHead(302, { Location: `/employees/${ctx?.query?.id}/wage/employment` });
     ctx.res.end();
   } else {
     Router.push(
-      '/employees/[id]/essential/[formType]',
-      `/employees/${ctx?.query?.id}/essential/personal`,
+      '/employees/[id]/wage/[formType]',
+      `/employees/${ctx?.query?.id}/wage/employment`,
     );
   }
 

@@ -19,7 +19,6 @@ type Props = {
 const Select: React.FunctionComponent<Props> = ({ id, name, options, type, ...props }) => {
   const [field, meta] = useField<any>({ id, name, options, type, ...props });
   const hasError = !!meta.error && !!meta.touched;
-  console.log(hasError);
 
   /* Separate margin props */
   const marginProps = pick([

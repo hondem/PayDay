@@ -11,7 +11,7 @@ type NavigationLinkProps = {
 /* <ActiveLink />
 ============================================================================= */
 const ActiveLink = withRouter(({ router, children, ...props }: NavigationLinkProps) => {
-  const isActive = router.pathname === props.href || (router.asPath == router.asPath) === props.as;
+  const isActive = router.asPath === props.as;
 
   return <Link {...props}>{children(isActive)}</Link>;
 });

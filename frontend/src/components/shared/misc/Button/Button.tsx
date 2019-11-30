@@ -1,11 +1,12 @@
 import { ButtonHTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
+import { MarginProps, margin } from 'styled-system';
 
 /* Props - <Button />
 ============================================================================= */
 type ButtonProps = {
   color?: 'red' | 'yellow' | 'blue' | 'green';
-};
+} & MarginProps;
 
 /* <Button />
 ============================================================================= */
@@ -99,6 +100,7 @@ const Button = styled.button<ButtonProps>`
   }
 
   ${getButtonColor}
+  ${margin}
 `;
 
 /* <Button />

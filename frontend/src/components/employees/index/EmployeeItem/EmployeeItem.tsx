@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 import { Heading, Paragraph } from '../../../shared/typography';
 import { Box, Flex } from '../../../shared/layout';
-import { getUser } from '../../../../api/shared/auth';
 import { selectUser } from '../../../../selectors/auth';
 import { deleteEmployee } from '../../../../api/client/companies';
 
@@ -22,9 +21,12 @@ const EmployeeItem: React.FunctionComponent<Props> = ({ employee }) => {
   const user = useSelector(selectUser);
   const [isDeleteInProgress, setIsDeleteInProgress] = useState<boolean>(false);
 
+  /**
+   * Handles delete button click event.
+   */
   const handleDelete = async () => {
     let confirmation = confirm(
-      `Určite chcete zmazať zamestnanca "${employee.osobni.meno} ${employee.osobni.priezvisko}"?`,
+      `Určite chcete odstrániť zamestnanca "${employee.osobni.meno} ${employee.osobni.priezvisko}"?`,
     );
 
     if (confirmation) {

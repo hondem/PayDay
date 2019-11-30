@@ -1,11 +1,15 @@
 import styled from 'styled-components';
+import { MarginProps, margin } from 'styled-system';
+
 import { PanelProps } from './Panel';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<MarginProps>`
   width: 100%;
   align-self: start;
   background: ${({ theme }) => theme.colors.white};
   box-shadow: 0px 5px 20px -12px ${({ theme }) => theme.colors.grays[1]};
+
+  ${margin}
 `;
 
 export const Header = styled.div`
