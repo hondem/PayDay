@@ -15,6 +15,8 @@ import initStore from '../src/store';
 import { AppState } from '../src/reducers';
 import { getUser } from '../src/api/shared/auth';
 
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
 class CustomApp extends App<{ store: Store<AppState> }> {
   static async getInitialProps({ Component, ctx }) {
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};

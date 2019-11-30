@@ -6,7 +6,6 @@ import Router from 'next/router';
 import { connect, useSelector } from 'react-redux';
 import { NextJSContext } from 'next-redux-wrapper';
 import { Formik, Form } from 'formik';
-import JwtDecode from 'jwt-decode';
 
 import { checkAuthorization } from '../../../../src/next';
 import {
@@ -24,7 +23,6 @@ import { SideMenu, EssentialInfo } from '../../../../src/components/employees';
 import { deleteEmployee, updateEmployee } from '../../../../src/api/client/companies';
 import { selectUser } from '../../../../src/selectors/auth';
 import { getEmployee } from '../../../../src/api/client/companies';
-import { User } from '../../../../src/types/auth';
 import { AlertMessage } from '../../../../src/types/common';
 
 /* Props - <EssentialInfoPage />
@@ -73,7 +71,7 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
 
             setTimeout(() => {
               Router.push('/');
-            }, 4000)
+            }, 4000);
           })
           .catch(() => {
             /* Show success message */
@@ -154,8 +152,18 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
                     title={`${employee.osobni.meno} ${employee.osobni.priezvisko}`}
                     subtitle="Zamestnanci"
                   >
-                    <Button type="button" mr="s6" color="blue">
-                      Zložky
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        Router.push(
+                          '/employees/[id]/components',
+                          `/employees/${employee?.id}/components`,
+                        );
+                      }}
+                      mr="s6"
+                      color="blue"
+                    >
+                      Mzdové zložky
                     </Button>
 
                     <Button
@@ -206,7 +214,7 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
 EssentialInfoPage.getInitialProps = async (
   ctx: NextJSContext<AppState, saveUserAction>,
 ): Promise<Props> => {
-  const accessToken = checkAuthorization(ctx);
+  checkAuthorization(ctx);
 
   return { employeeId: +ctx?.query?.id, formType: ctx?.query?.formType };
 };
