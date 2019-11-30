@@ -4,12 +4,6 @@ import validate from '../validations'
 import schemas from '../validations/schemas/wage'
 import _ from 'lodash'
 
-// Get by employee 
-// Get by employee and date
-// Create for employee
-// Remove by employee and date
-// Patch by employee and date and data
-
 /**
  * Get all wage records for employee
  * @param ctx 
@@ -66,10 +60,26 @@ const update = async(ctx: Koa.Context) => {
   ctx.body = await Operations.update(data)
 }
 
+/**
+ * Remove wage record in database
+ * @param ctx 
+ */
+const remove = async(ctx: Koa.Context) => {
+  const data = {
+    companyId: parseInt(ctx.params.companyId),
+    employeeId: parseInt(ctx.params.employeeId),
+    date: ctx.params.date
+  }
+
+  validate(data, schemas.remove)
+  ctx.body = await Operations.remove(data)
+}
+
 export = {
   getByEmployee,
   getByEmployeeAndDate,
   create,
-  update
+  update,
+  remove
 }
 

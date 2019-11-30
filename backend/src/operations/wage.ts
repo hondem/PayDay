@@ -5,12 +5,6 @@ import errors from '../utils/errors'
 
 import EmployeesOperations from './persons'
 
-// Get by employee 
-// Get by employee and date
-// Create for employee
-// Remove by employee and date
-// Patch by employee and date and data
-
 /**
  * Get records by employee
  * @param employee 
@@ -64,7 +58,6 @@ const update = async(data) => {
   const wage = await WageRepository.getByEmployeeAndDate(foundEmployee.id, data.date)
   if(!wage) throw new errors.NotFound(errors.WAGE_NOT_FOUND, "Wage record was not found")
 
-  const companyId = data.companyId
   const employeeId = data.employeeId
   const date = data.date
 
@@ -75,9 +68,24 @@ const update = async(data) => {
   return WageRepository.update(employeeId, date, data)
 }
 
+/**
+ * Remove wage record
+ * @param data 
+ */
+const remove = async(data) => {
+  const foundEmployee = await EmployeesOperations.getByIdInCompany(data.companyId, data.employeeId)
+  if(!foundEmployee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Employee not found")
+
+  const wage = await WageRepository.getByEmployeeAndDate(foundEmployee.id, data.date)
+  if(!wage) throw new errors.NotFound(errors.WAGE_NOT_FOUND, "Wage record was not found")
+
+  return WageRepository.remove(data.employeeId, data.date)
+}
+
 export = {
   getByEmployee,
   getByEmployeeAndDate,
   create,
-  update
+  update,
+  remove
 }

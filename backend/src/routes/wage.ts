@@ -8,5 +8,6 @@ router.get('/companies/:companyId/employees/:employeeId/wage', Controller.getByE
 router.get('/companies/:companyId/employees/:employeeId/wage/:date', Controller.getByEmployeeAndDate)
 router.patch('/companies/:companyId/employees/:employeeId/wage/:date', Controller.update)
 router.post('/companies/:companyId/employees/:employeeId/wage', Controller.create)
+router.delete('/companies/:companyId/employees/:employeeId/wage/:date', Controller.remove)
 
 export default router.routes()
