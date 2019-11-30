@@ -61,6 +61,15 @@ const WageInfoPage: NextPage<Props> = ({ employee, formType }) => {
       case 'employment': {
         return 'Pracovný pomer';
       }
+      case 'tax':{
+        return 'Dane';
+      }
+      case 'statistics':{
+        return 'Štatistika';
+      }
+      case 'insurance':{
+        return 'Poistenie';
+      }
     }
   };
 
