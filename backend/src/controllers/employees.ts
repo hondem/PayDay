@@ -65,11 +65,12 @@ const update = async(ctx: Koa.Context) : Promise<any> => {
  */
 const remove = async(ctx: Koa.Context) : Promise<any> => {
   const data = {
-    id: parseInt(ctx.params.employeeId)
+    companyId: parseInt(ctx.params.companyId),
+    employeeId: parseInt(ctx.params.employeeId)
   }
 
   validate(data, employeesSchemas.removeEmployee)
-  ctx.body = await EmployeesOperations.remove(data.id)
+  ctx.body = await EmployeesOperations.remove(data)
 }
 
 /**

@@ -63,13 +63,16 @@ const update = async(person) : Promise<any> => {
  * Remove certaian employee
  * @param person 
  */
-const remove = async(id: IdOrIds) : Promise<any> => {
-  const employee = await PersonsRepository.getById(id)
+const remove = async(data) : Promise<any> => {
+  const company = await CompaniesOperations.getById(data.companyId)
+  if(!company) throw new errors.NotFound(errors.COMPANY_NOT_FOUND, "Given compaany doesn't exist")
+
+  const employee = await PersonsRepository.getByIdInCompany(data.companyId, data.employeeId)
   if(!employee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Given employee was not found")
 
   // TODO: Check permissions!
   // TODO: Remove row in `udaje` table!
-  return PersonsRepository.remove(id)
+  return PersonsRepository.remove(data.employeeId)
 }
 
 /**
