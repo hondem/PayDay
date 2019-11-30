@@ -81,6 +81,36 @@ const SideMenu: React.FunctionComponent<Props> = ({ employee }) => {
                 {isActive => <MenuLink isActive={isActive}>Pracovný pomer</MenuLink>}
               </ActiveLink>
             </MenuItem>
+
+            <MenuItem>
+              <ActiveLink
+                href="/employees/[id]/wage/[formType]"
+                as={`/employees/${employee?.id}/wage/tax`}
+                passHref
+              >
+                {isActive => <MenuLink isActive={isActive}>Dane</MenuLink>}
+              </ActiveLink>
+            </MenuItem>
+
+            <MenuItem>
+              <ActiveLink
+                href="/employees/[id]/wage/[formType]"
+                as={`/employees/${employee?.id}/wage/statistics`}
+                passHref
+              >
+                {isActive => <MenuLink isActive={isActive}>Štatistika</MenuLink>}
+              </ActiveLink>
+            </MenuItem>
+
+            <MenuItem>
+              <ActiveLink
+                href="/employees/[id]/wage/[formType]"
+                as={`/employees/${employee?.id}/wage/insurance`}
+                passHref
+              >
+                {isActive => <MenuLink isActive={isActive}>Poistenie</MenuLink>}
+              </ActiveLink>
+            </MenuItem>
           </Menu>
         </Panel>
       </Flex>

@@ -77,3 +77,15 @@ export const createEmployee = (companyId: number, employee: any) =>
       },
     },
   );
+
+/**
+ * Gets wage data for specified employee.
+ * @param companyId ID of company employee should belong to
+ * @param employeeId ID of employee of which to get wage data
+ */
+export const getWageData = (companyId: number = 1, employeeId: any, date: string) =>
+  API.get<any>(`/companies/${companyId}/employees/${employeeId}/wage`, {
+    headers: {
+      Authorization: getAuthToken(),
+    },
+  });
