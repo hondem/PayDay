@@ -1,25 +1,21 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
-import Loader from 'react-loader-spinner';
 
 import { EmployeeItem } from '../..';
 import { getCompanyEmployees } from '../../../../api/client/companies';
 import { saveEmployeesAction } from '../../../../actions/employees';
-import { getEmployees } from '../../../../selectors/employees';
+import { selectEmployees } from '../../../../selectors/employees';
 import { Flex } from '../../../shared/layout';
-import { THEME } from '../../../../theme';
+import { selectUser } from '../../../../selectors/auth';
 
 import * as S from './EmployeeList.styles';
-
-/* Props - <EmployeeList />
-============================================================================= */
-type Props = {};
 
 /* <EmployeeList />
 ============================================================================= */
 const EmployeeList: React.FunctionComponent<Props> = () => {
-  const employees = useSelector(getEmployees);
+  const user = useSelector(selectUser);
+  const employees = useSelector(selectEmployees);
   const dispatch = useDispatch<Dispatch<saveEmployeesAction>>();
 
   useEffect(() => {
@@ -28,7 +24,7 @@ const EmployeeList: React.FunctionComponent<Props> = () => {
 
   /* Fetch all employees */
   const fetchEmployees = async () => {
-    await getCompanyEmployees().then(({ data: list }) => {
+    await getCompanyEmployees(user.companyId).then(({ data: list }) => {
       dispatch({
         type: '[EMPLOYEES] SAVE_EMPLOYEES',
         payload: {
@@ -42,12 +38,7 @@ const EmployeeList: React.FunctionComponent<Props> = () => {
   if (employees === null) {
     return (
       <Flex justifyContent="center">
-        <Loader
-          type="Puff"
-          color={THEME.colors.blues[1]}
-          height={80}
-          width={80}
-        />
+        Získavanie dát, prosím počkate...
       </Flex>
     );
   }

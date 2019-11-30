@@ -6,15 +6,13 @@ import { connect } from 'react-redux';
 import { NextJSContext } from 'next-redux-wrapper';
 
 import { checkAuthorization } from '../../src/next';
-import { Header, Content, PageHeader } from '../../src/components/shared/layout';
+import { Header, Content, PageHeader, Flex } from '../../src/components/shared/layout';
 import { saveUserAction } from '../../src/actions/auth';
 import { AppState } from '../../src/reducers';
 import { Button } from '../../src/components/shared/misc';
+import { THEME } from '../../src/theme';
+import { EmployeeList } from '../../src/components/employees';
 
-const EmployeeList = dynamic(
-  () => import('../../src/components/employees').then(mod => mod.EmployeeList),
-  { ssr: false },
-);
 
 /* Props - <Employees />
 ============================================================================= */

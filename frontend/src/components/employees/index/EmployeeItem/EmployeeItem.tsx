@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 import { Heading, Paragraph } from '../../../shared/typography';
 import { Box, Flex } from '../../../shared/layout';
+import { getUser } from '../../../../api/shared/auth';
+import { selectUser } from '../../../../selectors/auth';
+import { deleteEmployee } from '../../../../api/client/companies';
 
 import * as S from './EmployeeItem.styles';
-import Link from 'next/link';
 
 /* Props - <EmployeeItem />
 ============================================================================= */
@@ -15,6 +19,15 @@ type Props = {
 /* <EmployeeItem />
 ============================================================================= */
 const EmployeeItem: React.FunctionComponent<Props> = ({ employee }) => {
+  const user = useSelector(selectUser);
+  const [isDeleteInProgress, setIsDeleteInProgress] = useState<boolean>(false);
+
+  const handleDelete = async () => {
+    setIsDeleteInProgress(true);
+
+    await deleteEmployee(user.companyId, employee.id);
+  };
+
   return (
     <S.Wrapper>
       <S.Main>
@@ -29,7 +42,7 @@ const EmployeeItem: React.FunctionComponent<Props> = ({ employee }) => {
         </Box>
 
         <Flex>
-          <S.Tag isBold>#{employee.id}</S.Tag>
+          <S.Tag isBold>#{employee.firemni.osobne_cislo}</S.Tag>
           <S.Tag>full-time</S.Tag>
         </Flex>
       </S.Main>
@@ -38,7 +51,10 @@ const EmployeeItem: React.FunctionComponent<Props> = ({ employee }) => {
         <Link href="/employees/[id]" as={`/employees/${employee.id}`}>
           <S.FooterButton>Upraviť</S.FooterButton>
         </Link>
-        <S.FooterButton>Zmazať</S.FooterButton>
+
+        <S.FooterButton onClick={handleDelete}>
+          {isDeleteInProgress ? 'Odstraňovanie...' : 'Odstrániť'}
+        </S.FooterButton>
       </S.Footer>
     </S.Wrapper>
   );

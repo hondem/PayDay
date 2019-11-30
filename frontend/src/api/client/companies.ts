@@ -15,3 +15,12 @@ export const getCompanyEmployees = (companyId: number = 1) =>
       Authorization: getAuthToken(),
     },
   });
+
+/**
+ * Deletes employee by his ID
+ *
+ * @param companyId ID of company employee belongs to
+ * @param employeeID ID of employee that has to be deleted
+ */
+export const deleteEmployee = (companyId: number, employeeId: number) =>
+  API.delete(`/companies/${companyId}/employees/${employeeId}`);
