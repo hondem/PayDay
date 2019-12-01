@@ -191,7 +191,7 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
               onSubmit={handleSubmit}
               validationSchema={ValidationSchema}
             >
-              {({ isSubmitting }) => (
+              {({ isSubmitting, isValid }) => (
                 <Form>
                   <PageHeader
                     icon={<Users />}
@@ -222,7 +222,7 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
                       {isDeleteInProgress ? 'Odstraňovanie...' : 'Odstrániť zamestnanca'}
                     </Button>
 
-                    <Button type="submit" disabled={isSubmitting}>
+                    <Button type="submit" disabled={isSubmitting || !isValid}>
                       {isSubmitting ? 'Ukladanie...' : 'Uložiť'}
                     </Button>
                   </PageHeader>

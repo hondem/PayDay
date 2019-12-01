@@ -160,7 +160,7 @@ const EmployeeCreatePage: NextPage<Props> = ({ formType }) => {
           {({ isSubmitting }) => (
             <Form>
               <PageHeader icon={<UserPlus />} title="Nový zamestnanec" subtitle="Zamestnanci">
-                <Button type="submit" disabled={isSubmitting}>
+                <Button type="submit" disabled={isSubmitting || !isValid}>
                   {isSubmitting ? 'Vytváraie nového zamstnanca...' : 'Vytvoriť nového zamestnanca'}
                 </Button>
               </PageHeader>
