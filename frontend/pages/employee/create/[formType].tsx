@@ -21,10 +21,67 @@ import { saveUserAction } from '../../../src/actions/auth';
 import { AppState } from '../../../src/reducers';
 import { Button, Alert } from '../../../src/components/shared/misc';
 import { SideMenu, EssentialInfo } from '../../../src/components/employees';
-import { deleteEmployee, updateEmployee, createEmployee } from '../../../src/api/client/companies';
+import { createEmployee } from '../../../src/api/client/companies';
 import { selectUser } from '../../../src/selectors/auth';
-import { getEmployee } from '../../../src/api/client/companies';
 import { AlertMessage } from '../../../src/types/common';
+
+/* Contants
+============================================================================= */
+const INITIAL_VALUES = {
+  osobni: {
+    meno: 'Jan',
+    stredne_meno: 'APIGOD',
+    priezvisko: 'Demel',
+    rodne_cislo: 'Nepovym',
+    datum_nar: '1998-05-20',
+    pohlavie: 'M',
+    statna_prislusnost: 'Čech',
+    miesto_narodenia: 'Moravský Krumlov',
+    stav: 'S',
+    obciansky: 'Retardovany',
+    pas: 'nemam',
+  },
+  firemni: {
+    osobne_cislo: 'nepracuju',
+    externe_osobne_cislo: 'nepracuju',
+    aktivny: true,
+    funkcia: 'Kávovar',
+    pozicia: 'Kávovar',
+    oddelenie: 'Sefuv rozkrok',
+    pobocka: 'Kundovnice',
+    stredisko: 'Rozkrok',
+    nastup: '2000-01-01',
+    ukoncenie: '2010-01-01',
+    pozn: 'Umím polít kávou rozkrok',
+  },
+  adresa_trvale: {
+    adresa_ulica_trvale: 'Most',
+    adresa_cislo_popisne_trvale: '2015',
+    adresa_cislo_domu_trvale: '190',
+    psc_trvale: '74266',
+    mesto_trvale: 'Ostrava',
+    okres_trvale: 'Ostrava',
+    kraj_trvale: 'Moravskoslezský',
+    krajina_trvale: 'WTF',
+  },
+  adresa_prechodne: {
+    adresa_ulica_prechodne: 'Neco',
+    adresa_cislo_popisne_prechodne: '190',
+    adresa_cislo_domu_prechodne: '160',
+    psc_prechodne: '74221',
+    mesto_prechodne: 'Brno',
+    okres_prechodne: 'Brno',
+    kraj_prechodne: 'Brno',
+    krajina_prechodne: 'Brno',
+  },
+  kontakt: {
+    telefon_pracovny: '7779796865',
+    telefon_sukromny: '7779796865',
+    telefon_iny: '777444555',
+    skype: 'hondem',
+    email: 'jandemel98@gmail.com',
+  },
+};
 
 /* Props - <EmployeeCreatePage />
 ============================================================================= */
@@ -97,7 +154,7 @@ const EmployeeCreatePage: NextPage<Props> = ({ formType }) => {
       <Header />
 
       <Content isNarrow>
-        <Formik initialValues={{}} onSubmit={handleSubmit}>
+        <Formik initialValues={INITIAL_VALUES} onSubmit={handleSubmit}>
           {({ isSubmitting }) => (
             <Form>
               <PageHeader icon={<UserPlus />} title="Nový zamestnanec" subtitle="Zamestnanci">
