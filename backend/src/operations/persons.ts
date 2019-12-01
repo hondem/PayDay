@@ -97,7 +97,7 @@ const calculate = async(data) : Promise<any> => {
   if(!employee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Given employee was not found")
 
   await execPromisified(`python calc.py ${employeeId} ${data.date}`, {
-    cwd: path.resolve(__dirname, "../services/"),
+    cwd: path.resolve(__dirname, "../../src/services/"),
     env: {
       DB_URI: config.db.uri
     }

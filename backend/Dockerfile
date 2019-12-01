@@ -1,5 +1,11 @@
 FROM node:10
 
+# USER root
+
+RUN apt update
+RUN apt upgrade -y
+RUN apt install -y python2.7 python-pip
+
 RUN mkdir -p /app/node_modules && chown -R node:node /app
 
 WORKDIR /app
@@ -8,6 +14,8 @@ COPY package*.json ./
 COPY tsconfig.json ./
 
 USER node
+
+RUN pip install psycopg2-binary
 RUN npm install
 
 COPY --chown=node:node ./src ./src
