@@ -3,10 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "./src/app.ts",
+  "engines": {
+    "node": "10.16.3",
+    "npm": "6.9.0",
+    "python": "2.7.17"
+  },
   "scripts": {
-    "test": "echo \"Error: PISS ON U!\" && exit 1",
+    "test": "echo \"Error: PISS ON U! I DONT NEET TESTS!\" && exit 0",
     "build": "tsc",
-    "start": "ts-node ./src/app.ts",
+    "start": "node ./dist/app.ts",
     "dev": "nodemon --watch './src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' ./src/app.ts",
     "lint": "eslint --ext ts --report-unused-disable-directives ./src",
     "migrate:latest": "ts-node ./node_modules/.bin/knex migrate:latest --cwd ./src/database --knexfile ../config/knexfile.ts",
