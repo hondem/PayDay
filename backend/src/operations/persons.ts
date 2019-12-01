@@ -1,9 +1,18 @@
 import PersonsRepository from '../repository/persons'
 import { IdOrIds } from 'objection'
 import errors from '../utils/errors'
+import config from '../config'
+
+import logger from '../utils/logger'
 
 import EmployeesUtils from '../utils/employees'
 import CompaniesOperations from './companies'
+
+import util from 'util'
+import path from 'path'
+import { exec } from 'child_process'
+
+const execPromisified = util.promisify(exec)
 
 /**
  * Get employees in company
@@ -70,8 +79,6 @@ const remove = async(data) : Promise<any> => {
   const employee = await PersonsRepository.getByIdInCompany(data.companyId, data.employeeId)
   if(!employee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Given employee was not found")
 
-  // TODO: Check permissions!
-  // TODO: Remove row in `udaje` table!
   return PersonsRepository.remove(data.employeeId)
 }
 
@@ -89,7 +96,12 @@ const calculate = async(data) : Promise<any> => {
   const employee = await PersonsRepository.getByIdInCompany(companyId, employeeId)
   if(!employee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Given employee was not found")
 
-  return "Heyaaaa do piči"
+  await execPromisified(`python calc.py ${employeeId} ${data.date}`, {
+    cwd: path.resolve(__dirname, "../services/"),
+    env: {
+      DB_URI: config.db.uri
+    }
+  })
 }
 
 export = {

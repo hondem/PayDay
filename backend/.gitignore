@@ -4,6 +4,7 @@ node_modules
 .env
 
 *.log
+*.pyc
 *~
 *#
 .DS_Store
