@@ -9,13 +9,19 @@ import { saveEmployeesAction } from '../../../../actions/employees';
 import { selectEmployees } from '../../../../selectors/employees';
 import { Flex } from '../../../shared/layout';
 import { selectUser } from '../../../../selectors/auth';
+import { THEME } from '../../../../theme';
 
 import * as S from './EmployeeList.styles';
-import { THEME } from '../../../../theme';
+
+/* Props - <EmployeeList />
+============================================================================= */
+type Props = {
+  mode?: 'basic' | 'wage';
+};
 
 /* <EmployeeList />
 ============================================================================= */
-const EmployeeList: React.FunctionComponent = () => {
+const EmployeeList: React.FunctionComponent<Props> = ({ mode }) => {
   const user = useSelector(selectUser);
   const employees = useSelector(selectEmployees);
   const dispatch = useDispatch<Dispatch<saveEmployeesAction>>();
@@ -40,8 +46,8 @@ const EmployeeList: React.FunctionComponent = () => {
   if (employees === null) {
     return (
       <Flex justifyContent="center">
-      <Loader type="Puff" color={THEME.colors.blues[1]} height={80} width={80} />
-    </Flex>
+        <Loader type="Puff" color={THEME.colors.blues[1]} height={80} width={80} />
+      </Flex>
     );
   }
 
@@ -50,13 +56,24 @@ const EmployeeList: React.FunctionComponent = () => {
     return (
       <S.Grid>
         {employees.map((employee, key) => (
-          <EmployeeItem employee={employee} onEmployeeDelete={fetchEmployees} key={key} />
+          <EmployeeItem
+            employee={employee}
+            onEmployeeDelete={fetchEmployees}
+            mode={mode}
+            key={key}
+          />
         ))}
       </S.Grid>
     );
   }
 
   return null;
+};
+
+/* Default props - <EmployeeList />
+============================================================================= */
+EmployeeList.defaultProps = {
+  mode: 'basic',
 };
 
 export default EmployeeList;

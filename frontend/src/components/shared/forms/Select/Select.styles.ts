@@ -50,6 +50,7 @@ export const SelectIconWrapper = styled.div<{ hasError: boolean }>`
   right: ${({ theme }) => theme.space.s12};
   width: 20px;
   height: 20px;
+  pointer-events: none;
 
   ${({ hasError }) =>
     hasError &&
@@ -71,6 +72,7 @@ export const SelectDropdownIconWrapper = styled.div`
   right: ${({ theme }) => theme.space.s4};
   width: 20px;
   height: 20px;
+  pointer-events: none;
 
   svg {
     width: 20px;
