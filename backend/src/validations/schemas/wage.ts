@@ -411,11 +411,35 @@ const getByEmployeeAndDate : Object = {
   }
 }
 
+const getByEmployeeAndEffectiveDate : Object = {
+  type: 'object',
+  required: true,
+  additionalProperties: false,
+  properties: {
+    companyId: {
+      type: "integer",
+      required: true
+    },
+
+    employeeId: {
+      type: "integer",
+      required: true
+    },
+
+    date: {
+      type: "string",
+      required: true,
+      format: "date"
+    }
+  }
+}
+
 
 export = {
   remove,
   create,
   update,
   getByEmployee,
-  getByEmployeeAndDate
+  getByEmployeeAndDate,
+  getByEmployeeAndEffectiveDate
 }

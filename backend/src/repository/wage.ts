@@ -26,6 +26,15 @@ const getByEmployeeAndDate = (employeeId : IdOrIds, date) : Promise<any> => {
 }
 
 /**
+ * Get wage record effective in certain date
+ * @param employeeId 
+ * @param date 
+ */
+const getByEmployeeAndEffectiveDate = (employeeId: IdOrIds, date) : Promise<any> => {
+  return WageModel.query().where('id', employeeId).andWhere('platnost_od', '<=', date).orderBy('platnost_od', 'desc').first()
+}
+
+/**
  * Creates wageData
  * @param wageData 
  */
@@ -56,5 +65,6 @@ export = {
   getByEmployeeAndDate,
   create,
   update,
-  remove
+  remove,
+  getByEmployeeAndEffectiveDate
 }

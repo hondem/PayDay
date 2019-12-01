@@ -32,6 +32,19 @@ const getByEmployeeAndDate = async(data) => {
 }
 
 /**
+ * Get effective wage record in date
+ * @param data 
+ */
+const getByEmployeeAndEffectiveDate = async(data) => {
+  const foundEmployee = await EmployeesOperations.getByIdInCompany(data.companyId, data.employeeId)
+  if(!foundEmployee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Employee not found")
+
+  const wage = await WageRepository.getByEmployeeAndEffectiveDate(data.employeeId, data.date)
+  if(!wage) throw new errors.NotFound(errors.WAGE_NOT_FOUND, "Effective wage for this date doesn't exist")
+  return wage
+}
+
+/**
  * Create new wage record
  * @param data 
  */
@@ -92,6 +105,7 @@ const remove = async(data) => {
 export = {
   getByEmployee,
   getByEmployeeAndDate,
+  getByEmployeeAndEffectiveDate,
   create,
   update,
   remove

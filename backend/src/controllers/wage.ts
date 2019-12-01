@@ -34,6 +34,21 @@ const getByEmployeeAndDate = async(ctx: Koa.Context) => {
 }
 
 /**
+ * Get effective wage record in certain date
+ * @param ctx 
+ */
+const getByEmployeeAndEffectiveDate = async(ctx: Koa.Context) => {
+  const data = {
+    companyId: parseInt(ctx.params.companyId),
+    employeeId: parseInt(ctx.params.employeeId),
+    date: ctx.params.date
+  }
+
+  validate(data, schemas.getByEmployeeAndEffectiveDate)
+  ctx.body = await Operations.getByEmployeeAndEffectiveDate(data)
+}
+
+/**
  * Create new wage record
  * @param ctx 
  */
@@ -78,6 +93,7 @@ const remove = async(ctx: Koa.Context) => {
 export = {
   getByEmployee,
   getByEmployeeAndDate,
+  getByEmployeeAndEffectiveDate,
   create,
   update,
   remove
