@@ -10,7 +10,10 @@ export async function up(knex: Knex): Promise<any> {
 
   .alterTable('m.osoba', table => {
     table.integer('spolecnost').defaultTo(null)
-    table.foreign('spolecnost').references('companies.id')
+    table.foreign('spolecnost')
+      .references('companies.id')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE')
   })
 }
 
