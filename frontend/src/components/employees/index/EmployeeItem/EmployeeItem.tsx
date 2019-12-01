@@ -13,11 +13,12 @@ import * as S from './EmployeeItem.styles';
 ============================================================================= */
 type Props = {
   employee: any;
+  onEmployeeDelete: () => void;
 };
 
 /* <EmployeeItem />
 ============================================================================= */
-const EmployeeItem: React.FunctionComponent<Props> = ({ employee }) => {
+const EmployeeItem: React.FunctionComponent<Props> = ({ employee, onEmployeeDelete }) => {
   const user = useSelector(selectUser);
   const [isDeleteInProgress, setIsDeleteInProgress] = useState<boolean>(false);
 
@@ -32,7 +33,9 @@ const EmployeeItem: React.FunctionComponent<Props> = ({ employee }) => {
     if (confirmation) {
       setIsDeleteInProgress(true);
 
-      await deleteEmployee(user.companyId, employee.id);
+      await deleteEmployee(user.companyId, employee.id).then(() => {
+        onEmployeeDelete();
+      });
     }
   };
 

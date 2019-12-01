@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
+import Loader from 'react-loader-spinner';
 
 import { EmployeeItem } from '../..';
 import { getCompanyEmployees } from '../../../../api/client/companies';
@@ -10,6 +11,7 @@ import { Flex } from '../../../shared/layout';
 import { selectUser } from '../../../../selectors/auth';
 
 import * as S from './EmployeeList.styles';
+import { THEME } from '../../../../theme';
 
 /* <EmployeeList />
 ============================================================================= */
@@ -38,8 +40,8 @@ const EmployeeList: React.FunctionComponent = () => {
   if (employees === null) {
     return (
       <Flex justifyContent="center">
-        Získavanie dát, prosím počkate...
-      </Flex>
+      <Loader type="Puff" color={THEME.colors.blues[1]} height={80} width={80} />
+    </Flex>
     );
   }
 
@@ -48,7 +50,7 @@ const EmployeeList: React.FunctionComponent = () => {
     return (
       <S.Grid>
         {employees.map((employee, key) => (
-          <EmployeeItem employee={employee} key={key} />
+          <EmployeeItem employee={employee} onEmployeeDelete={fetchEmployees} key={key} />
         ))}
       </S.Grid>
     );
