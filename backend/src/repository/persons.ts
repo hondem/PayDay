@@ -66,7 +66,7 @@ const remove = (id: IdOrIds) : Promise<any> => {
   return PersonModel.query().deleteById(id)
 }
 
-export = {
+export default {
   getAll,
   getById,
   getByEmail,

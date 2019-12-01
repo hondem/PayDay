@@ -12,4 +12,4 @@ const validate = (data, schema) => {
   }
 }
 
-export = validate
+export default validate

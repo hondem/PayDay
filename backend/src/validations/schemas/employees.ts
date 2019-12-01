@@ -586,7 +586,7 @@ const calculate : Object = {
   }
 }
 
-export = {
+export default {
   createPersonalData,
   updatePersonalData,
   getEmployeesByCompany,

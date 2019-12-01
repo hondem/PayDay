@@ -435,7 +435,7 @@ const getByEmployeeAndEffectiveDate : Object = {
 }
 
 
-export = {
+export default {
   remove,
   create,
   update,

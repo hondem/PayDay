@@ -7,6 +7,7 @@ import logger from '../utils/logger'
 
 import EmployeesUtils from '../utils/employees'
 import CompaniesOperations from './companies'
+import SalaryOperations from './salary'
 
 import util from 'util'
 import path from 'path'
@@ -102,9 +103,12 @@ const calculate = async(data) : Promise<any> => {
       DB_URI: config.db.uri
     }
   })
+
+  const createdSalary = await SalaryOperations.getByEmployeeIdAndDate(data)
+  return createdSalary
 }
 
-export = {
+export default {
   create,
   update,
   getByCompany,

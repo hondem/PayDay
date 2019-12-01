@@ -34,7 +34,7 @@ const update = (id: IdOrIds, data: Company) : Promise<any> => {
   return CompanyModel.query().patchAndFetchById(id, <any>data)
 }
 
-export = {
+export default {
   getAll,
   getById,
   create,

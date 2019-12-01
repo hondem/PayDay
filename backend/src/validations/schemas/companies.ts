@@ -35,7 +35,7 @@ const update : Object = {
   }
 }
 
-export = {
+export default {
   getById,
   create,
   update

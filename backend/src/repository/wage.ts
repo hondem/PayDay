@@ -59,7 +59,7 @@ const remove = (employeeId: IdOrIds, date) : Promise<any> => {
   return WageModel.query().where('id', employeeId).where('platnost_od', date).delete()
 }
 
-export = {
+export default {
   getAll,
   getByEmployee,
   getByEmployeeAndDate,

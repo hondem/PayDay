@@ -102,7 +102,7 @@ const remove = async(data) => {
   return WageRepository.remove(data.employeeId, data.date)
 }
 
-export = {
+export default {
   getByEmployee,
   getByEmployeeAndDate,
   getByEmployeeAndEffectiveDate,

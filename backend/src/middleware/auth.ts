@@ -103,7 +103,7 @@ const minAdmin = (ctx: Context, next) => {
   return authorize(ctx, next, AUTH_MIN_ADMIN)
 }
 
-export = {
+export default {
   accountant,
   personalist,
   admin,

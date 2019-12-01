@@ -79,7 +79,7 @@ class InternalError extends AppError{
   }
 }
 
-export = {
+export default {
   AppError,
   NotFound,
   ValidationError,

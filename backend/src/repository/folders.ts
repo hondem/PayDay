@@ -68,7 +68,7 @@ const remove = (id: IdOrIds) => {
   return FolderModel.query().deleteById(id)
 }
 
-export = {
+export default {
   getAll,
   getById,
   getByEmployeeId,

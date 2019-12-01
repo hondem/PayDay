@@ -1,14 +1,17 @@
 import SalaryRepository from '../repository/salary'
 import errors from '../utils/errors'
 
-import EmployeesOperations from './persons'
+import EmployeeOperations from './persons'
+
+import logger from '../utils/logger'
 
 /**
  * Get salaries by employee id
  * @param data 
  */
 const getByEmployeeId = async(data) => {
-  const foundEmployee = await EmployeesOperations.getByIdInCompany(data.companyId, data.employeeId)
+  logger.info(EmployeeOperations)
+  const foundEmployee = await EmployeeOperations.getByIdInCompany(data.companyId, data.employeeId)
   if(!foundEmployee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Employee was not found")
 
   return SalaryRepository.getByEmployeeId(data.employeeId)
@@ -19,7 +22,7 @@ const getByEmployeeId = async(data) => {
  * @param data 
  */
 const getByEmployeeIdAndDate = async(data) => {
-  const foundEmployee = await EmployeesOperations.getByIdInCompany(data.companyId, data.employeeId)
+  const foundEmployee = await EmployeeOperations.getByIdInCompany(data.companyId, data.employeeId)
   if(!foundEmployee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Employee was not found")
 
   const foundSalary = await SalaryRepository.getByEmployeeIdAndDate(data.employeeId, data.date)
@@ -28,7 +31,7 @@ const getByEmployeeIdAndDate = async(data) => {
   return foundSalary
 }
 
-export = {
+export default {
   getByEmployeeId,
   getByEmployeeIdAndDate
 }

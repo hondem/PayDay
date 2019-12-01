@@ -60,7 +60,7 @@ const verifyToken = async(token) : Promise<UserTokenPayload> => {
   }
 }
 
-export = {
+export default {
   pepperify,
   hash,
   compare,

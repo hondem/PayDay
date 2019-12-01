@@ -75,7 +75,7 @@ const changePassword: Object = {
   }
 }
 
-export = {
+export default {
   getById,
   create,
   update,

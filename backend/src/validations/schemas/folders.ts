@@ -177,7 +177,7 @@ const getById = {
   }
 }
 
-export = {
+export default {
   getByEmployeeId,
   getByEmployeeIdAndMonth,
   create,

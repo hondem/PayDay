@@ -90,7 +90,7 @@ const update = async(data) => {
   return FoldersRepository.update(folderId, data)
 }
 
-export = {
+export default {
   getById,
   getByEmployeeId,
   getByEmployeeIdAndMonth,

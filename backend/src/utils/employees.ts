@@ -122,7 +122,7 @@ const nestedObjectToPlain = (nested) => {
   }
 }
 
-export = {
+export default {
   plainObjectToNested,
   nestedObjectToPlain
 }

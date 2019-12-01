@@ -53,7 +53,7 @@ const notFound = async(ctx: Context, next) => {
   })
 }
 
-export = {
+export default {
   errorMiddleware,
   notFound
 }

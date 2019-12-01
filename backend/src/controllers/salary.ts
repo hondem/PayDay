@@ -33,7 +33,7 @@ const getByEmployeeIdAndDate = async(ctx: Koa.Context) => {
   ctx.body = await Operations.getByEmployeeIdAndDate(data)
 }
 
-export = {
+export default {
   getByEmployeeId,
   getByEmployeeIdAndDate
 }

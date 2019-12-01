@@ -40,7 +40,7 @@ const getByEmployeeIdAndDate = {
   }
 }
 
-export = {
+export default {
   getByEmployeeId,
   getByEmployeeIdAndDate
 }

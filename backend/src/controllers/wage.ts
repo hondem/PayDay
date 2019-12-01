@@ -90,7 +90,7 @@ const remove = async(ctx: Koa.Context) => {
   ctx.body = await Operations.remove(data)
 }
 
-export = {
+export default {
   getByEmployee,
   getByEmployeeAndDate,
   getByEmployeeAndEffectiveDate,

@@ -40,7 +40,7 @@ const update = async(company: Company) : Promise<any> => {
   return CompaniesRepository.update(companyId, company)
 }
 
-export = {
+export default {
   getAll,
   getById,
   create,

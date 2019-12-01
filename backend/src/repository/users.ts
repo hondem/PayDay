@@ -42,7 +42,7 @@ const update = (id: IdOrIds, data: User): Promise<any> => {
   return UserModel.query().patchAndFetchById(id, <any>data)
 }
 
-export = {
+export default {
   getAll,
   getById,
   getByEmail,

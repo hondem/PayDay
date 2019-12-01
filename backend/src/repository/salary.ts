@@ -18,7 +18,7 @@ const getByEmployeeIdAndDate = (id: IdOrIds, date) => {
   return SalaryModel.query().where('id', id).andWhere('obdobie', date).first()
 }
 
-export = {
+export default {
   getByEmployeeId,
   getByEmployeeIdAndDate
 }

@@ -119,7 +119,7 @@ const verifyTokenPayload = async(token: string) => {
 
 }
 
-export = {
+export default {
   getAll,
   getById,
   create,
