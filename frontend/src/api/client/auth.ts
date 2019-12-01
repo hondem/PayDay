@@ -1,5 +1,6 @@
 import { User } from '../../types/auth';
 import { API } from '..';
+import JwtDecode from 'jwt-decode';
 
 /**
  * Sends a sign in request with user's credentials.

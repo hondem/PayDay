@@ -29,6 +29,9 @@ import {
 } from '../../../src/api/client/companies';
 import { selectUser } from '../../../src/selectors/auth';
 import { THEME } from '../../../src/theme';
+import JwtDecode from 'jwt-decode';
+import { User } from '../../../src/types/auth';
+import { canManageWageData } from '../../../src/api/shared/auth';
 
 /* Constants & local types
 ============================================================================= */
@@ -244,7 +247,19 @@ const Components: NextPage<Props> = ({ employeeId }) => {
 Components.getInitialProps = async (
   ctx: NextJSContext<AppState, saveUserAction>,
 ): Promise<Props> => {
-  checkAuthorization(ctx);
+  const accessToken = checkAuthorization(ctx);
+
+  const { user } = JwtDecode<{ user: User }>(accessToken);
+  if (!canManageWageData(user)) {
+    if (ctx.req) {
+      ctx.res.writeHead(401, { Location: '/' });
+      ctx.res.end();
+      return;
+    } else {
+      Router.push('/');
+      return;
+    }
+  }
 
   return { employeeId: +ctx?.query?.id };
 };

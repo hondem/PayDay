@@ -1,8 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { Panel, Flex } from '../../../shared/layout';
 import { Menu, MenuItem, MenuLink } from '../../../shared/layout/Panel/modules/Menu';
 import { ActiveLink } from '../../../shared/misc';
+import { selectUser } from '../../../../selectors/auth';
+import { canManageWageData } from '../../../../api/shared/auth';
 
 /* Props - <SideMenu />
 ============================================================================= */
@@ -13,6 +16,8 @@ type Props = {
 /* <SideMenu />
 ============================================================================= */
 const SideMenu: React.FunctionComponent<Props> = ({ employee }) => {
+  const user = useSelector(selectUser);
+
   if (employee) {
     return (
       <Flex flexDirection="column">
@@ -70,49 +75,51 @@ const SideMenu: React.FunctionComponent<Props> = ({ employee }) => {
           </Menu>
         </Panel>
 
-        <Panel title="Mzdové údaje" isPadded={false}>
-          <Menu>
-            <MenuItem>
-              <ActiveLink
-                href="/employees/[id]/wage/[formType]"
-                as={`/employees/${employee?.id}/wage/employment`}
-                passHref
-              >
-                {isActive => <MenuLink isActive={isActive}>Pracovný pomer</MenuLink>}
-              </ActiveLink>
-            </MenuItem>
+        {canManageWageData(user) && (
+          <Panel title="Mzdové údaje" isPadded={false}>
+            <Menu>
+              <MenuItem>
+                <ActiveLink
+                  href="/employees/[id]/wage/[formType]"
+                  as={`/employees/${employee?.id}/wage/employment`}
+                  passHref
+                >
+                  {isActive => <MenuLink isActive={isActive}>Pracovný pomer</MenuLink>}
+                </ActiveLink>
+              </MenuItem>
 
-            <MenuItem>
-              <ActiveLink
-                href="/employees/[id]/wage/[formType]"
-                as={`/employees/${employee?.id}/wage/tax`}
-                passHref
-              >
-                {isActive => <MenuLink isActive={isActive}>Dane</MenuLink>}
-              </ActiveLink>
-            </MenuItem>
+              <MenuItem>
+                <ActiveLink
+                  href="/employees/[id]/wage/[formType]"
+                  as={`/employees/${employee?.id}/wage/tax`}
+                  passHref
+                >
+                  {isActive => <MenuLink isActive={isActive}>Dane</MenuLink>}
+                </ActiveLink>
+              </MenuItem>
 
-            <MenuItem>
-              <ActiveLink
-                href="/employees/[id]/wage/[formType]"
-                as={`/employees/${employee?.id}/wage/statistics`}
-                passHref
-              >
-                {isActive => <MenuLink isActive={isActive}>Štatistika</MenuLink>}
-              </ActiveLink>
-            </MenuItem>
+              <MenuItem>
+                <ActiveLink
+                  href="/employees/[id]/wage/[formType]"
+                  as={`/employees/${employee?.id}/wage/statistics`}
+                  passHref
+                >
+                  {isActive => <MenuLink isActive={isActive}>Štatistika</MenuLink>}
+                </ActiveLink>
+              </MenuItem>
 
-            <MenuItem>
-              <ActiveLink
-                href="/employees/[id]/wage/[formType]"
-                as={`/employees/${employee?.id}/wage/insurance`}
-                passHref
-              >
-                {isActive => <MenuLink isActive={isActive}>Poistenie</MenuLink>}
-              </ActiveLink>
-            </MenuItem>
-          </Menu>
-        </Panel>
+              <MenuItem>
+                <ActiveLink
+                  href="/employees/[id]/wage/[formType]"
+                  as={`/employees/${employee?.id}/wage/insurance`}
+                  passHref
+                >
+                  {isActive => <MenuLink isActive={isActive}>Poistenie</MenuLink>}
+                </ActiveLink>
+              </MenuItem>
+            </Menu>
+          </Panel>
+        )}
       </Flex>
     );
   } else {
@@ -130,11 +137,7 @@ const SideMenu: React.FunctionComponent<Props> = ({ employee }) => {
           </MenuItem>
 
           <MenuItem>
-            <ActiveLink
-              href="/employee/create/[formType]"
-              as={`/employee/create/company`}
-              passHref
-            >
+            <ActiveLink href="/employee/create/[formType]" as={`/employee/create/company`} passHref>
               {isActive => <MenuLink isActive={isActive}>Firemné informácie</MenuLink>}
             </ActiveLink>
           </MenuItem>
@@ -160,11 +163,7 @@ const SideMenu: React.FunctionComponent<Props> = ({ employee }) => {
           </MenuItem>
 
           <MenuItem>
-            <ActiveLink
-              href="/employee/create/[formType]"
-              as={`/employee/create/contact`}
-              passHref
-            >
+            <ActiveLink href="/employee/create/[formType]" as={`/employee/create/contact`} passHref>
               {isActive => <MenuLink isActive={isActive}>Kontakt</MenuLink>}
             </ActiveLink>
           </MenuItem>

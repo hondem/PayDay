@@ -27,6 +27,7 @@ import { selectUser } from '../../../../src/selectors/auth';
 import { getEmployee } from '../../../../src/api/client/companies';
 import { AlertMessage } from '../../../../src/types/common';
 import { THEME } from '../../../../src/theme';
+import { canManageWageData } from '../../../../src/api/shared/auth';
 
 /* Constants
 ============================================================================= */
@@ -34,8 +35,7 @@ const ValidationSchema = Yup.object().shape({
   osobni: Yup.object().shape({
     meno: Yup.string().required('Meno je povinné.'),
   }),
-  firemni: Yup.object().shape({
-  })
+  firemni: Yup.object().shape({}),
 });
 
 /* Props - <EssentialInfoPage />
@@ -170,18 +170,20 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
                     title={`${employee.osobni.meno} ${employee.osobni.priezvisko}`}
                     subtitle="Základné údaje"
                   >
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        Router.push(
-                          '/employees/[id]/components',
-                          `/employees/${employee?.id}/components`,
-                        );
-                      }}
-                      color="white"
-                    >
-                      Mzdové zložky
-                    </Button>
+                    {canManageWageData(user) && (
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          Router.push(
+                            '/employees/[id]/components',
+                            `/employees/${employee?.id}/components`,
+                          );
+                        }}
+                        color="white"
+                      >
+                        Mzdové zložky
+                      </Button>
+                    )}
 
                     <Button
                       type="button"

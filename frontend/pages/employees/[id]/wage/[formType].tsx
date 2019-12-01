@@ -28,6 +28,9 @@ import { selectUser } from '../../../../src/selectors/auth';
 import { getEmployee } from '../../../../src/api/client/companies';
 import { AlertMessage } from '../../../../src/types/common';
 import { THEME } from '../../../../src/theme';
+import JwtDecode from 'jwt-decode';
+import { User } from '../../../../src/types/auth';
+import { canManageWageData } from '../../../../src/api/shared/auth';
 
 /* Constants
 ============================================================================= */
@@ -185,7 +188,11 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
               </title>
             </Head>
 
-            <Formik initialValues={wageData ?? INITIAL_DATA} onSubmit={handleSubmit} enableReinitialize>
+            <Formik
+              initialValues={wageData ?? INITIAL_DATA}
+              onSubmit={handleSubmit}
+              enableReinitialize
+            >
               {({ isSubmitting }) => (
                 <Form>
                   <PageHeader
@@ -193,18 +200,20 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
                     title={`${employee.osobni.meno} ${employee.osobni.priezvisko}`}
                     subtitle="Mzdové údaje"
                   >
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        Router.push(
-                          '/employees/[id]/components',
-                          `/employees/${employee?.id}/components`,
-                        );
-                      }}
-                      color="white"
-                    >
-                      Mzdové zložky
-                    </Button>
+                    {canManageWageData(user) && (
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          Router.push(
+                            '/employees/[id]/components',
+                            `/employees/${employee?.id}/components`,
+                          );
+                        }}
+                        color="white"
+                      >
+                        Mzdové zložky
+                      </Button>
+                    )}
 
                     <Button
                       type="button"
@@ -253,7 +262,19 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
 WageInfoPage.getInitialProps = async (
   ctx: NextJSContext<AppState, saveUserAction>,
 ): Promise<Props> => {
-  checkAuthorization(ctx);
+  const accessToken = checkAuthorization(ctx);
+
+  const { user } = JwtDecode<{ user: User }>(accessToken);
+  if (!canManageWageData(user)) {
+    if (ctx.req) {
+      ctx.res.writeHead(401, { Location: '/' });
+      ctx.res.end();
+      return;
+    } else {
+      Router.push('/');
+      return;
+    }
+  }
 
   return { employeeId: +ctx?.query?.id, formType: ctx?.query?.formType };
 };

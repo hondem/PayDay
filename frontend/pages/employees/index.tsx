@@ -3,7 +3,7 @@ import Router from 'next/router';
 import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { Users } from 'react-feather';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { NextJSContext } from 'next-redux-wrapper';
 
 import { checkAuthorization } from '../../src/next';
@@ -12,6 +12,8 @@ import { saveUserAction } from '../../src/actions/auth';
 import { AppState } from '../../src/reducers';
 import { Button } from '../../src/components/shared/misc';
 import { EmployeeList } from '../../src/components/employees';
+import { selectUser } from '../../src/selectors/auth';
+import { canCreateEmployee } from '../../src/api/shared/auth';
 
 /* Props - <Employees />
 ============================================================================= */
@@ -21,29 +23,34 @@ type Props = {
 
 /* <Employees />
 ============================================================================= */
-const Employees: NextPage<Props> = () => (
-  <>
-    <Head>
-      <title>Zamestnanci - Payday</title>
-    </Head>
+const Employees: NextPage<Props> = () => {
+  const user = useSelector(selectUser);
+  return (
+    <>
+      <Head>
+        <title>Zamestnanci - Payday</title>
+      </Head>
 
-    <Header />
+      <Header />
 
-    <Content>
-      <PageHeader icon={<Users />} title="Zoznam zamestnancov" subtitle="Zamestnanci">
-        <Button
-          onClick={() => {
-            Router.push('/employee/create/[formType]', `/employee/create/personal`);
-          }}
-        >
-          Vytvoriť nového zamestnanca
-        </Button>
-      </PageHeader>
+      <Content>
+        <PageHeader icon={<Users />} title="Zoznam zamestnancov" subtitle="Zamestnanci">
+          {canCreateEmployee(user) && (
+            <Button
+              onClick={() => {
+                Router.push('/employee/create/[formType]', `/employee/create/personal`);
+              }}
+            >
+              Vytvoriť nového zamestnanca
+            </Button>
+          )}
+        </PageHeader>
 
-      <EmployeeList />
-    </Content>
-  </>
-);
+        <EmployeeList />
+      </Content>
+    </>
+  );
+};
 
 /* getInitialProps - <Employees />
 ============================================================================= */

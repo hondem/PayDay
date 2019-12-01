@@ -24,6 +24,8 @@ import { SideMenu, EssentialInfo } from '../../../src/components/employees';
 import { createEmployee } from '../../../src/api/client/companies';
 import { selectUser } from '../../../src/selectors/auth';
 import { AlertMessage } from '../../../src/types/common';
+import { canCreateEmployee } from '../../../src/api/shared/auth';
+import { User } from '../../../src/types/auth';
 
 /* Contants
 ============================================================================= */
@@ -187,7 +189,19 @@ const EmployeeCreatePage: NextPage<Props> = ({ formType }) => {
 EmployeeCreatePage.getInitialProps = async (
   ctx: NextJSContext<AppState, saveUserAction>,
 ): Promise<Props> => {
-  checkAuthorization(ctx);
+  const accessToken = checkAuthorization(ctx);
+
+  const { user } = JwtDecode<{ user: User }>(accessToken);
+  if (!canCreateEmployee(user)) {
+    if (ctx.req) {
+      ctx.res.writeHead(401, { Location: '/' });
+      ctx.res.end();
+      return;
+    } else {
+      Router.push('/');
+      return;
+    }
+  }
 
   return { formType: ctx?.query?.formType };
 };

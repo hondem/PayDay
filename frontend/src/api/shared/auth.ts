@@ -15,3 +15,27 @@ export const getUser = (ctx: NextPageContext, id: number) =>
       Authorization: getAuthToken(ctx),
     },
   });
+
+  export const canManageWageData = (user: User) => {
+    switch (user?.authLevel) {
+      case 'god':
+      case 'admin':
+      case 'accountant':
+        return true;
+  
+      default:
+        return false;
+    }
+  };
+
+  export const canCreateEmployee = (user: User) => {
+    switch (user?.authLevel) {
+      case 'god':
+      case 'admin':
+      case 'personalist':
+        return true;
+  
+      default:
+        return false;
+    }
+  };
