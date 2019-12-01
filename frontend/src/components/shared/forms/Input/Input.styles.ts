@@ -54,6 +54,10 @@ export const Input = styled.input<{ hasError: boolean } & InputHTMLAttributes<HT
     outline: none;
   }
 
+  &:disabled {
+    background: ${({ theme }) => theme.colors.grays[0]};
+  }
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.grays[1]};
   }

@@ -8,6 +8,7 @@ import { Formik, Form } from 'formik';
 import Router from 'next/router';
 import Axios from 'axios';
 import moment from 'moment';
+import Loader from 'react-loader-spinner';
 
 import { checkAuthorization } from '../../../../src/next';
 import {
@@ -22,12 +23,13 @@ import { saveUserAction } from '../../../../src/actions/auth';
 import { AppState } from '../../../../src/reducers';
 import { Button, Alert } from '../../../../src/components/shared/misc';
 import { SideMenu, WageInfo } from '../../../../src/components/employees';
-import { deleteEmployee, updateEmployee, getWageData } from '../../../../src/api/client/companies';
+import { deleteEmployee, getWageData, createWageData } from '../../../../src/api/client/companies';
 import { selectUser } from '../../../../src/selectors/auth';
 import { getEmployee } from '../../../../src/api/client/companies';
 import { User } from '../../../../src/types/auth';
 import { AlertMessage } from '../../../../src/types/common';
 import { API } from '../../../../src/api';
+import { THEME } from '../../../../src/theme';
 
 /* Props - <WageInfoPage />
 ============================================================================= */
@@ -41,7 +43,6 @@ type Props = {
 const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
   const [employee, setEmployee] = useState<any>(null);
   const [wageData, setWageData] = useState<any>(null);
-  const [wageMonth, setWageMonth] = useState(moment().startOf('month').format('YYYY-MM-DD'));
   const [isDeleteInProgress, setIsDeleteInProgress] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<AlertMessage>(null);
   const user = useSelector(selectUser);
@@ -53,11 +54,11 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
   const fetchData = async () => {
     await Axios.all([
       getEmployee(user.companyId, employeeId),
-      getWageData(user.companyId, employeeId, wageMonth),
+      getWageData(user.companyId, employeeId, moment().format('YYYY-MM-DD')),
     ]).then(
       Axios.spread(({ data: employee }, { data: wageData }) => {
         setEmployee(employee);
-        setWageData([...wageData].pop());
+        setWageData(wageData);
       }),
     );
   };
@@ -98,18 +99,15 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
   /**
    * Handles save button click event.
    */
-  const handleSubmit = async values => {
-    const employeeOut = {
-      ...values.osobni,
-      ...values.firemni,
-      ...values.adresa_trvale,
-      ...values.adresa_prechodne,
-      ...values.kontakt,
-    };
+  const handleSubmit = async ({ id, ...values }) => {
+    const wageDataOut = {
+      platnost_od: moment().format('YYYY-MM-DD'),
+      ...values,
+    }
 
-    await updateEmployee(user.companyId, employee.id, employeeOut)
+    await createWageData(user.companyId, employee.id, wageDataOut)
       .then(({ data }) => {
-        setEmployee(data);
+        setWageData(data);
 
         /* Show success message */
         setAlertMessage({ type: 'success', message: 'Dáta boli úspešne aktualizované.' });
@@ -159,7 +157,7 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
                   <PageHeader
                     icon={<Users />}
                     title={`${employee.osobni.meno} ${employee.osobni.priezvisko}`}
-                    subtitle="Zamestnanci"
+                    subtitle="Mzdové údaje"
                   >
                     <Button
                       type="button"
@@ -169,8 +167,7 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
                           `/employees/${employee?.id}/components`,
                         );
                       }}
-                      mr="s6"
-                      color="blue"
+                      color="white"
                     >
                       Mzdové zložky
                     </Button>
@@ -180,7 +177,6 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
                       onClick={handleDelete}
                       disabled={isDeleteInProgress}
                       color="red"
-                      mr="s6"
                     >
                       {isDeleteInProgress ? 'Odstraňovanie...' : 'Odstrániť zamestnanca'}
                     </Button>
@@ -209,7 +205,7 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
           </>
         ) : (
           <Flex justifyContent="center" pt="s10">
-            Získavanie dát, prosím počkajte...
+            <Loader type="Puff" color={THEME.colors.blues[1]} height={80} width={80} />
           </Flex>
         )}
         ;

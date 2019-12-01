@@ -7,6 +7,7 @@ import { connect, useSelector } from 'react-redux';
 import { NextJSContext } from 'next-redux-wrapper';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import Loader from 'react-loader-spinner';
 
 import { checkAuthorization } from '../../../../src/next';
 import {
@@ -25,6 +26,7 @@ import { deleteEmployee, updateEmployee } from '../../../../src/api/client/compa
 import { selectUser } from '../../../../src/selectors/auth';
 import { getEmployee } from '../../../../src/api/client/companies';
 import { AlertMessage } from '../../../../src/types/common';
+import { THEME } from '../../../../src/theme';
 
 /* Constants
 ============================================================================= */
@@ -166,7 +168,7 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
                   <PageHeader
                     icon={<Users />}
                     title={`${employee.osobni.meno} ${employee.osobni.priezvisko}`}
-                    subtitle="Zamestnanci"
+                    subtitle="Základné údaje"
                   >
                     <Button
                       type="button"
@@ -214,7 +216,7 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
           </>
         ) : (
           <Flex justifyContent="center" pt="s10">
-            Získavanie dát, prosím počkajte...
+            <Loader type="Puff" color={THEME.colors.blues[1]} height={80} width={80} />
           </Flex>
         )}
         ;
