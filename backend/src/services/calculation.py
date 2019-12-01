@@ -13,8 +13,8 @@ import assistant
 #   input:  1.par pid  - osobne cislo
 #           2.par pdat - aktualne obdobie pre vypocet
 #  
-#   return: fail:   0 
-#           succes: 1  
+#   return: fail:   1 
+#           succes: 0  
 #           
 #
 #   a. vyriesit pracu s priemermi a funkciu get_priemd, get_priemn
@@ -135,7 +135,11 @@ def vypocet( pid, pdat ):
     mos_datum_nastup = mos[0][41].strftime('%Y/%m/%d')  # typ string
     mos_datum_ukonc = mos[0][42].strftime('%Y/%m/%d')  # typ string
     s_platzakl = mud[0][32]
-    druh_mzdy = mud[0][33]
+    druh_mzdy = mud[0][4]
+    print("s_platzakl ")
+    print( s_platzakl)
+    print("druh_mzdy" )
+    print(druh_mzdy)
     
     v_pracuje = ( aktivny and not( ( assistant.eom(pdat) < mos_datum_nastup ) or  ( pdat > mos_datum_ukonc ) ))  # test ci pracuje podla datumov nastupu a ukoncenia a ci je oznaceny v mos_active==1 
 
@@ -143,12 +147,10 @@ def vypocet( pid, pdat ):
         v_priemer_dovolenka = pgFunctions.get_priemd( pid, pdat )  # nacitaj aktualne platny priemer, ak neexistuje vypocitaj
         v_priemer_nemoc     = pgFunctions.get_priemn( pid, pdat )  # nacitaj platny priemer pre nemoc, ak neexistuje vypocitaj
     else:
-        return(0)
+        return(1)
        
     p_deti_od6 = mud[0][17]  # pocet deti z mud viac ako 6 rokov 
     p_deti_do6 = mud[0][18]  # pocet deti z mud menej ako 6 rokov 
-    tarif = mud[0][32] 
-    druh_mzdy = mud[0][33]  
 
     fpd_kal = fpd[0][0]  # cislo kalendara  
     fpd_ka1popis  = fpd[0][1]  # popis kalendara
@@ -166,11 +168,11 @@ def vypocet( pid, pdat ):
     dni_mes  = calendar.monthrange(rokp,mesp)[1]  # celkovy pocet dni v mesiaci
 
 ## zisti tarif
-    if ( (druh_mzdy == 'M') and ( s_zaklplat >0) ):
-            v_tarif_na_hod = mzl_tarif / fpd_pphodm  # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
-    elif  ( (druh_mzdy == 'H') and ( s_zaklplat >0) ): 
+    if ( (druh_mzdy == 'M') and ( s_platzakl >0) ):
+            v_tarif_na_hod = s_platzakl / fpd_pphodm  # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
+    elif  ( (druh_mzdy == 'H') and ( s_platzakl >0) ): 
             v_tarif_na_hod = s_platzakl   # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
-            s_platzakl = s_platzakl +  mzl_hodnota * fpd_hod  #NOTE: vypocet zakladneho platu z hodinovej sadzby
+            s_platzakl = s_platzakl * fpd_hod  #NOTE: vypocet zakladneho platu z hodinovej sadzby
     else:
         print('Nema zakladny plat.')
 
@@ -364,8 +366,9 @@ def vypocet( pid, pdat ):
     else: 
         s_nezdcastzdane = 0.0
     
-    s_ciast_zaklad_dane1 = pgFunctions.get_msk_suma( 100 , 9 , v )  # napocet podla mmsk
+    s_ciast_zaklad_dane1 = pgFunctions.get_msk_suma( 100 , 6 , v )  # napocet podla mmsk
     s_ciast_zaklad_dane = round(s_ciast_zaklad_dane1 - s_nezdcastzdane - s_zivpoist - s_dds + s_auto + s_odpocetost,2)
+
     if ( s_ciast_zaklad_dane < 0.0 ):
         s_ciast_zaklad_dane = 0.0
         
@@ -416,4 +419,4 @@ def vypocet( pid, pdat ):
         v[212] = s_vyplata  # postou
 ## zrazky end
     pgFunctions.zapis_mvy( pid, pdat, v)  # uloz vypocitane udaje do databazy
-    return 1
+    return 0

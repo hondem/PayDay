@@ -5,7 +5,8 @@ import calendar
 import psycopg2
 import math
 import assistant
-
+import urlparse # for python 3+ use: from urllib.parse import urlparse
+import os 
 
 #######################################################################################
 # funkcia runpsql( psql:string ) - make conection to database an run sql statement
@@ -13,11 +14,17 @@ import assistant
 #######################################################################################
 def runpsql(psql):
     try:
-        connection = psycopg2.connect(user = "postgres",
-                                  password = "mysuperpassord",
-                                  host = "127.0.0.1",
-                                  port = "5432",
-                                  database = "payday-db")
+        result = urlparse.urlparse(os.environ.get('DB_URI'))
+        username = result.username
+        password = result.password
+        database = result.path[1:]
+        hostname = result.hostname
+        connection = psycopg2.connect(
+            database = database,
+            user = username,
+            password = password,
+            host = hostname
+        )
 
         cursor = connection.cursor()
 
@@ -38,11 +45,18 @@ def runpsql(psql):
 
 def runpsql1(psql):
     try:
-        connection = psycopg2.connect(user="postgres",
-                                  password="mysuperpassord",
-                                  host="127.0.0.1",
-                                  port="5432",
-                                  database="payday-db")
+        result = urlparse.urlparse(os.environ.get('DB_URI'))
+        username = result.username
+        password = result.password
+        database = result.path[1:]
+        hostname = result.hostname
+        connection = psycopg2.connect(
+            database = database,
+            user = username,
+            password = password,
+            host = hostname
+        )
+        
         cursor = connection.cursor()
 
         cursor.execute( psql )
