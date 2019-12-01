@@ -12,7 +12,6 @@ export async function up(knex: Knex): Promise<any> {
     table.integer('spolecnost').defaultTo(null)
     table.foreign('spolecnost')
       .references('companies.id')
-      .onUpdate('CASCADE')
       .onDelete('CASCADE')
   })
 }
