@@ -1,12 +1,12 @@
 import { ButtonHTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
-import { MarginProps, margin } from 'styled-system';
+import { MarginProps, margin, display, DisplayProps } from 'styled-system';
 
 /* Props - <Button />
 ============================================================================= */
 type ButtonProps = {
-  color?: 'red' | 'yellow' | 'blue' | 'green';
-} & MarginProps;
+  color?: 'red' | 'yellow' | 'blue' | 'green' | 'white';
+} & MarginProps & DisplayProps;
 
 /* <Button />
 ============================================================================= */
@@ -76,6 +76,23 @@ const getButtonColor = ({ color }: ButtonProps) => {
           background: ${({ theme }) => theme.colors.greens[0]};
         }
       `;
+    case 'white':
+        return css`
+          border-color: ${({ theme }) => theme.colors.grays[1]};
+          background: ${({ theme }) => theme.colors.white};
+          color: ${({ theme }) => theme.colors.grays[3]};
+  
+          &:hover,
+          &:focus {
+            box-shadow: 0px 10px 30px -15px ${({ theme }) => theme.colors.grays[1]};
+            outline: none;
+          }
+  
+          &:disabled {
+            border-color: ${({ theme }) => theme.colors.grays[1]};
+            background: ${({ theme }) => theme.colors.grays[0]};
+          }
+        `;
   }
 };
 
@@ -101,6 +118,7 @@ const Button = styled.button<ButtonProps>`
 
   ${getButtonColor}
   ${margin}
+  ${display}
 `;
 
 /* <Button />

@@ -115,3 +115,10 @@ export const createComponent = (companyId: number = 1, employeeId: any, componen
       },
     },
   );
+
+export const deleteComponent = (companyId: number = 1, employeeId: any, folderId: number) =>
+  API.delete(`/companies/${companyId}/employees/${employeeId}/folders/${folderId}`, {
+    headers: {
+      Authorization: getAuthToken(),
+    },
+  });

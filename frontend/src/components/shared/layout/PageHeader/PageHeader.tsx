@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Box } from '..';
+import { Flex, Box, Grid } from '..';
 import { Heading, Paragraph } from '../../typography';
 
 import * as S from './PageHeader.styles';
@@ -17,10 +17,10 @@ type Props = {
 const PageHeader: React.FunctionComponent<Props> = ({ icon, title, subtitle, children }) => {
   return (
     <S.Wrapper>
-      <Flex alignItems="center" mb={["s6", null, 0]}>
+      <Flex alignItems="center" mb={['s6', null, 0]}>
         <S.IconWrapper>{icon}</S.IconWrapper>
 
-        <Box ml={["s4", "s8"]}>
+        <Box ml={['s4', 's8']}>
           <Heading mb="s2">{title}</Heading>
           <Paragraph mb="0" color="grays.2" fontWeight="bold">
             {subtitle}
@@ -28,15 +28,11 @@ const PageHeader: React.FunctionComponent<Props> = ({ icon, title, subtitle, chi
         </Box>
       </Flex>
 
-      <Flex alignItems="center">
+      <Grid gridAutoFlow={['row', null, 'column']} gridGap={['s4', null, null, 's6']} alignItems="center" justifyItems="center">
         {children}
-      </Flex>
+      </Grid>
     </S.Wrapper>
   );
 };
-
-/* Default props - <PageHeader />
-============================================================================= */
-PageHeader.defaultProps = {};
 
 export default PageHeader;

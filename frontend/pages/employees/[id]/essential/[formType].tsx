@@ -55,6 +55,7 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
     fetchEmployee();
   }, []);
 
+  /** Fetches employee data  */
   const fetchEmployee = async () => {
     await getEmployee(user.companyId, employeeId).then(({ data }) => {
       setEmployee(data);
@@ -175,8 +176,7 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
                           `/employees/${employee?.id}/components`,
                         );
                       }}
-                      mr="s6"
-                      color="blue"
+                      color="white"
                     >
                       Mzdové zložky
                     </Button>
@@ -186,7 +186,6 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
                       onClick={handleDelete}
                       disabled={isDeleteInProgress}
                       color="red"
-                      mr="s6"
                     >
                       {isDeleteInProgress ? 'Odstraňovanie...' : 'Odstrániť zamestnanca'}
                     </Button>
