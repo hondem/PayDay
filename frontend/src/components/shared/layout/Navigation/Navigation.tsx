@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import Link, { LinkProps } from 'next/link';
 
-import { X, Users } from 'react-feather';
+import { X, Users, DollarSign } from 'react-feather';
 import { Heading } from '../../typography';
 import { Box } from '..';
 import { withRouter, Router } from 'next/router';
@@ -57,6 +57,13 @@ const Navigation: React.FunctionComponent<NavigationProps> = ({ isNavigationOpen
               <NavigationLink href="/employees" passHref>
                 <Users />
                 <Box ml="s4">Zamestnanci</Box>
+              </NavigationLink>
+            </S.NavigationItem>
+
+            <S.NavigationItem>
+              <NavigationLink href="/wages" passHref>
+                <DollarSign />
+                <Box ml="s4">Mzdy</Box>
               </NavigationLink>
             </S.NavigationItem>
           </S.NavigationList>

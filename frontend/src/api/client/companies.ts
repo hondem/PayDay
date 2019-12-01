@@ -139,3 +139,10 @@ export const deleteComponent = (companyId: number = 1, employeeId: any, folderId
       Authorization: getAuthToken(),
     },
   });
+
+export const getSalary = (companyId: number = 1, employeeId: any) =>
+  API.get(`/companies/${companyId}/employees/${employeeId}/salary`, {
+    headers: {
+      Authorization: getAuthToken(),
+    },
+  });

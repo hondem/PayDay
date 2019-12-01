@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
   background: ${({ theme }) => theme.colors.white};
   border-radius: 4px;
   box-shadow: 0px 5px 25px -10px ${({ theme }) => theme.colors.grays[1]};
@@ -44,7 +45,7 @@ export const Footer = styled.div`
   border-bottom-right-radius: 4px;
 `;
 
-export const FooterButton = styled.button`
+export const FooterButton = styled.button<{ isRed?: boolean }>`
   transition: 0.2s background ease-out, 0.2s color ease-out, 0.2s box-shadow ease-out 0.05s;
   flex: 1;
   height: 50px;
@@ -52,33 +53,65 @@ export const FooterButton = styled.button`
   border: none;
   background: ${({ theme }) => theme.colors.white};
 
-  &:focus {
-    outline: none;
-    color: ${({ theme }) => theme.colors.white};
-  }
-
+  &:focus,
   &:hover {
     cursor: pointer;
+    outline: none;
     color: ${({ theme }) => theme.colors.white};
+    background: ${({ theme }) => theme.colors.blues[1]};
+    box-shadow: 0px 10px 30px -15px ${({ theme }) => theme.colors.blues[1]};
   }
 
   &:first-child {
     border-bottom-left-radius: 4px;
-
-    &:focus,
-    &:hover {
-      background: ${({ theme }) => theme.colors.blues[1]};
-      box-shadow: 0px 10px 30px -15px ${({ theme }) => theme.colors.blues[1]};
-    }
   }
 
   &:last-child {
     border-bottom-right-radius: 4px;
+  }
 
-    &:focus,
-    &:hover {
-      background: ${({ theme }) => theme.colors.reds[1]};
-      box-shadow: 0px 10px 30px -15px ${({ theme }) => theme.colors.reds[1]};
+  ${({ isRed }) =>
+    isRed &&
+    css`
+      &:focus,
+      &:hover {
+        background: ${({ theme }) => theme.colors.reds[1]};
+        box-shadow: 0px 10px 30px -15px ${({ theme }) => theme.colors.reds[1]};
+      }
+    `}
+`;
+
+export const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: ${({ theme }) => theme.colors.white};
+  border-radius: 4px;
+`;
+
+export const OverlayCloseButton = styled.button`
+  position: absolute;
+  top: ${({ theme }) => theme.space.s6};
+  right: ${({ theme }) => theme.space.s6};
+  background: none;
+  border: none;
+  appearance: none;
+
+  &:focus,
+  &:hover {
+    cursor: pointer;
+    outline: none;
+
+    svg {
+      color: ${({ theme }) => theme.colors.blues[1]};
     }
+  }
+
+  svg {
+    transition: color 0.2s ease-out;
+    color: ${({ theme }) => theme.colors.grays[1]};
   }
 `;

@@ -1,39 +1,39 @@
 import Head from 'next/head';
 import Router from 'next/router';
 import { NextPage } from 'next';
-import { Users } from 'react-feather';
+import { Users, DollarSign } from 'react-feather';
 import { connect, useSelector } from 'react-redux';
 import { NextJSContext } from 'next-redux-wrapper';
 
 import { checkAuthorization } from '../../src/next';
-import { Header, Content, PageHeader, Flex } from '../../src/components/shared/layout';
+import { Header, Content, PageHeader } from '../../src/components/shared/layout';
 import { saveUserAction } from '../../src/actions/auth';
 import { AppState } from '../../src/reducers';
 import { Button } from '../../src/components/shared/misc';
-import { EmployeeList } from '../../src/components/employees';
 import { selectUser } from '../../src/selectors/auth';
 import { canCreateEmployee } from '../../src/api/shared/auth';
+import { EmployeeList } from '../../src/components/employees';
 
-/* Props - <Employees />
+/* Props - <WagesPage />
 ============================================================================= */
 type Props = {
   accessToken: string;
 };
 
-/* <Employees />
+/* <WagesPage />
 ============================================================================= */
-const Employees: NextPage<Props> = () => {
+const WagesPage: NextPage<Props> = () => {
   const user = useSelector(selectUser);
   return (
     <>
       <Head>
-        <title>Zamestnanci - Payday</title>
+        <title>Mzdy - Payday</title>
       </Head>
 
       <Header />
 
       <Content>
-        <PageHeader icon={<Users />} title="Zoznam zamestnancov" subtitle="Zamestnanci">
+        <PageHeader icon={<DollarSign />} title="Zoznam zamestnancov" subtitle="Mzdy">
           {canCreateEmployee(user) && (
             <Button
               onClick={() => {
@@ -45,15 +45,15 @@ const Employees: NextPage<Props> = () => {
           )}
         </PageHeader>
 
-        <EmployeeList />
+        <EmployeeList mode="wage" />
       </Content>
     </>
   );
 };
 
-/* getInitialProps - <Employees />
+/* getInitialProps - <WagesPage />
 ============================================================================= */
-Employees.getInitialProps = async (
+WagesPage.getInitialProps = async (
   ctx: NextJSContext<AppState, saveUserAction>,
 ): Promise<Props> => {
   const accessToken = checkAuthorization(ctx);
@@ -61,4 +61,4 @@ Employees.getInitialProps = async (
   return { accessToken };
 };
 
-export default connect(state => state)(Employees);
+export default connect(state => state)(WagesPage);
