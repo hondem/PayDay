@@ -9,14 +9,12 @@ export async function up(knex: Knex): Promise<any> {
         .notNullable()
         .references('id')
         .inTable('m.osoba')
-        .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .comment('id osoby z tabulky osoba'),
       table.integer('kod')
         .notNullable()
         .references('id')
         .inTable('m.kody')
-        .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .comment('id kod mzdovej zlozky z tabulky kody'),
       table.string("kod_ext", 10)
