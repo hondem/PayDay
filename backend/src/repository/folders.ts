@@ -32,7 +32,7 @@ const getByEmployeeId = (employeeId: IdOrIds) => {
  */
 const getByEmployeeIdAndMonth = (employeeId: IdOrIds, date: string) => {
   const startOfMonth = Moment(date).startOf('month').format('YYYY-MM-DD')
-  const endOfMonth = Moment(date).endOf('month').format('YYYY-MM-DD')
+  const endOfMonth = Moment(date).startOf('month').add({ month: 1 }).format('YYYY-MM-DD')
 
   return FolderModel.query().where('os_id', employeeId).andWhere(function(){
     this.where(function(){
