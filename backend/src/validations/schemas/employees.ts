@@ -99,7 +99,6 @@ const createPersonalData : Object = {
     pas: {
       type: 'string',
       maxLength: 25,
-      required: true
     },
 
     osobne_cislo: {
@@ -111,7 +110,6 @@ const createPersonalData : Object = {
     externe_osobne_cislo: {
       type: 'string',
       maxLength: 20,
-      required: true
     },
 
     aktivny: {

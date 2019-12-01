@@ -119,13 +119,19 @@ const WageInfo: React.FunctionComponent<Props> = ({ formType }) => {
           </div>
 
           <div>
+            <Label htmlFor="tarif">Tarif</Label>
+            <Input name="tarif" />
+            <ErrorMessage name="tarif" />
+          </div>
+
+          <div>
             <Label htmlFor="kalendar_typ">Typ kalendáru</Label>
             <Select name="kalendar_typ" options={CALENDAR_OPTION} />
             <ErrorMessage name="kalendar_typ" />
           </div>
 
           <div>
-            <Label htmlFor="uvazok">Úväzok</Label>
+            <Label htmlFor="uvazok">Úväzok %</Label>
             <Input name="uvazok" />
             <ErrorMessage name="uvazok" />
           </div>

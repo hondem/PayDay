@@ -34,8 +34,36 @@ import { canManageWageData } from '../../../../src/api/shared/auth';
 const ValidationSchema = Yup.object().shape({
   osobni: Yup.object().shape({
     meno: Yup.string().required('Meno je povinné.'),
+    priezvisko: Yup.string().required('Priezvisko je povinné.'),
+    rodne_cislo: Yup.number().positive().required('Rodné číslo je povinné.'),
+    datum_nar: Yup.date().required('Dátum narodenia je povinný.'),
+    statna_prislusnost: Yup.string().required('Štátna príslušnosť je povinná.'),
+    obciansky: Yup.string().required('Občiansky preukaz je povinný.'),
+    miesto_narodenia: Yup.string().required('Miesto narodenia je povinné.'),
   }),
-  firemni: Yup.object().shape({}),
+  firemni: Yup.object().shape({
+    osobne_cislo: Yup.string().required('Obsobné číslo je povinné.'),
+    nastup: Yup.date().required('Dátum nástupu je povinný.'),
+    ukoncenie: Yup.date().required('Dátum ukončenia je povinný.'),
+    funkcia: Yup.string().required('Políčko je povinné'),
+    pozicia: Yup.string().required('Políčko je povinné'),
+    oddelenie: Yup.string().required('Políčko je povinné'),
+    pobocka: Yup.string().required('Políčko je povinné'),
+    stredisko: Yup.string().required('Políčko je povinné'),
+  }),
+  adresa_trvale: Yup.object().shape({
+    adresa_ulica_trvale: Yup.string().required('Políčko je povinné'),
+    adresa_cislo_popisne_trvale: Yup.number().positive().required('Políčko je povinné'),
+    adresa_cislo_domu_trvale: Yup.number().positive().required('Políčko je povinné'),
+    psc_trvale: Yup.number().positive().required('Políčko je povinné'),
+    mesto_trvale: Yup.string().required('Políčko je povinné'),
+    okres_trvale: Yup.string().required('Políčko je povinné'),
+    kraj_trvale: Yup.string().required('Políčko je povinné'),
+    krajina_trvale: Yup.string().required('Políčko je povinné'),
+  }),
+  kontakt: Yup.object().shape({
+    telefon_pracovny: Yup.string().required('Políčko je povinné'),
+  }),
 });
 
 /* Props - <EssentialInfoPage />
@@ -133,10 +161,10 @@ const EssentialInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
       case 'company': {
         return 'Firemné informácie';
       }
-      case 'subsidiary_address': {
+      case 'permanent_address': {
         return 'Trvalá adresa';
       }
-      case 'permanent_address': {
+      case 'subsidiary_address': {
         return 'Prechodná adresa';
       }
       case 'contact': {
