@@ -26,10 +26,44 @@ import { SideMenu, WageInfo } from '../../../../src/components/employees';
 import { deleteEmployee, getWageData, createWageData } from '../../../../src/api/client/companies';
 import { selectUser } from '../../../../src/selectors/auth';
 import { getEmployee } from '../../../../src/api/client/companies';
-import { User } from '../../../../src/types/auth';
 import { AlertMessage } from '../../../../src/types/common';
-import { API } from '../../../../src/api';
 import { THEME } from '../../../../src/theme';
+
+/* Constants
+============================================================================= */
+const INITIAL_DATA = {
+  platnost_od: '',
+  druh: '',
+  trieda: '',
+  pracovna_doba_typ: '',
+  kalendar_typ: '',
+  uvazok: '',
+  vypocet_sviatkov: '',
+  pracovny_pomer_nad_5dni: false,
+  pracovna_schopnost_znizena1: false,
+  pracovna_schopnost_znizena2: false,
+  pracovna_schopnost_znizena3: false,
+  pracovna_kategoria: '',
+  staticticky_udaj: '',
+  specialna_kategoria: '',
+  dochodca: false,
+  dochodok_typ: '',
+  pocet_deti: '',
+  pocet_deti_do_6: '',
+  danovy_odpocet_manzelka: false,
+  danovy_bonus: false,
+  nezdanitelne_min: false,
+  zdravotna_poistovna: '',
+  zc_zp: false,
+  zc_sp_dp: false,
+  zc_sp_np: false,
+  zc_sp_pvn: false,
+  zl_zp: false,
+  zl_sp_dp: false,
+  zl_sp_np: false,
+  zl_sp_pvn: false,
+  odbory: '',
+};
 
 /* Props - <WageInfoPage />
 ============================================================================= */
@@ -52,15 +86,15 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
   }, []);
 
   const fetchData = async () => {
-    await Axios.all([
-      getEmployee(user.companyId, employeeId),
-      getWageData(user.companyId, employeeId, moment().format('YYYY-MM-DD')),
-    ]).then(
-      Axios.spread(({ data: employee }, { data: wageData }) => {
-        setEmployee(employee);
-        setWageData(wageData);
-      }),
+    await getEmployee(user.companyId, employeeId).then(({ data: employee }) =>
+      setEmployee(employee),
     );
+
+    await getWageData(
+      user.companyId,
+      employeeId,
+      moment().format('YYYY-MM-DD'),
+    ).then(({ data: wageData }) => setWageData(wageData));
   };
 
   /**
@@ -103,7 +137,7 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
     const wageDataOut = {
       platnost_od: moment().format('YYYY-MM-DD'),
       ...values,
-    }
+    };
 
     await createWageData(user.companyId, employee.id, wageDataOut)
       .then(({ data }) => {
@@ -151,7 +185,7 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
               </title>
             </Head>
 
-            <Formik initialValues={wageData} onSubmit={handleSubmit} enableReinitialize>
+            <Formik initialValues={wageData ?? INITIAL_DATA} onSubmit={handleSubmit} enableReinitialize>
               {({ isSubmitting }) => (
                 <Form>
                   <PageHeader
