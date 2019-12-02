@@ -125,7 +125,7 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
       employeeId,
       moment().format('YYYY-MM-DD'),
     ).then(({ data: wageData }) =>
-      setWageData({ platnost_od: moment().format('YYYY-MM-DD'), ...wageData }),
+      setWageData(wageData),
     );
   };
 

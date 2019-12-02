@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Label, Input, Select, ErrorMessage } from '../../../shared/forms';
-import { Grid, Flex } from '../../../shared/layout';
+import { Grid, Flex, Box } from '../../../shared/layout';
 import { SelectOption } from '../../../../types/common';
 import { Heading, Paragraph } from '../../../shared/typography';
 
@@ -244,61 +244,75 @@ const WageInfo: React.FunctionComponent<Props> = ({ formType }) => {
       );
     case 'insurance':
       return (
-        <Grid gridTemplateColumns={['1fr', null, null, '1fr 1fr']} gridGap="s6" mb="s6">
-          <div>
-            <Label htmlFor="zdravotna_poistovna">Zdravotná poisťovňa</Label>
-            <Input name="zdravotna_poistovna" />
-            <ErrorMessage name="zdravotna_poistovna" />
-          </div>
+        <>
+          <Box mb="s10">
+            <Grid gridTemplateColumns={['1fr', null, null, '1fr 1fr']} gridGap="s6" mb="s6">
+              <div>
+                <Label htmlFor="zdravotna_poistovna">Zdravotná poisťovňa</Label>
+                <Input name="zdravotna_poistovna" />
+                <ErrorMessage name="zdravotna_poistovna" />
+              </div>
+            </Grid>
+          </Box>
 
-          <div>
-            <Label htmlFor="zc_zp">zamestnanec: Zdravotné</Label>
-            <Input name="zc_zp" type="checkbox" />
-            <ErrorMessage name="zc_zp" />
-          </div>
+          <Box mb="s10">
+            <Heading as="h3">Zamestnanec</Heading>
+            <Grid gridTemplateColumns={['1fr', null, null, '1fr 1fr']} gridGap="s6" mb="s6">
+              <div>
+                <Label htmlFor="zc_zp">Zdravotné</Label>
+                <Input name="zc_zp" type="checkbox" />
+                <ErrorMessage name="zc_zp" />
+              </div>
 
-          <div>
-            <Label htmlFor="zc_sp_dp">zamestnanec: Dôchodkové a starobné</Label>
-            <Input name="zc_sp_dp" type="checkbox" />
-            <ErrorMessage name="zc_sp_dp" />
-          </div>
+              <div>
+                <Label htmlFor="zc_sp_dp">Dôchodkové a starobné</Label>
+                <Input name="zc_sp_dp" type="checkbox" />
+                <ErrorMessage name="zc_sp_dp" />
+              </div>
 
-          <div>
-            <Label htmlFor="zc_sp_np">zamestnanec: Nemocenské</Label>
-            <Input name="zc_sp_np" type="checkbox" />
-            <ErrorMessage name="zc_sp_np" />
-          </div>
+              <div>
+                <Label htmlFor="zc_sp_np">Nemocenské</Label>
+                <Input name="zc_sp_np" type="checkbox" />
+                <ErrorMessage name="zc_sp_np" />
+              </div>
 
-          <div>
-            <Label htmlFor="zc_sp_pvn">zamestnanec: V nezamestnanosti</Label>
-            <Input name="zc_sp_pvn" type="checkbox" />
-            <ErrorMessage name="zc_sp_pvn" />
-          </div>
+              <div>
+                <Label htmlFor="zc_sp_pvn">V nezamestnanosti</Label>
+                <Input name="zc_sp_pvn" type="checkbox" />
+                <ErrorMessage name="zc_sp_pvn" />
+              </div>
+            </Grid>
+          </Box>
 
-          <div>
-            <Label htmlFor="zl_zp">zamestnávatel: Zdravotné</Label>
-            <Input name="zl_zp" type="checkbox" />
-            <ErrorMessage name="zl_zp" />
-          </div>
+          <Box>
+          <Heading as="h3">Zamestnávateľ</Heading>
+            <Grid gridTemplateColumns={['1fr', null, null, '1fr 1fr']} gridGap="s6" mb="s6">
+              <div>
+                <Label htmlFor="zl_sp_dp">Dôchodkové a starobné</Label>
+                <Input name="zl_sp_dp" type="checkbox" />
+                <ErrorMessage name="zl_sp_dp" />
+              </div>
 
-          <div>
-            <Label htmlFor="zl_sp_dp">zamestnávatel: Dôchodkové a starobné</Label>
-            <Input name="zl_sp_dp" type="checkbox" />
-            <ErrorMessage name="zl_sp_dp" />
-          </div>
+              <div>
+                <Label htmlFor="zl_sp_np">Nemocenské</Label>
+                <Input name="zl_sp_np" type="checkbox" />
+                <ErrorMessage name="zl_sp_np" />
+              </div>
 
-          <div>
-            <Label htmlFor="zl_sp_np">zamestnávatel: Nemocenské</Label>
-            <Input name="zl_sp_np" type="checkbox" />
-            <ErrorMessage name="zl_sp_np" />
-          </div>
+              <div>
+                <Label htmlFor="zl_sp_pvn">V nezamestnanosti</Label>
+                <Input name="zl_sp_pvn" type="checkbox" />
+                <ErrorMessage name="zl_sp_pvn" />
+              </div>
 
-          <div>
-            <Label htmlFor="zl_sp_pvn">zamestnávatel: V nezamestnanosti</Label>
-            <Input name="zl_sp_pvn" type="checkbox" />
-            <ErrorMessage name="zl_sp_pvn" />
-          </div>
-        </Grid>
+              <div>
+                <Label htmlFor="zl_zp">Zdravotné</Label>
+                <Input name="zl_zp" type="checkbox" />
+                <ErrorMessage name="zl_zp" />
+              </div>
+            </Grid>
+          </Box>
+        </>
       );
 
     default:
