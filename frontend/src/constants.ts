@@ -2,39 +2,39 @@ import { SelectOption } from "./types/common";
 
 export const OPTIONS_MONTH: SelectOption[] = [
   {
-    value: '1',
+    value: '01',
     label: 'Január',
   },
   {
-    value: '2',
+    value: '02',
     label: 'Február',
   },
   {
-    value: '3',
+    value: '03',
     label: 'Marec',
   },
   {
-    value: '4',
+    value: '04',
     label: 'Apríl',
   },
   {
-    value: '5',
+    value: '05',
     label: 'Máj',
   },
   {
-    value: '6',
+    value: '06',
     label: 'Jún',
   },
   {
-    value: '7',
+    value: '07',
     label: 'Júl',
   },
   {
-    value: '8',
+    value: '08',
     label: 'August',
   },
   {
-    value: '9',
+    value: '09',
     label: 'September',
   },
   {
