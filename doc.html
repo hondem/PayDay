@@ -165,7 +165,9 @@
     <h3>Instalace API a databáze</h3>
     <ul>
       <li>pøepnìte se do adresáøe ./backend</li>
-      <li>spus»te na pozadí pøíkazem <span class="inline-code">docker-compose up -d api database</span> databázi a API (API si vytvoøí svùj image)</li>
+      <li>nainstalujte si v¹echny dependencies pøíkazem <span class="inline-code">npm install</span></li>
+      <li>zbuildìte images pøíkazem <span class="inline-code">docker-compose build</span></li>
+      <li>spus»te na pozadí pøíkazem <span class="inline-code">docker-compose up -d api database</span></li>
       <li>mù¾eme se pøesvìdèit, ¾e opravdu do¹lo ke spu¹tìní pøíkazem <span class="inline-code">docker-compose ps</span></li>
       <li>v tuto chvíli ji¾ databáze bì¾í, ale je prázdná. Spustíme migrations, co¾ jsou aditivní úpravy struktury databáze <span class="inline-code">npm run migrate:latest</span></li>
       <li>naplníme databázi daty pøíkazem <span class="inline-code">npm run seed:run</span></li>
