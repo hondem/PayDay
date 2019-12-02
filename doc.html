@@ -119,6 +119,34 @@
     <h2>Implementace</h2>
     <h3>Frontend</h3>
     <h3>REST API</h3>
+    <p>API je implementována v jazyce TypeScript pomocí frameworku Koa (<a href="https://koajs.com/" target="blank">https://koajs.com/</a>). Pro pøipojení do databáze byl pou¾it Knex (<a href="https://knexjs.org/" target="blank">https://knexjs.org/</a>).</p>
+    <h4>Adresáøová struktura</h4>
+    <ul>
+      <li>src (zdrojové soubory)</li>
+      <ul>
+        <li>config (konfigurace projektu)</li>
+        <li>controllers (validace request a volání pøíslu¹né operation s validovanými daty)</li>
+        <li>database (setup databáze)</li>
+        <ul>
+          <li>migrations (migrace databáze)</li>
+          <li>models (modely pro práci s knexem)</li>
+          <li>seeds (data pro databázi)</li>
+        </ul>
+        <li>middleware (middlewares - funkce, kterými se ovìøuje request)</li>
+        <li>operations (business logika)</li>
+        <li>repository (ORM nad databází)</li>
+        <li>routes (implementace jednoduchého routeru)</li>
+        <li>services (slu¾by, které api vyu¾ívá)</li>
+        <li>types (typy do TypeScriptu)</li>
+        <li>utils (pomocné funkce)</li>
+        <li>validations (validace pomocí jsonschema)</li>
+      </ul>
+      <li>.eslintrc.js (nastavení pro linter)</li>
+      <li>.gitignore</li>
+      <li>docker-compose.yaml (nastavení dockeru)</li>
+      <li>package.json (informace o api, knihovny a skripty)</li>
+      <li>tsconfig.json (konfigurace pro TypeScript)</li>
+    </ul>
 
     <h4>Výpoèet mzdy</h4>
     <p>
