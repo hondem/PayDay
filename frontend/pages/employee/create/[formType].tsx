@@ -29,6 +29,41 @@ import { User } from '../../../src/types/auth';
 
 /* Contants
 ============================================================================= */
+const ValidationSchema = Yup.object().shape({
+  osobni: Yup.object().shape({
+    meno: Yup.string().required('Meno je povinné.'),
+    priezvisko: Yup.string().required('Priezvisko je povinné.'),
+    rodne_cislo: Yup.number().positive().required('Rodné číslo je povinné.'),
+    datum_nar: Yup.date().required('Dátum narodenia je povinný.'),
+    statna_prislusnost: Yup.string().required('Štátna príslušnosť je povinná.'),
+    obciansky: Yup.string().required('Občiansky preukaz je povinný.'),
+    miesto_narodenia: Yup.string().required('Miesto narodenia je povinné.'),
+  }),
+  firemni: Yup.object().shape({
+    osobne_cislo: Yup.string().required('Obsobné číslo je povinné.'),
+    nastup: Yup.date().required('Dátum nástupu je povinný.'),
+    ukoncenie: Yup.date().required('Dátum ukončenia je povinný.'),
+    funkcia: Yup.string().required('Políčko je povinné'),
+    pozicia: Yup.string().required('Políčko je povinné'),
+    oddelenie: Yup.string().required('Políčko je povinné'),
+    pobocka: Yup.string().required('Políčko je povinné'),
+    stredisko: Yup.string().required('Políčko je povinné'),
+  }),
+  adresa_trvale: Yup.object().shape({
+    adresa_ulica_trvale: Yup.string().required('Políčko je povinné'),
+    adresa_cislo_popisne_trvale: Yup.number().positive().required('Políčko je povinné'),
+    adresa_cislo_domu_trvale: Yup.number().positive().required('Políčko je povinné'),
+    psc_trvale: Yup.number().positive().required('Políčko je povinné'),
+    mesto_trvale: Yup.string().required('Políčko je povinné'),
+    okres_trvale: Yup.string().required('Políčko je povinné'),
+    kraj_trvale: Yup.string().required('Políčko je povinné'),
+    krajina_trvale: Yup.string().required('Políčko je povinné'),
+  }),
+  kontakt: Yup.object().shape({
+    telefon_pracovny: Yup.string().required('Políčko je povinné'),
+  }),
+});
+
 const INITIAL_VALUES = {
   osobni: {
     meno: '',
@@ -156,7 +191,7 @@ const EmployeeCreatePage: NextPage<Props> = ({ formType }) => {
       <Header />
 
       <Content isNarrow>
-        <Formik initialValues={INITIAL_VALUES} onSubmit={handleSubmit}>
+        <Formik initialValues={INITIAL_VALUES} validationSchema={ValidationSchema} onSubmit={handleSubmit}>
           {({ isSubmitting, isValid }) => (
             <Form>
               <PageHeader icon={<UserPlus />} title="Nový zamestnanec" subtitle="Zamestnanci">
