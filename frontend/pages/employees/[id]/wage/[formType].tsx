@@ -79,9 +79,9 @@ const ValidationSchema = Yup.object().shape({
     .positive()
     .required('Policko je povinné.'),
   vypocet_sviatkov: Yup.string().required('Políčko je povinné.'),
-  pracovna_kategoria: Yup.string().required('Políčko je povinné.'),
+  pracovna_kategoria: Yup.string().required('Políčko je povinné.').max(1, 'Maximálne jeden znak.'),
   staticticky_udaj: Yup.string().required('Políčko je povinné.'),
-  specialna_kategoria: Yup.string().required('Políčko je povinné.'),
+  specialna_kategoria: Yup.string().required('Políčko je povinné.').max(1, 'Maximálne jeden znak.'),
   dochodok_typ: Yup.string().required('Políčko je povinné.'),
   pocet_deti: Yup.number()
     .positive()
@@ -165,9 +165,15 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
   /**
    * Handles save button click event.
    */
-  const handleSubmit = async ({ id, ...values }) => {
+  const handleSubmit = async ({ id, kalendar_typ, uvazok, pocet_deti, pocet_deti_do_6, zdravotna_poistovna, tarif, ...values }) => {
     const wageDataOut = {
       platnost_od: moment().format('YYYY-MM-DD'),
+      kalendar_typ: parseInt(kalendar_typ),
+      uvazok: parseFloat(uvazok),
+      pocet_deti: parseInt(pocet_deti),
+      pocet_deti_do_6: parseInt(pocet_deti_do_6),
+      zdravotna_poistovna: parseInt(zdravotna_poistovna),
+      tarif: parseFloat(tarif),
       ...values,
     };
 
