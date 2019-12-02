@@ -1,14 +1,15 @@
 import React, { PropsWithChildren } from 'react';
 import Link, { LinkProps } from 'next/link';
+import { useSelector } from 'react-redux';
+import { withRouter, Router } from 'next/router';
 
 import { X, Users, DollarSign } from 'react-feather';
 import { Heading } from '../../typography';
 import { Box } from '..';
-import { withRouter, Router } from 'next/router';
-import { selectUser } from '../../../src/selectors/auth';
+import { selectUser } from '../../../../selectors/auth';
+import { canManageWageData } from '../../../../api/shared/auth';
 
 import * as S from './Navigation.styles';
-import { useSelector } from 'react-redux';
 
 /* Props - <NavigationLink />
 ============================================================================= */
