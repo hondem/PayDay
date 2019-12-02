@@ -70,12 +70,8 @@
       </dd>
       <dt>URL aplikace</dt>
       <dd>
-        <a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS"
-          >http://www.stud.fit.vutbr.cz/~xautor01/IIS</a
-        >
-      </dd>
-      <dd>
-        (pokud má aplikace více vstupních stránek, napi¹te obdobnì dal¹í URL)
+        <a href="https://iis-project.hruska.now.sh/" target="blank">https://iis-project.hruska.now.sh/ (frontend)</a><br>
+        <a href="http://payday-api-2.herokuapp.com/" target="blank">http://payday-api-2.herokuapp.com/ (backend)</a>
       </dd>
     </dl>
 
@@ -274,7 +270,7 @@
     
     <h4>Výpoèet mzdy</h4>
     <p>
-      Directory: /backend/src/services/*<br />
+      Zlo¾ka: /backend/src/services/*<br />
       Jazyk: Python<br />
       vystupy:<br />
       - vypocitane udaje sa zapisu do tabulky mesacneho vypoctu m.vypocet<br />
@@ -337,10 +333,12 @@
 
     <h2>Známé problémy</h2>
     <p>
-      Zde popi¹te, které body zadání nejsou implementovány a z jakého dùvodu.
-      Napø. &#8222;Z èasových dùvodù nebyla implementována správa
-      u¾ivatelù.&#8221; Pomù¾ete tím zrychlit hodnocení, kdy¾ neimplementované
-      funkce nebudeme muset dlouze hledat.
+      Pøi prvním spu¹tìní seeds jsou do databáze "natvrdo" vlo¾eny primární klíèe nìkterých tabulek. To zpùsobuje, ¾e se neinkrementuje sekvence generování primárních klíèu a tudí¾ prvních pár 
+      requestù na urèité endpointy sel¾e chybou "duplicate key - constraints". Øe¹ením tohoto problému je request nìkolikrát opakovat. Konkrétnì:
+      <ul>
+        <li>První vytváøení nového zamìstnance: 4x (5. request projde)</li>
+        <li>První vytváøení mzdové slo¾ky: relativní vùèi cílovému zamìstnanci  (maximálnì v¹ak 6x)</li>
+      </ul>
     </p>
   </body>
 </html>
