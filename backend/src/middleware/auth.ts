@@ -8,6 +8,7 @@ const AUTH_PERSONALIST: string = "exact_personalist"
 const AUTH_ADMIN: string = "exact_admin"
 const AUTH_MIN_ACCOUNTANT: string = "min_accountant"
 const AUTH_MIN_PERSONALIST: string = "min_personalist"
+const AUTH_PERSONALIST_AND_ADMIN: string = "personalist_and_admin"
 const AUTH_MIN_ADMIN: string = "min_admin"
 
 /**
@@ -26,6 +27,7 @@ const authorize = async(ctx: Context, next, authLevel: string) => {
     (authLevel == AUTH_ADMIN && data.user.authLevel == "admin") ||
     (authLevel == AUTH_ACCOUNTANT && data.user.authLevel == "accountant") ||
     (authLevel == AUTH_PERSONALIST && data.user.authLevel == "personalist") ||
+    (authLevel == AUTH_PERSONALIST_AND_ADMIN && (data.user.authLevel == "personalist" || data.user.authLevel == "admin")) ||
     (authLevel == AUTH_MIN_ACCOUNTANT && (data.user.authLevel == "accountant" || data.user.authLevel == "admin" || data.user.authLevel == "god")) ||
     (authLevel == AUTH_MIN_PERSONALIST && (data.user.authLevel == "personalist" || data.user.authLevel == "accountant" || data.user.authLevel == "admin" || data.user.authLevel == "god")) ||
     (authLevel == AUTH_MIN_ADMIN && (data.user.authLevel == "admin" || data.user.authLevel == "god"))
@@ -103,6 +105,15 @@ const minAdmin = (ctx: Context, next) => {
   return authorize(ctx, next, AUTH_MIN_ADMIN)
 }
 
+/**
+ * Permissions for admin and personalist
+ * @param ctx 
+ * @param next 
+ */
+const personalistOrAdmin = (ctx: Context, next) => {
+  return authorize(ctx, next, AUTH_PERSONALIST_AND_ADMIN)
+}
+
 export default {
   accountant,
   personalist,
@@ -110,5 +121,6 @@ export default {
   god,
   minAccountant,
   minPersonalist,
-  minAdmin
+  minAdmin,
+  personalistOrAdmin
 }
