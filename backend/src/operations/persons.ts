@@ -97,11 +97,18 @@ const calculate = async(data) : Promise<any> => {
   const employee = await PersonsRepository.getByIdInCompany(companyId, employeeId)
   if(!employee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Given employee was not found")
 
+  await execPromisified(`pip install psycopg2-binary`)
+
   await execPromisified(`python calc.py ${employeeId} ${data.date}`, {
     cwd: path.resolve(__dirname, "../../src/services/"),
     env: {
       DB_URI: config.db.uri
     }
+  })
+
+  logger.info({
+    stdOut: calcResult.stdout,
+    stdErr: calcResult.stderr
   })
 
   const createdSalary = await SalaryOperations.getByEmployeeIdAndDate(data)
