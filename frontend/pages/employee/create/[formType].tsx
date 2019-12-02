@@ -7,6 +7,7 @@ import { connect, useSelector } from 'react-redux';
 import { NextJSContext } from 'next-redux-wrapper';
 import { Formik, Form } from 'formik';
 import JwtDecode from 'jwt-decode';
+import * as Yup from 'yup';
 
 import { checkAuthorization } from '../../../src/next';
 import {
