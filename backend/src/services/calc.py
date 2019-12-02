@@ -6,7 +6,7 @@ import calculation
 import pgFunctions
 import assistant
 
-ret = 0
+ret = 1
 try:
     arg1=sys.argv[1]
     arg1.isdigit()

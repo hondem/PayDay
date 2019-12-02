@@ -88,8 +88,6 @@ def vypocet( pid, pdat ):
     for i in range(45): 
         v_vektor.append(0.0)  # pridaj 45 prvkov obsahujucich 0.0 do v_vektora
     
-    d_neodp  = 0.0  # dni neodpracovane
-    h_neodp  = 0.0  # hodiny neodpracovane
     fpd_hod  = 0.0  # fond pracovnej doby pracovne hodiny za mesiac aj so sviatkami
     fpd_hodp = 0.0  # fond pracovnej doby pracovne hodiny za mesiac
     fpd_hods = 0.0  # fond pracovnej doby hodiny sviatok za mesiac
@@ -98,14 +96,14 @@ def vypocet( pid, pdat ):
     fpd_dnis = 0.0  # fond pracovnej doby dni sviatok za mesiac 
     fpd_priem = 0.0  # fond pracovnej doby priemerny za mesiac
     
-    d_neodp = 0.0  # neodpracovane dni
-    h_neodp = 0.0  # neodpracovane hodiny
+    v_neodpdni = 0.0  # neodpracovane dni
+    v_neodphod = 0.0  # neodpracovane hodiny
 
     v_pracdni = 0.0
     v_prachod = 0.0
     v_sviatdni = 0.0
     v_sviathod = 0.0
-    v_prelateny_sviatok = 0.0
+    v_preplateny_sviatok_hod = 0.0
     v_tarif_na_hod = 0.0
     
     v_pracuje = False  # logicka premenna urcuje 1 - pracovnik pracuje a je aktivny , 0 - nepracuje alebo nie je aktivny
@@ -132,20 +130,15 @@ def vypocet( pid, pdat ):
     mos_id  = mos[0][0]  # typ integer
     mos_osc = mos[0][1]  # typ integer
     aktivny = mos[0][6]  # typ boolean
-    mos_datum_nastup = mos[0][41].strftime('%Y/%m/%d')  # typ string
-    mos_datum_ukonc = mos[0][42].strftime('%Y/%m/%d')  # typ string
+    mos_datum_nastup = mos[0][41].strftime('%Y-%m-%d')  # typ string
+    mos_datum_ukonc = mos[0][42].strftime('%Y-%m-%d')  # typ string
     s_platzakl = mud[0][32]
     druh_mzdy = mud[0][4]
-    print("s_platzakl ")
-    print( s_platzakl)
-    print("druh_mzdy" )
-    print(druh_mzdy)
     
     v_pracuje = ( aktivny and not( ( assistant.eom(pdat) < mos_datum_nastup ) or  ( pdat > mos_datum_ukonc ) ))  # test ci pracuje podla datumov nastupu a ukoncenia a ci je oznaceny v mos_active==1 
 
     if v_pracuje:
         v_priemer_dovolenka = pgFunctions.get_priemd( pid, pdat )  # nacitaj aktualne platny priemer, ak neexistuje vypocitaj
-        v_priemer_nemoc     = pgFunctions.get_priemn( pid, pdat )  # nacitaj platny priemer pre nemoc, ak neexistuje vypocitaj
     else:
         return(1)
        
@@ -156,7 +149,7 @@ def vypocet( pid, pdat ):
     fpd_ka1popis  = fpd[0][1]  # popis kalendara
     fpd_pphodm = fpd[0][3]  # priem. pocet hodin za mesiac z kalendara
     fpd_pphodw = fpd[0][4]  # priem. pocet hodin za tyzden z kalendara
-    fpd_pphodd = fpd[0][5]  # priem. pocet hodin za den z kalendara     
+    fpd_priem_poc_hod_den = fpd[0][5]  # priem. pocet hodin za den z kalendara     
     fpd_pomerphodd = fpd[0][6]  # pomerny pocet hodin z kalendara za den (podla uvazku z kalendara)
     fpd_ppdw = fpd[0][7]  # pocet dni pracovnych v tyzdni z kalendara
     fpd_dnip = fpd[0][10]  # pocet dni pracovnych z kalendara (nie odpracovanych) je to fpd z kalendara
@@ -166,7 +159,7 @@ def vypocet( pid, pdat ):
     fpd_hod  = fpd_hodp + fpd_hods  # fpd hod za mesiac aj so sviatkami
     fpd_dni  = fpd_dnip + fpd_dnis  # fpd dni za mesiac aj so sviatkami        
     dni_mes  = calendar.monthrange(rokp,mesp)[1]  # celkovy pocet dni v mesiaci
-
+    v_preplateny_sviatok_hod = fpd_hods
 ## zisti tarif
     if ( (druh_mzdy == 'M') and ( s_platzakl >0) ):
             v_tarif_na_hod = s_platzakl / fpd_pphodm  # vypocet suma na hodinu z mesacneho platu / priemer.pocet hodin z kalendara 
@@ -179,12 +172,31 @@ def vypocet( pid, pdat ):
 
 ## napocet kodov
     i=0
-    for row in mzl1:   
-        mzl_idosc   = row[1] ; mzl_kod     =  row[2]; mzl_kodext  = row[3];  mzl_datumod  = row[4].strftime('%Y/%m/%d');   mzl_datumdo   = row[5].strftime('%Y/%m/%d')
-        mzl_dni     = row[6] ; mzl_hod      = row[7];  mzl_sadzba  = row[8] ; mzl_hodnota = row[9];  mkod_typ_hak = row[27]; mkod_zniz_hod_sviatku = row[28]
-        mkod_alg1   = row[29]; mkod_alg2    = row[30]; mkod_alg3   = row[31]; mkod_alg4   = row[32]; mkod_alg5    = row[33]; mkod_alg6 = row[34]; mkod_alg7 = row[35]  
-        mkod_pozhod = row[40]; mkod_pozkor  = row[41]; mkod_pozdni = row[42]; mkod_pozpoc = row[43]
-        
+    for row in mzl1:
+        mzl_idosc   = row[1] ; mzl_kod     =  row[2];
+        mzl_kodext     = row[3];
+        mzl_datumod = row[4].strftime('%Y-%m-%d');
+        mzl_datumdo   = row[5].strftime('%Y-%m-%d')
+        #mzl_dni     = row[6];
+        #mzl_hod      = row[7];
+        #mzl_sadzba    = row[8];
+        #mzl_hodnota = row[9];
+        mkod_typ_hak = row[23];
+        mkod_zniz_hod_sviatku = row[24]
+        mkod_algkoe = row[25]
+        mkod_algmesn  = row[26]
+        mkod_algtarif  = row[27]
+        mkod_algpls  = row[28]
+        mkod_pozhod = row[36]
+        mkod_pozkor  = row[37]
+        mkod_pozdni   = row[38]
+        mkod_pozpoc = row[39]
+        mkod_prgnemoc = row[40]
+        mkod_nemocsadzba1 = row[41]
+        mkod_nemocdni1 = row[42]
+        mkod_nemocsadzba2 = row[43]
+        mkod_nemocdni2 = row[44]
+
         if ( mkod_typ_hak == 'A' and mzl_kod not in (1110,1120,1130)):  # pre kody 'A' zapis sumu do vektora vyoctu 
             v[mkod_pozkor] = v[mkod_pozkor] + mzl_hodnota                      
            
@@ -206,45 +218,87 @@ def vypocet( pid, pdat ):
 
         if (mkod_typ_hak == 'D'):
 
-            if ( mzl_datumod < pdat ):  #  #IF (EV<DJ,DJ,EV)           
+            if ( mzl_datumod < pdat ):  # test ci datum_od daneho kodu zo zloziek je mensi ako aktualne obdobie 
                 v_datumod = pdat
             else:
                 v_datumod = mzl_datumod
 
-            if ( mzl_datumdo >assistant.eom( pdat )):  #            IF (EW>EOM (DJ),EOM(DJ),EW)
+            if ( mzl_datumdo > assistant.eom( pdat )):  ## test ci datum_do daneho kodu zo zloziek je vacsi ako posledny den v mesiaci aktualneho obdobia 
                 v_datumdo = assistant.eom( pdat )
             else:
-                v_datumod = mzl_datumdo
+                v_datumdo = mzl_datumdo
+            
+            kod_dniahod = pgFunctions.get_dni_hod( v_datumod , v_datumdo , fpd_kal )  # vrati list ktory bsahuje pocet dni a hodin pracovnych a sviatkovpre dany kod z m.zlozky a kalendar
+            
+            v_pracdni  =  kod_dniahod[0]  # dni pracovne celkom pre kod
+            v_prachod  =  kod_dniahod[1]  # hod pracovne celkom pre kod            
+            v_sviatdni =  kod_dniahod[2]  # dni sviatkov celkom pre kod
+            v_sviathod =  kod_dniahod[3]  # hod sviatkov celkom pre kod
+            v_pocetdni =  kod_dniahod[4]  # pocet dni v_datumod az v_datumdo
+            
+            
+            
+            if ( mkod_zniz_hod_sviatku ):
+                v_preplateny_sviatok_hod = v_preplateny_sviatok_hod - v_sviathod * 100 / 100  # prva 100 je uvazok z mud
+          
+            if ( mkod_algmesn > 0):
+                v_tarif = v_priemer_dovolenka * mkod_algmesn / 100
+            if ( mkod_algtarif > 0):
+                v_tarif = v_tarif_na_hod * mkod_algtarif / 100
                 
-            kod_dniahod = pgFunctions.get_dni_hod( v_datumod , v_datumdo , fpd_kal )  #TODO: otestovat
-
-            v_pracdni  =  kod_dniahod[0]  # dni celkom pre kod
-            v_prachod  =  kod_dniahod[1]  # dni celkom pre kod            
-            v_sviatdni =  kod_dniahod[2]  # dni celkom pre kod
-            v_sviathod =  kod_dniahod[3]  # dni celkom pre kod
-            
-            v_dni = 0.0  #IF (EY>=FM/2 AND EV>=DJ AND EY<>0,DL+DN-1,DL+DN)  
-            
-            if (pdat > mzl_datumod):
-                v_hod = 0 
-            else: 
-                v_hod = mzl_hod  #v prac hod * 22 Uvazok v % / 100 - IF (p obdobie > Od,0,Hodiny - SK/hod)
-                
-            pom_hodiny = v_prachod * 100 / 100 -  v_hod  # prva 100 je uvazok z mud
-            
-            if (mkod_zniz_hod_sviatku == 'A'):
-                pom_hodiny = pom_hodiny + v_sviathod * 100/ 100  # prva 100 je uvazok z mud
-                v_preplateny_sviatok = v_preplateny_sviatok - v_sviathod * 100 / 100  # prva 100 je uvazok z mud
-            
             if( mkod_pozhod > 0 ): 
-                v[mkod_pozhod] = v[mkod_pozhod] + mzl_hod
-            if( mkod_pozkor > 0 ): 
-                v[mkod_pozkor] = v[mkod_pozkor] + mzl_hodnota  # prepocet sumy podla zadaneho algoritmu
+                v[mkod_pozhod] = v[mkod_pozhod] + v_prachod
+                v_neodphod     = v_neodphod     + v_prachod
+                
+            if( mkod_pozkor > 0 ):
+                
+                if ( mkod_prgnemoc ):
+                    v_priemer_nemoc = pgFunctions.get_priemn( pid, pdat, mpar[0][60] )  # nacitaj platny priemer pre nemoc, ak neexistuje vypocitaj, mpar[0][60] - max.denny VZ
+                    
+                    kod_dniahod1 = pgFunctions.get_dni_hod( mzl_datumod , assistant.eom(assistant.addday(pdat,-4)) , fpd_kal )    # zisti ci dany kod bol zadany aj predchadzajucom mesiaci a kolko ni      
+                    v_pocetdni_pred = kod_dniahod1[4]
+                        
+                    dni1m=0 ; dni2m=0 ; dni1=0; dni2=0
+                        
+                    if (v_pocetdni_pred > 3): 
+                        dni1m = 3
+                    else:
+                        dni1m = v_pocetdni_pred
+                        
+                    if (v_pocetdni_pred <= 10 ): 
+                        if ( v_pocetdni_pred >=3 ):
+                            dni2m = v_pocetdni_pred - 3
+                        else:
+                            dni2m = 0
+                    else:
+                        dni2m = 7
+                        
+                    if ( v_pocetdni >= ( 3 - dni1m ) ):
+                        dni1 = 3 - dni1m
+                    else:
+                        dni1 = v_pocetdni
+                        
+                    if ( v_pocetdni >= ( 10 - dni1m - dni2m ) ):
+                        dni2 = 10 - dni1m - dni2m - dni1
+                    else:
+                        dni2 = v_pocetdni - dni1
+                        
+                    v_suma = dni1 * v_priemer_nemoc * mkod_nemocsadzba1 * fpd_priem_poc_hod_den / 100 + dni2 * v_priemer_nemoc * mkod_nemocsadzba2 * fpd_priem_poc_hod_den / 100 
+                  
+                else: 
+                    v_suma = v_prachod * v_tarif  # prepocet sumy podla zadaneho algoritmu
+                
+                v[mkod_pozkor] = v[mkod_pozkor] + v_suma
+            
             if( mkod_pozdni > 0 ): 
-                v[mkod_pozdni]  = v[mkod_pozdni] + mzl_dni  #23 (v[],v[] + IF (Do > EOM (pdat),EOM (pdat),Do) - IF (Od < pdat,pdat,Od)+1,4),Vys dni zapisat*4+1,4)                              
-            if ((mzl_kod == 500) and ( mzl_datumod < assistant.eom(pdat) ) and (mzl_datumdo > assistant.eom(pdat)) and (assistant.eom(mos_datum_ukonc) > pdat)):                   
-                v_pomdatum = mzl_datumod
+                v[mkod_pozdni] = v[mkod_pozdni] + v_prachod / fpd_priem_poc_hod_den  #                               
+                v_neodpdni     = v_neodpdni     + v_prachod  / fpd_priem_poc_hod_den
+            
+               
+            #if ((mzl_kod == 500) and ( mzl_datumod < assistant.eom(pdat) ) and (mzl_datumdo > assistant.eom(pdat)) and (assistant.eom(mos_datum_ukonc) > pdat)):                   
+            #    v_pomdatum = mzl_datumod
 
+            
         if (( mzl_kod == 500 ) and ( mzl_datumod <= pdat ) and ( assistant.eom( pdat ) <= mzl_datumdo )):  #TRIM (Kod pripadu) = '500' AND Od <= p obdobie AND EOM (p obdobie) <= Do
             v_500 = True    
         i += 1  # pripocita riadok
@@ -252,15 +306,22 @@ def vypocet( pid, pdat ):
     ## vypocet mzdy po spracovani kodov            
     ## Zapis do vektora dni odpracovane  
     v[10] = fpd_dni  # fond prac.doby dni
-    v[11] = fpd_dnip - d_neodp  # odpracovae dni
+    if (( fpd_dnip - v_neodpdni ) < 0 ):  # ak pocet pracovnych dni v mesiaci - neodpracovane dni < 0
+        v[11] = fpd_dnip - v_neodpdni  # odpracovae dni
+    else: 
+        v[11]=0.0
     v[13] = fpd_dnis  # zapis do pomocneho vektora vypoctu v dni sviatku
-    ## Zapis do vektora hod odpracovane
+    ## Zapis do vektora hodiny odpracovane
     v[50] = fpd_hod  # fond prac.doby hod
-    v[51] = fpd_hodp - h_neodp  # odpracovane hodiny
+    
+    if ((fpd_hodp - v_neodphod-v_preplateny_sviatok_hod) < 0 ):  # test ci sa nedostavam do minusu s hodinami odpracovanymi po odpocte neodpracovanych hodin
+        v[51] = 0.0  # odpracovane hodiny
+    else:
+        v[51] = fpd_hodp - v_neodphod - v_preplateny_sviatok_hod
     v[53] = fpd_hods  # zapis do pomocneho vektora vypoctu v hod.sviatky
     ## Zapis do vektora sumy odpracovane
     v[100] = s_platzakl  # tarifny plat 
-    v[101] = round(  s_platzakl / fpd_hod * ( fpd_hodp - h_neodp ), 2)  # odpracovane suma
+    v[101] = round(  s_platzakl / fpd_hod * ( fpd_hodp - v_neodphod ), 2)  # suma za odpracovane hodiny z tarifu
     
     if ( mud[0][8] == 'T' ):
         v[123] = round(( s_platzakl / fpd_hod * fpd_hods ) ,2 )  # preplatenie sviatku suma platom
@@ -403,10 +464,8 @@ def vypocet( pid, pdat ):
     v[193] = v[193] + s_rozdielzrch
     v[194] = v[194] + s_danbonus
 # dane end
-    HM = pgFunctions.get_msk_suma( 100 , 100 , v )  # napocet podla mmsk 100 - skupina zobrazenia, 100 - pozicia
-    CM = pgFunctions.get_msk_suma( 100 , 110 , v )  # napocet podla mmsk 100 - skupina zobrazenia, 110 - pozicia
-    v[240] = HM
-    v[241] = CM
+    v[240] = pgFunctions.get_msk_suma( 100 , 100 , v )  # napocet podla mmsk 100 - skupina zobrazenia, 100 - pozicia - Hruba mzda
+    v[241] = pgFunctions.get_msk_suma( 100 , 110 , v )  # napocet podla mmsk 100 - skupina zobrazenia, 110 - pozicia - Cista mzda
 
 ## zrazky
     #TODO: doplnit spracovanie kodov zrazok

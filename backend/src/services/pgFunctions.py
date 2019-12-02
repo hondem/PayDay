@@ -325,28 +325,43 @@ def get_msk_suma( pzost, priad, vekt):
 #                                                    spocita pravdepodobny, alebo novy ak je 
 #                                                    1,4,7,9 mesiac 
 # output: float
+#
+# TODO: ak neexistuje priemer v m.vypocet pre aktualne obdobie, nacitaj ho z predchadzajuceho mesiaca
+#       ak mesiac(pdat) in (2,3,5,6,8,9,11,12). 
+#       ak mesiac(pdat) in (1,4,7,10) alebo ak neexistuje ani v predchadzajucom mesiaci, tak spocitaj
+#        priemer z predchadzajuceho kvartalu    
 ###################################################################################################
 def get_priemd( pid, pdat ):
     ## ak je mesiac 1,4,7,9 tak spocitaj novy priemer
     try:    
         sql = 'select dovolenkovy_priemer from m.vypocet where id='+str(pid)+' and obdobie='+'\''+pdat+'\''
         vyslf = runpsql(sql)[0][0]
+
+        if ( vyslf == 0.0 ):
+            vysl=2.989  # minimalna mzda
         return vyslf
+
     except:
-        return 0.0
+        return 2.989  # minimalna mzda
 
 
 ###################################################################################################
-# Funkcia get_priemn( pid : integer, pdat : str ) - funkcia vracia dov.priemer, ak neexistuje 
+# Funkcia get_priemn( pid : integer, pdat : str, pmax: float ) - funkcia vracia dov.priemer, ak neexistuje 
 #                                                    spocita pravdepodobny, alebo novy ak je 
 #                                                    1,4,7,9 mesiac 
 # output: float
+#
+# TODO: doplnit spravny vypocet nemocenskeho priemeru
+#
 ###################################################################################################
-def get_priemn( pid, pdat ):
+def get_priemn( pid, pdat, pmax ):
 
     try:
         sql = 'select nemocensky_priemer from m.vypocet where id='+str(pid)+' and obdobie='+'\''+pdat+'\''
         vyslf = runpsql(sql)[0][0]
+
+        if ( vyslf == 0.0 ):
+            vysl=2.989  # minimalna mzda
         return vyslf
     except:
-        return 0.0
+        return 2.989

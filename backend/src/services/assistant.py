@@ -46,13 +46,70 @@ def roundown( pf , pdes ):
     ret = math.floor( pf * nasob ) / nasob
     
     return ret
-
-######################################################################################
-# funkcia day( pdat : str ) - vrati cislo dna v mesiaci
-######################################################################################
-def day( pdat ):
-    rok = pdat[:4]
-    mes = pdat[5:7]
-    den = pdat[8:10]
     
-    return den
+    
+######################################################################################
+# funkcia addday( pdat : str, pdni : integer ) - pripocita +-dni k datumu
+# TODO: nefunguje napr. -32 dni ak obdobie je 1/10/2019
+# vrati retazec datumu v tvare "YYYY-MM-DD"
+######################################################################################
+def addday( pdat, pdni ):
+    
+    if ( pdni > 0 ):
+        log = 1
+    elif ( pdni < 0 ): 
+        log = -1
+    else:
+        log = 0
+        
+    i = pdni;
+    
+    rok = int(pdat[:4])
+    mes = int(pdat[5:7])
+    den = int(pdat[8:10])
+
+    while (i != 0):
+        if ( den != 0 ):
+            den = den + 1 * log
+            i = i - 1 * log
+             
+        if ( mes in (1,3,5,7,8,10,12)):
+            x = 32 
+            y =30
+        elif ( mes in (4,6,9,11)):
+            x = 31
+            y = 29
+        elif ( mes == 2 and rok % 4 != 0):
+            x = 29
+            y = 27
+        else:
+            x = 30
+            y = 28
+            
+        if (( den == x ) and ( log == 1 )):  # x = 32 pre januar
+            mes = mes + 1 
+            den = 1  
+            if( mes == 13 ): 
+                mes = 1
+                rok = rok + 1 
+        if (( den == 0 ) and (log == -1 )):
+            mes = mes - 1 
+            den = y # 31 
+            if ( mes == 0 ):
+                mes = 12
+                rok = rok - 1 
+    
+    if (mes < 10):
+        m='0'
+    else:
+        m=''
+
+    if (den < 10):
+        d='0'
+    else:
+        d=''
+
+    ret = str(rok)+'-'+m+str(mes)+'-'+d+str(den)
+
+    return ret
+
