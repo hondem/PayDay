@@ -146,7 +146,7 @@ const EmployeeItem: React.FunctionComponent<Props> = ({ employee, onEmployeeDele
                             Hrubá mzda:
                           </Paragraph>
                           <Heading as="h3" textAlign="center">
-                            {salaryData.gross}
+                            {salaryData.gross}€
                           </Heading>
                         </Box>
 
@@ -155,7 +155,7 @@ const EmployeeItem: React.FunctionComponent<Props> = ({ employee, onEmployeeDele
                             Čistá mzda:
                           </Paragraph>
                           <Heading as="h3" mb="0" textAlign="center">
-                            {salaryData.net}
+                            {salaryData.net}€
                           </Heading>
                         </Box>
                       </>
