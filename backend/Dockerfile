@@ -10,8 +10,8 @@ RUN mkdir -p /app/node_modules && chown -R node:node /app
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY tsconfig.json ./
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node tsconfig.json ./
 
 USER node
 
