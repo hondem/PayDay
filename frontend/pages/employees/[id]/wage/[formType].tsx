@@ -124,7 +124,9 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
       user.companyId,
       employeeId,
       moment().format('YYYY-MM-DD'),
-    ).then(({ data: wageData }) => setWageData(wageData));
+    ).then(({ data: wageData }) =>
+      setWageData({ platnost_od: moment().format('YYYY-MM-DD'), ...wageData }),
+    );
   };
 
   /**
@@ -217,7 +219,7 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
 
             <Formik
               initialValues={
-                { platnost_od: moment().format('YYYY-MM-DD'), ...wageData } ?? {
+                wageData ?? {
                   platnost_od: moment().format('YYYY-MM-DD'),
                   ...INITIAL_DATA,
                 }
