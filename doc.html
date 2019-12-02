@@ -118,6 +118,7 @@
 
     <h2>Implementace</h2>
     <h3>Frontend</h3>
+
     <h3>REST API</h3>
     <p>API je implementována v jazyce TypeScript pomocí frameworku Koa (<a href="https://koajs.com/" target="blank">https://koajs.com/</a>). Pro pøipojení do databáze byl pou¾it Knex (<a href="https://knexjs.org/" target="blank">https://knexjs.org/</a>).</p>
     <h4>Adresáøová struktura</h4>
@@ -148,6 +149,96 @@
       <li>tsconfig.json (konfigurace pro TypeScript)</li>
     </ul>
 
+    <h4>Environment promìnné</h4>
+    <p>API pracuje s tìmito env promìnnými:</p>
+    <ul>
+      <li>PORT - Port, na kterém se aplikace má spustit</li>
+      <li>DATABASE_URL - connection string pro pøipojení do databáze</li>
+      <li>SECURITY_SECRET_HASH - security hash pro "posolení" hesel v systému</li>
+      <li>NODE_ENV - prostøedí, kde je aplikace spu¹tìna</li>
+    </ul>
+
+    <p>V pøípadì, ¾e daná promìnná není pøed spu¹tìním definována, pou¾ijou se implicitní hodnoty dané konfigurací v adresáøi <span class="inline-code">./backend/config</span></p>
+
+    <h4>NPM Skripty</h4>
+    <p>V souboru ./backend/package.json jsou definovené skripty pro ulehèení práce s API. Pro spu¹tìní tìchto skriptù se musíte nácházet v adresáøi ./backend.<br> Popis skriptù:</p>
+    <ul>
+      <li>npm run build - zkompiluje projekt z typescriptu do javascriptu</li>
+      <li>npm run dev - spustí vývojové prostøedí (nodemon kontroluje zmìny v souborech a automaticky restartuje API)</li>
+      <li>npm run lint - spustí lint test (zda kód vyhovuje stylu psaní)</li>
+      <li>npm run migrate:latest - spustí migrations</li>
+      <li>npm run migrate:make NAZEV_MIGRACE - vytvoøí ve slo¾ce ./backend/src/database/migrations nový soubor migrace</li>
+      <li>npm run migrate:rollback - sma¾e celou strukturu databáze</li>
+      <li>npm run migrate:down - sma¾e poslední provedenou migraci</li>
+      <li>npm run migrate:up - provede následující migraci</li>
+      <li>npm run seed:make NAZEV_SEEDU - vytvoøí nový seed</li>
+      <li>npm run seed:run - vlo¾í do databáze v¹echny data ze seedu</li>
+      <li>npm run docker-build - buildne docker image</li>
+    </ul>
+
+    <h4>Migrace databáze</h4>
+    <p>Vytvoøení struktury databáze probíhá spu¹tìním pøíkazu <span class=="inline-code">npm run migrate:latest</span>. Tento pøíkaz provede v¹echny migrace, které se nacházejí ve slo¾ce ./backend/src/database/migrations 
+    chronologicky podle timestampu na zaèátku souboru.</p>
+
+    <h4>Seedování databáze</h4>
+    <p>Pro naplnìní databáze daty slou¾í pøíkaz <span class="inline-code">npm run seed:run</span>. Tento pøíkaz provede seedy, které se nacházejí ve slo¾ce ./backend/src/database/seeds 
+    chronologicky podle timestampu na zaèátku soubor. Soubory, které nemají timestamp se vykonají jako poslední.</p>
+
+    <h4>Autentifikace u¾ivatele</h4>
+    <p>Pro autentifikaci u¾ivatelù je vyu¾it JWT (json web token). Tento token je vygenerován API pøi pøihlá¹ení. Pro podpis tokenu je vyu¾ito promìnné <span class="inline-code">SECURITY_SECRET_HASH</span> nacházející se v konfiguraèních souborech 
+      - viz. sekce o struktuøe adresáøù. Payload tohoto JWT nese údaje o u¾ivateli, jeho oprávnìní a expiraci. Pøi ka¾dém requestu (autorizovaném) na API je vy¾ádáno vyplnìní Authorization hlavièky v HTTP po¾adavku.
+    API následnì v závislosti na obsahu JWT vyhodnotí, zda má u¾ivatel pøístup k datùm, èi nikoliv.<br>Systém rozeznává následující oprávnìní:</p>
+    <ol>
+      <li>ADMIN - administrátor systému - spravuje u¾ivatele, mù¾e v¹echno</li>
+      <li>PERSONALIST - personalistka - vkládá nové zamìstnance</li>
+      <li>ACCOUNTANT - úèetní - mù¾e upravovat data zamìstnancù, vytváøet mzdové záznamy zamìstnancù, poèítat mzdy</li>
+    </ol>
+
+    <h4>API Dependencies</h4>
+    <h5>Vývojové dependencies</h5>
+    <ol>
+      <li>"@strv/eslint-config-node": "^2.1.2"</li>
+      <li>"@strv/eslint-config-typescript": "^2.1.3"</li>
+      <li>"@types/bluebird": "^3.5.27"</li>
+      <li>"@types/kcors": "^2.2.3"</li>
+      <li>"@types/koa": "^2.0.50"</li>
+      <li>"@types/koa-bodyparser": "^4.3.0"</li>
+      <li>"@types/koa-router": "^7.0.42"</li>
+      <li>"@types/node": "^12.7.9"</li>
+      <li>"@types/pino": "^5.8.10"</li>
+      <li>"eslint": "~6.7.1"</li>
+      <li>"nodemon": "^1.19.3"</li>
+      <li>"ts-node-dev": "^1.0.0-pre.44"</li>
+    </ol>
+
+    <h5>Produkèní dependencies</h5>
+    <ol>
+      <li>"@types/bcrypt": "^3.0.0"</li>
+      <li>"@types/bcryptjs": "^2.4.2"</li>
+      <li>"@types/jsonschema": "^1.1.1"</li>
+      <li>"@types/jsonwebtoken": "^8.3.4"</li>
+      <li>"@types/lodash": "^4.14.141"</li>
+      <li>"bcryptjs": "^2.4.3"</li>
+      <li>"bluebird": "^3.7.0"</li>
+      <li>"dotenv": "^8.1.0"</li>
+      <li>"jsonschema": "^1.2.4"</li>
+      <li>"jsonwebtoken": "^8.5.1"</li>
+      <li>"kcors": "^2.2.2"</li>
+      <li>"knex": "^0.19.4"</li>
+      <li>"koa": "^2.8.2"</li>
+      <li>"koa-bodyparser": "^4.2.1"</li>
+      <li>"koa-compress": "^3.0.0"</li>
+      <li>"koa-router": "^7.4.0"</li>
+      <li>"lodash": "^4.17.15"</li>
+      <li>"moment": "^2.24.0"</li>
+      <li>"objection": "^1.6.11"</li>
+      <li>"pg": "^7.12.1"</li>
+      <li>"pino": "^5.13.4"</li>
+      <li>"pino-pretty": "^3.2.1"</li>
+      <li>"ts-node": "^8.4.1"</li>
+      <li>"typescript": "^3.6.3"</li>
+    </ol>
+    
     <h4>Výpoèet mzdy</h4>
     <p>
       Directory: /backend/src/services/*<br />
