@@ -118,6 +118,39 @@
 
     <h2>Implementace</h2>
     <h3>Frontend</h3>
+    <p>Aplikácia je vytvorená kompletne v jazyku TypeScript s vyu¾itím kni¾nice React vo verzii 16.12.0.</p>
+
+    <h4>Server-side rendering</h4>
+    Implementovaný framework Next.js, ktorá zabezpeèuje render na strane serveru. Be¾né aplikácie v Reacte a iných JavaScript frameworkoch/kni¾niciach bývajú èasto pomalé, preto¾e
+    tvorba DOMu prebieha na strane klienta a¾ po obdr¾aní zdrojového kódu. Framework Next.js umo¾òuje pri nasadení vytvori» optimalizovanú verziu aplikácie rozdelené do viacerých men¹ích balíèkov. Klientovi je u¾ zasielaná predom vytvorená DOM ¹truktúra.
+
+    <h4>Získavanie dát</h4>
+    Dáta sú získavané z REST API pomocou kni¾nice Axios, ktorá umo¾òuje jednoducho zasiela» a spracováva» HTTP po¾iadavky. 
+
+    <h4>Uchovávanie dát</h4>
+    Dáta sú po prijatí od API uchovávané v globálnom stave aplikácie vytvorem pomocou kni¾nice Redux alebo lokálne vo vnútornom stave jednotlivých komponént.
+
+    <h4>©týly</h4>
+    Písané za pomoci kniènice styled-components, ktorá umo¾òuje vyu¾i» benefity ES6 a CSS pre dynamické vytváranie kaskádových ¹týlov. Jadrom ¹týlov v aplikácii je objekt (tzv. téma), ktorá uchováva èasto pou¾ívané hodnoty pre ich jednoduch¹ie znovupou¾itie.
+    Aplikácia sa plne prispôsobuje rôznym typom zariadení, testované na viacerých ¹tandardných rozlí¹eniach.
+
+    <h4>Manipulácia s dátami</h4>
+    Komplexnej¹ia správa dát je vykonávaná pomocou funkcionálneho programovania a kni¾nice Ramda. 
+
+    <h4>Adresárová ¹truktúra pod</h4>
+    <ul>
+      <li><strong>pages</strong> - zlo¾ka vyu¾ívaná kni¾nicou Next.js pre file-system routing (ka¾dá defaultne exportovaná komponeta symbolizuje stránku)</li>
+      <li><strong>src</strong></li>
+      <ul>
+        <li><strong>actions</strong> - definícia typov systémových akcii, ktorými je mo¾né manipulova» s globálnym stavom aplikácie</li>
+        <li><strong>api</strong> - exportované jednotlivé funkcie vyu¾ívané na komunikáciu s API</li>
+        <li><strong>components</strong> - komponenty kni¾nice React</li>
+        <li><strong>next</strong> - pomocné funkcie pre serverovú èas» (napríklad overenie, èi má u¾ívateµ prístup k danej stránke)</li>
+        <li><strong>reducers</strong> - logika definujúca zmenu globálneho stavu pri odoslaní urèitých akcií</li>
+        <li><strong>selectors</strong> - pure functions vyu¾ívané pre jednoduché èítanie globálneho stavu aplikácie</li>
+        <li><strong>types</strong> - definované typy pre typovú kontrolu jazyka TypeScript</li>
+      </ul>
+    </ul>
 
     <h3>REST API</h3>
     <p>API je implementována v jazyce TypeScript pomocí frameworku Koa (<a href="https://koajs.com/" target="blank">https://koajs.com/</a>). Pro pøipojení do databáze byl pou¾it Knex (<a href="https://knexjs.org/" target="blank">https://knexjs.org/</a>).</p>
@@ -291,6 +324,15 @@
       <li>v tuto chvíli ji¾ databáze bì¾í, ale je prázdná. Spustíme migrations, co¾ jsou aditivní úpravy struktury databáze <span class="inline-code">npm run migrate:latest</span></li>
       <li>naplníme databázi daty pøíkazem <span class="inline-code">npm run seed:run</span></li>
     </ul>
+
+    <h3>In¹talácia klienta (frontend)</h3>
+    <ol>
+      <li>Prepnite sa do adresára ./frontend</li>
+      <li>Nain¹talujte si potrebné dependencies príkazom <span class="inline-code">npm install</span></li>
+      <li>Zostavte si produkènú verziu frontendu príkazom <span class="inline-code">npm run build</span></li>
+      <li>Exportujte ENV obsahujúcu adresu backendu: (napr. <span class="inline-code">API_URL=http://localhost:5000</span>)</li>
+      <li>Spustite si Next.js server príkazom <span class="inline-code">npm start</span> (uistite sa, ¾e port 3000 nie je obsadený)</li>
+    </ol>
 
 
     <h2>Známé problémy</h2>
