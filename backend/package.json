@@ -9,7 +9,7 @@
     "python": "2.7.17"
   },
   "scripts": {
-    "test": "echo \"Error: PISS ON U! I DONT NEET TESTS!\" && exit 0",
+    "test": "echo \"Error: No tests available\" && exit 0",
     "build": "tsc",
     "start": "ts-node ./src/app.ts",
     "dev": "nodemon --watch './src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' ./src/app.ts",
