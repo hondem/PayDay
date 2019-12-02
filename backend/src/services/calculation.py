@@ -105,7 +105,7 @@ def vypocet( pid, pdat ):
     v_sviathod = 0.0
     v_preplateny_sviatok_hod = 0.0
     v_tarif_na_hod = 0.0
-    
+    kod_dniahod = 0.0
     v_pracuje = False  # logicka premenna urcuje 1 - pracovnik pracuje a je aktivny , 0 - nepracuje alebo nie je aktivny
     v_500 = False  # ma zadany kod 500
     
@@ -173,14 +173,11 @@ def vypocet( pid, pdat ):
 ## napocet kodov
     i=0
     for row in mzl1:
-        mzl_idosc   = row[1] ; mzl_kod     =  row[2];
+        mzl_idosc   = row[1]
+        mzl_kod     =  row[2];
         mzl_kodext     = row[3];
         mzl_datumod = row[4].strftime('%Y-%m-%d');
         mzl_datumdo   = row[5].strftime('%Y-%m-%d')
-        #mzl_dni     = row[6];
-        #mzl_hod      = row[7];
-        #mzl_sadzba    = row[8];
-        #mzl_hodnota = row[9];
         mkod_typ_hak = row[23];
         mkod_zniz_hod_sviatku = row[24]
         mkod_algkoe = row[25]
@@ -198,23 +195,7 @@ def vypocet( pid, pdat ):
         mkod_nemocdni2 = row[44]
 
         if ( mkod_typ_hak == 'A' and mzl_kod not in (1110,1120,1130)):  # pre kody 'A' zapis sumu do vektora vyoctu 
-            v[mkod_pozkor] = v[mkod_pozkor] + mzl_hodnota                      
-           
-        
-        if (mkod_typ_hak == 'C'):  # pre kody 'C' zapis hodiny, sumu a dni do vektora
-            mzl_hodnota = 0.0
-            mzl_dni = assistant.day(assistant.eom(pdat)) / fpd_hod * mzl_hod  # vypocet poctu dni z hodin
-            if ( mkod_alg3 > 0 ):  # prepocet priemerom - ak je percento priemeru PPU > 0
-                mzl_hodnota = mzl_hod * v_priemer_dovolenka * mkod_alg3 / 100         
-            if ( mkod_alg4 > 0 ):  # prepocet tarifom - ak je percento tarifu > 0
-                mzl_hodnota = mzl_hod * v_tarif_na_hod * mkod_alg4 /100  
-            if ( mkod_alg5 > 0 ):  # prepocet sadzbou - ak je sadzba v centoch > 0
-                mzl_sadzba  = mkod_alg4 
-                mzl_hodnota = mzl_hod * mkod_alg4 / 100  # preplatenie sadzbou na hodinu            
-
-            if( mkod_pozhod > 0 ): v[mkod_pozhod] = v[mkod_pozhod] + mzl_hod
-            if( mkod_pozkor > 0 ): v[mkod_pozkor] = v[mkod_pozkor] + mzl_hodnota  # prepocet sumy podla zadaneho algoritmu
-            if( mkod_pozdni > 0 ): v[mkod_pozdni] = v[mkod_pozdni] + mzl_dni 
+            v[mkod_pozkor] = v[mkod_pozkor]
 
         if (mkod_typ_hak == 'D'):
 
@@ -237,7 +218,6 @@ def vypocet( pid, pdat ):
             v_pocetdni =  kod_dniahod[4]  # pocet dni v_datumod az v_datumdo
             
             
-            
             if ( mkod_zniz_hod_sviatku ):
                 v_preplateny_sviatok_hod = v_preplateny_sviatok_hod - v_sviathod * 100 / 100  # prva 100 je uvazok z mud
           
@@ -254,7 +234,6 @@ def vypocet( pid, pdat ):
                 
                 if ( mkod_prgnemoc ):
                     v_priemer_nemoc = pgFunctions.get_priemn( pid, pdat, mpar[0][60] )  # nacitaj platny priemer pre nemoc, ak neexistuje vypocitaj, mpar[0][60] - max.denny VZ
-                    
                     kod_dniahod1 = pgFunctions.get_dni_hod( mzl_datumod , assistant.eom(assistant.addday(pdat,-4)) , fpd_kal )    # zisti ci dany kod bol zadany aj predchadzajucom mesiaci a kolko ni      
                     v_pocetdni_pred = kod_dniahod1[4]
                         
@@ -283,20 +262,15 @@ def vypocet( pid, pdat ):
                     else:
                         dni2 = v_pocetdni - dni1
                         
-                    v_suma = dni1 * v_priemer_nemoc * mkod_nemocsadzba1 * fpd_priem_poc_hod_den / 100 + dni2 * v_priemer_nemoc * mkod_nemocsadzba2 * fpd_priem_poc_hod_den / 100 
-                  
+                    v_suma = round((dni1 * v_priemer_nemoc * mkod_nemocsadzba1 * fpd_priem_poc_hod_den / 100 + dni2 * v_priemer_nemoc * mkod_nemocsadzba2 * fpd_priem_poc_hod_den / 100 ),2)
                 else: 
-                    v_suma = v_prachod * v_tarif  # prepocet sumy podla zadaneho algoritmu
+                    v_suma = round((v_prachod * v_tarif),2)  # prepocet sumy podla zadaneho algoritmu
                 
                 v[mkod_pozkor] = v[mkod_pozkor] + v_suma
             
             if( mkod_pozdni > 0 ): 
                 v[mkod_pozdni] = v[mkod_pozdni] + v_prachod / fpd_priem_poc_hod_den  #                               
                 v_neodpdni     = v_neodpdni     + v_prachod  / fpd_priem_poc_hod_den
-            
-               
-            #if ((mzl_kod == 500) and ( mzl_datumod < assistant.eom(pdat) ) and (mzl_datumdo > assistant.eom(pdat)) and (assistant.eom(mos_datum_ukonc) > pdat)):                   
-            #    v_pomdatum = mzl_datumod
 
             
         if (( mzl_kod == 500 ) and ( mzl_datumod <= pdat ) and ( assistant.eom( pdat ) <= mzl_datumdo )):  #TRIM (Kod pripadu) = '500' AND Od <= p obdobie AND EOM (p obdobie) <= Do

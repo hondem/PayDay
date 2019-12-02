@@ -65,8 +65,7 @@ def runpsql1(psql):
         count = cursor.rowcount
 
     except (Exception, psycopg2.Error) as error :
-        if(connection):
-            print("Failed to insert record into mobile table", error)
+        print("Failed to insert record into mobile table", error)
 
     finally:
         if(connection):
@@ -281,13 +280,58 @@ def zapis_mvy( pid, pdat, vektor):
     return vysl
 
 ########################################################################################################
+#  Funkcia zapis_mvy1 ( pid : integer , pdat : str , v : list )  -  1.par OSC
+#                                                                   2.par Obdobie
+#                                                                   3.par list of 250 values
+#  Output: 0 - chyba, 1 - zapis do tabulky ok
+########################################################################################################
+def zapis_mvy1( pid, pdat, vektor):
+    svektor=''
+    vysl = 0
+    
+    # test na existenciu zaznamu
+    sql='select count(*) from m.vypocet where id='+str(pid)+' and obdobie='+'\''+pdat+'\''
+    vysl = runpsql(sql)
+    existuje = vysl[0][0]
+    
+    for i in range(250):
+        svektor=svektor+str(vektor[i])+';'
+    if len(svektor)>2000:
+        vysl=-1
+    else:
+        if existuje:
+            sql='update m.vypocet set vektor = '+'\''+svektor+'\''+' where id='+str(pid)+' and obdobie='+'\''+pdat+'\''
+            vysl=runpsql1(sql)
+        else:
+            sql = 'insert into m.vypocet (id,obdobie,vektor,dovolenkovy_priemer, nemocensky_priemer) VALUES ('+str(pid)+ \
+            ','+'\''+pdat+'\''+','+'\''+svektor+'\''+','+'0.0,0.0'+')'
+            vysl=runpsql1(sql)
+    return vysl
+
+
+########################################################################################################
 #  Funkcia get_mvy ( pid : integer , pdat : str  )  -  1.par OSC
 #                                                        2.par Obdobie
 #  Output: list of mvy_vekt ( list of floats )
 ########################################################################################################
-def get_mvy(pid, pdat):
+def get_mvy( pid, pdat):
 
-        vysls=''
+        vysls='';        
+        sql='select vektor from m.vypocet where id='+str(pid)+' and obdobie = '+'\''+pdat+'\''
+        vysls=''.join(runpsql(sql)[0])  #konverzia tuple[0] na retazec
+        vysll=vysls.split(';')         # rozdelenie retazca na list retazcov podla oddelovaca ';'
+        vysll1=[float(i) for i in vysll[:-1]]  # konverzia na list float(ov)
+
+        return vysll1
+
+########################################################################################################
+#  Funkcia get_mvy1 ( pid : integer , pdat : str  )  -  1.par OSC
+#                                                        2.par Obdobie
+#  Output: list of mvy_vekt ( list of floats )
+########################################################################################################
+def get_mvy1( pid, pdat):
+
+        vysls='';        
         sql='select vektor from m.vypocet where id='+str(pid)+' and obdobie = '+'\''+pdat+'\''
         vysls=''.join(runpsql(sql)[0])  #konverzia tuple[0] na retazec
         vysll=vysls.split(';')         # rozdelenie retazca na list retazcov podla oddelovaca ';'
@@ -337,8 +381,8 @@ def get_priemd( pid, pdat ):
         sql = 'select dovolenkovy_priemer from m.vypocet where id='+str(pid)+' and obdobie='+'\''+pdat+'\''
         vyslf = runpsql(sql)[0][0]
 
-        if ( vyslf == 0.0 ):
-            vysl=2.989  # minimalna mzda
+        if ( vyslf <= 0.0 ):
+            vyslf=2.989  # minimalna mzda
         return vyslf
 
     except:
@@ -360,8 +404,8 @@ def get_priemn( pid, pdat, pmax ):
         sql = 'select nemocensky_priemer from m.vypocet where id='+str(pid)+' and obdobie='+'\''+pdat+'\''
         vyslf = runpsql(sql)[0][0]
 
-        if ( vyslf == 0.0 ):
-            vysl=2.989  # minimalna mzda
+        if ( vyslf <= 0.0 ):
+            vyslf=2.989  # minimalna mzda
         return vyslf
     except:
         return 2.989
