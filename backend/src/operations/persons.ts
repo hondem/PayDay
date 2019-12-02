@@ -98,7 +98,7 @@ const calculate = async(data) : Promise<any> => {
   if(!employee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Given employee was not found")
 
   const pythonVersion = await execPromisified(`python -V`)
-  logger.info("Python version: " + pythonVersion.stdout)
+  logger.info(pythonVersion)
 
   const calcResult = await execPromisified(`python calc.py ${employeeId} ${data.date}`, {
     cwd: path.resolve(__dirname, "../../src/services/"),
