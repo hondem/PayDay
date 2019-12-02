@@ -36,7 +36,6 @@ import { canManageWageData } from '../../../../src/api/shared/auth';
 /* Constants
 ============================================================================= */
 const INITIAL_DATA = {
-  platnost_od: '',
   druh: '',
   trieda: '',
   pracovna_doba_typ: '',
@@ -69,7 +68,6 @@ const INITIAL_DATA = {
   odbory: '',
 };
 
-
 /* Constants
 ============================================================================= */
 const ValidationSchema = Yup.object().shape({
@@ -77,16 +75,24 @@ const ValidationSchema = Yup.object().shape({
   trieda: Yup.string().required('Políčko je povinné.'),
   pracovna_doba_typ: Yup.string().required('Políčko je povinné.'),
   kalendar_typ: Yup.string().required('Políčko je povinné.'),
-  uvazok: Yup.number().positive().required('Policko je povinné.'),
+  uvazok: Yup.number()
+    .positive()
+    .required('Policko je povinné.'),
   vypocet_sviatkov: Yup.string().required('Políčko je povinné.'),
   pracovna_kategoria: Yup.string().required('Políčko je povinné.'),
   staticticky_udaj: Yup.string().required('Políčko je povinné.'),
   specialna_kategoria: Yup.string().required('Políčko je povinné.'),
   dochodok_typ: Yup.string().required('Políčko je povinné.'),
-  pocet_deti: Yup.number().positive().required('Políčko je povinné.'),
-  pocet_deti_do_6: Yup.number().positive().required('Políčko je povinné.'),
+  pocet_deti: Yup.number()
+    .positive()
+    .required('Políčko je povinné.'),
+  pocet_deti_do_6: Yup.number()
+    .positive()
+    .required('Políčko je povinné.'),
   zdravotna_poistovna: Yup.string().required('Políčko je povinné.'),
-  tarif: Yup.number().positive().required('Políčko je povinné.'),
+  tarif: Yup.number()
+    .positive()
+    .required('Políčko je povinné.'),
 });
 
 /* Props - <WageInfoPage />
@@ -210,7 +216,12 @@ const WageInfoPage: NextPage<Props> = ({ employeeId, formType }) => {
             </Head>
 
             <Formik
-              initialValues={wageData ?? INITIAL_DATA}
+              initialValues={
+                { platnost_od: moment().format('YYYY-MM-DD'), ...wageData } ?? {
+                  platnost_od: moment().format('YYYY-MM-DD'),
+                  ...INITIAL_DATA,
+                }
+              }
               onSubmit={handleSubmit}
               enableReinitialize
               validationSchema={ValidationSchema}
