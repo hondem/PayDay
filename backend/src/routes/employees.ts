@@ -4,11 +4,11 @@ import Auth from '../middleware/auth'
 
 const router: Router = new Router()
 
-router.get('/companies/:companyId/employees', Controller.getByCompany)
-router.get('/companies/:companyId/employees/:employeeId', Controller.getByCompanyAndId)
-router.get('/companies/:companyId/employees/:employeeId/calculate/:date', Controller.calculate)
-router.post('/companies/:companyId/employees', Controller.create)
-router.patch('/companies/:companyId/employees/:employeeId', Controller.update)
-router.delete('/companies/:companyId/employees/:employeeId', Controller.remove)
+router.get('/companies/:companyId/employees', Auth.minPersonalist, Controller.getByCompany)
+router.get('/companies/:companyId/employees/:employeeId', Auth.minPersonalist, Controller.getByCompanyAndId)
+router.get('/companies/:companyId/employees/:employeeId/calculate/:date', Auth.minAccountant, Controller.calculate)
+router.post('/companies/:companyId/employees', Auth.personalist, Controller.create)
+router.patch('/companies/:companyId/employees/:employeeId', Auth.minAccountant, Controller.update)
+router.delete('/companies/:companyId/employees/:employeeId', Auth.minAccountant, Controller.remove)
 
 export default router.routes()

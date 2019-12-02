@@ -4,7 +4,7 @@ import Auth from '../middleware/auth'
 
 const router: Router = new Router()
 
-router.get('/companies/:companyId/employees/:employeeId/salary', Controller.getByEmployeeId)
-router.get('/companies/:companyId/employees/:employeeId/salary/:date', Controller.getByEmployeeIdAndDate)
+router.get('/companies/:companyId/employees/:employeeId/salary', Auth.minAccountant, Controller.getByEmployeeId)
+router.get('/companies/:companyId/employees/:employeeId/salary/:date', Auth.minAccountant, Controller.getByEmployeeIdAndDate)
 
 export default router.routes()

@@ -27,7 +27,7 @@ const authorize = async(ctx: Context, next, authLevel: string) => {
     (authLevel == AUTH_ACCOUNTANT && data.user.authLevel == "accountant") ||
     (authLevel == AUTH_PERSONALIST && data.user.authLevel == "personalist") ||
     (authLevel == AUTH_MIN_ACCOUNTANT && (data.user.authLevel == "accountant" || data.user.authLevel == "admin" || data.user.authLevel == "god")) ||
-    (authLevel == AUTH_MIN_PERSONALIST && (data.user.authLevel == "personalist" || data.user.authLevel == "admin" || data.user.authLevel == "god")) ||
+    (authLevel == AUTH_MIN_PERSONALIST && (data.user.authLevel == "personalist" || data.user.authLevel == "accountant" || data.user.authLevel == "admin" || data.user.authLevel == "god")) ||
     (authLevel == AUTH_MIN_ADMIN && (data.user.authLevel == "admin" || data.user.authLevel == "god"))
   ) {
     

@@ -4,11 +4,11 @@ import Auth from '../middleware/auth'
 
 const router: Router = new Router()
 
-router.get('/companies/:companyId/employees/:employeeId/wage', Controller.getByEmployee)
-router.get('/companies/:companyId/employees/:employeeId/wage/:date', Controller.getByEmployeeAndDate)
-router.get('/companies/:companyId/employees/:employeeId/wage/effective/:date', Controller.getByEmployeeAndEffectiveDate)
-router.patch('/companies/:companyId/employees/:employeeId/wage/:date', Controller.update)
-router.post('/companies/:companyId/employees/:employeeId/wage', Controller.create)
-router.delete('/companies/:companyId/employees/:employeeId/wage/:date', Controller.remove)
+router.get('/companies/:companyId/employees/:employeeId/wage', Auth.minAccountant, Controller.getByEmployee)
+router.get('/companies/:companyId/employees/:employeeId/wage/:date', Auth.minAccountant, Controller.getByEmployeeAndDate)
+router.get('/companies/:companyId/employees/:employeeId/wage/effective/:date', Auth.minAccountant, Controller.getByEmployeeAndEffectiveDate)
+router.patch('/companies/:companyId/employees/:employeeId/wage/:date', Auth.minAccountant, Controller.update)
+router.post('/companies/:companyId/employees/:employeeId/wage', Auth.minAccountant, Controller.create)
+router.delete('/companies/:companyId/employees/:employeeId/wage/:date', Auth.minAccountant, Controller.remove)
 
 export default router.routes()
