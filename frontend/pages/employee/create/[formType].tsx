@@ -62,6 +62,7 @@ const ValidationSchema = Yup.object().shape({
   }),
   kontakt: Yup.object().shape({
     telefon_pracovny: Yup.string().required('Políčko je povinné'),
+    email: Yup.string().email('Nesprávny tvar emailovej adresy').required('Políčko je povinné'),
   }),
 });
 
@@ -72,10 +73,10 @@ const INITIAL_VALUES = {
     priezvisko: '',
     rodne_cislo: '',
     datum_nar: '',
-    pohlavie: '',
+    pohlavie: 'Z',
     statna_prislusnost: '',
     miesto_narodenia: '',
-    stav: '',
+    stav: 'S',
     obciansky: '',
     pas: '',
   },
