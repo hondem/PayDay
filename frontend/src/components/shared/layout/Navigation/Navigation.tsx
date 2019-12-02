@@ -5,8 +5,10 @@ import { X, Users, DollarSign } from 'react-feather';
 import { Heading } from '../../typography';
 import { Box } from '..';
 import { withRouter, Router } from 'next/router';
+import { selectUser } from '../../../src/selectors/auth';
 
 import * as S from './Navigation.styles';
+import { useSelector } from 'react-redux';
 
 /* Props - <NavigationLink />
 ============================================================================= */
@@ -37,7 +39,12 @@ export type NavigationProps = {
 
 /* <Navigation />
 ============================================================================= */
-const Navigation: React.FunctionComponent<NavigationProps> = ({ isNavigationOpen, onNavigationClose }) => {
+const Navigation: React.FunctionComponent<NavigationProps> = ({
+  isNavigationOpen,
+  onNavigationClose,
+}) => {
+  const user = useSelector(selectUser);
+
   return (
     <>
       <S.Wrapper isNavigationOpen={isNavigationOpen}>
@@ -60,12 +67,14 @@ const Navigation: React.FunctionComponent<NavigationProps> = ({ isNavigationOpen
               </NavigationLink>
             </S.NavigationItem>
 
-            <S.NavigationItem>
-              <NavigationLink href="/wages" passHref>
-                <DollarSign />
-                <Box ml="s4">Mzdy</Box>
-              </NavigationLink>
-            </S.NavigationItem>
+            {canManageWageData(user) && (
+              <S.NavigationItem>
+                <NavigationLink href="/wages" passHref>
+                  <DollarSign />
+                  <Box ml="s4">Mzdy</Box>
+                </NavigationLink>
+              </S.NavigationItem>
+            )}
           </S.NavigationList>
         </S.Content>
       </S.Wrapper>
