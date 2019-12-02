@@ -98,7 +98,7 @@ const calculate = async(data) : Promise<any> => {
   if(!employee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Given employee was not found")
 
   const installation = await execPromisified(`pip install psycopg2-binary`)
-  logger.info{installation}
+  logger.info({installation})
 
   await execPromisified(`python calc.py ${employeeId} ${data.date}`, {
     cwd: path.resolve(__dirname, "../../src/services/"),
