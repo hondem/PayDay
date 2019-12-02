@@ -14,7 +14,15 @@ const getByEmployeeId = async(data) => {
   const foundEmployee = await EmployeeOperations.getByIdInCompany(data.companyId, data.employeeId)
   if(!foundEmployee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Employee was not found")
 
-  return SalaryRepository.getByEmployeeId(data.employeeId)
+  const salaries = <any>(await SalaryRepository.getByEmployeeId(data.employeeId))
+
+  return salaries.map(salary => {
+    return {
+      obdobie: salary.obdobie,
+      hruba_mzda: salary.vektor.split(";")[240],
+      cista_mzda: salary.vektor.split(";")[241]
+    }
+  })
 }
 
 /**
@@ -25,10 +33,14 @@ const getByEmployeeIdAndDate = async(data) => {
   const foundEmployee = await EmployeeOperations.getByIdInCompany(data.companyId, data.employeeId)
   if(!foundEmployee) throw new errors.NotFound(errors.PERSON_NOT_FOUND, "Employee was not found")
 
-  const foundSalary = await SalaryRepository.getByEmployeeIdAndDate(data.employeeId, data.date)
+  const foundSalary = <any>(await SalaryRepository.getByEmployeeIdAndDate(data.employeeId, data.date))
   if(!foundSalary) throw new errors.NotFound(errors.SALARY_NOT_FOUND, "Salary record not found in database")
 
-  return foundSalary
+  return {
+    obdobie: foundSalary.obdobie,
+    hruba_mzda: foundSalary.vektor.split(";")[240],
+    cista_mzda: foundSalary.vektor.split(";")[241]
+  }
 }
 
 export default {
